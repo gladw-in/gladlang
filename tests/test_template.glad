@@ -1,0 +1,15 @@
+LET name = "GladLang"
+LET v = 1.0
+
+# Basic Interpolation
+PRINT `Hello, ${name}!`
+
+# Number conversion (automatic via STR)
+PRINT `Version: ${v}`
+
+# Expressions inside
+PRINT `Math: 5 + 5 = ${5 + 5}`
+
+# Dictionary Access inside
+LET data = {"role": "Admin"}
+PRINT `User Role: ${data["role"]}`

@@ -1,0 +1,12 @@
+LET numbers = [1, 2, 3, 4]
+
+PRINT "Original: " + numbers
+
+# Square every number
+LET squares = [n ^ 2 FOR n IN numbers]
+PRINT "Squares: " + squares
+
+# Strings
+LET names = ["alex", "bob"]
+LET greetings = ["Hello " + name FOR name IN names]
+PRINT greetings

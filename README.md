@@ -11,9 +11,10 @@ This is the full overview of the GladLang language, its features, and how to run
 - [About The Language](#about-the-language)
 - [Key Features](#key-features)
 - [Getting Started](#getting-started)
-    - [Running a Script](#running-a-script)
-    - [Using the Interactive Shell](#using-the-interactive-shell)
-    - [Building the Executable](#building-the-executable)
+    - [1. Installation](#1-installation)
+    - [2. Usage](#2-usage)
+    - [3. Running Without Installation (Source)](#3-running-without-installation-source)
+    - [4. Building the Executable](#4-building-the-executable)
 - [Language Tour (Syntax Reference)](#language-tour-syntax-reference)
     - [1. Comments](#1-comments)
     - [2. Variables and Data Types](#2-variables-and-data-types)
@@ -21,11 +22,12 @@ This is the full overview of the GladLang language, its features, and how to run
         - [Numbers](#numbers)
         - [Strings](#strings)
         - [Lists](#lists)
+        - [Dictionaries](#dictionaries)
         - [Booleans](#booleans)
         - [Null](#null)
     - [3. Operators](#3-operators)
-        - [Arithmetic & Precedence](#arithmetic--precedence)
-        - [Comparison & Logical](#comparison--logical)
+        - [Math Operations](#math-operations)
+        - [Comparisons & Logic](#comparisons--logic)
         - [Increment / Decrement](#increment--decrement)
     - [4. Control Flow](#4-control-flow)
         - [IF Statements](#if-statements)
@@ -66,125 +68,105 @@ GladLang is an interpreter for a custom scripting language. It was built as a co
 
 GladLang supports a rich, modern feature set:
 
-  * **Data Types:** Numbers (int/float), Strings, Lists, Booleans, and Null.
-  * **Variables:** Dynamic variable assignment with the `LET` keyword.
-  * **Operators:** Full set of arithmetic (`+`, `-`, `*`, `/`, `^`), comparison (`==`, `!=`, `<`, `>`), and logical (`AND`, `OR`, `NOT`) operators.
-  * **Control Flow:** `IF...THEN...ENDIF`, `WHILE...ENDWHILE`, and `FOR...IN...ENDFOR` loops.
-  * **Flow Control:** `BREAK` and `CONTINUE` keywords for loops.
-  * **Functions:**
-      * First-class citizens (can be passed as arguments and stored in variables).
-      * Support for named and anonymous functions.
-      * **Closures:** Functions capture their parent's scope.
-      * Recursive function calls.
-  * **Object-Oriented Programming:**
-      * `CLASS...ENDCLASS` syntax.
-      * `NEW` keyword for instantiation.
-      * `SELF` keyword for instance context.
-      * `INHERITS` keyword for class inheritance.
-      * Method overriding and polymorphism.
-  * **Advanced Operators:** Pre- and post-increment/decrement (`++i`, `i--`).
-  * **List Manipulation:** Index access (`my_list[0]`), index assignment (`my_list[0] = 10`), and concatenation (`list1 + list2`).
-  * **Built-ins:** `PRINT`, `INPUT`, `STR`, `INT`, `FLOAT`, and `BOOL`.
+  * **Data Types:** Numbers (int/float), Strings, Lists, Dictionaries, Booleans, and Null.
+  * **Variables:** Dynamic variable assignment with `LET`.
+  * **Advanced Assignments:**
+      * **Destructuring:** Unpack lists directly (`LET [x, y] = [1, 2]`).
+      * **Slicing:** Access sub-lists or substrings easily (`list[0:3]`).
+  * **String Manipulation:**
+      * **Interpolation:** JavaScript-style template strings (`` `Hello ${name}` ``).
+      * **Multi-line Strings:** Triple-quoted strings (`"""..."""`) for large text blocks.
+  * **List Comprehensions:** Pythonic one-line list creation (`[x * 2 FOR x IN list]`).
+  * **Dictionaries:** Key-value data structures (`{'key': 'value'}`).
+  * **Control Flow:** `IF`, `WHILE`, `FOR`, `BREAK`, `CONTINUE`.
+  * **Functions:** First-class citizens, Closures, Recursion, Named/Anonymous support.
+  * **Object-Oriented Programming:** Classes, Inheritance, Polymorphism, `SELF` context.
+  * **Built-ins:** `PRINT`, `INPUT`, `STR`, `INT`, `FLOAT`, `BOOL`.
   * **Error Handling:** Robust, user-friendly runtime error reporting with full tracebacks.
+  * **Advanced Math:** Power (`**`), Floor Division (`//`), and Modulo (`%`) operators.
+  * **Rich Comparisons:** Chained comparisons (`1 < x < 10`) and Identity checks (`is`).
+  * **Flexible Logic:** Support for `and` / `or` (case-insensitive).
 
 -----
 
 ## Getting Started
 
-### Running a Script
+There are several ways to install and run GladLang.
 
-You can execute any `.glad` file by passing it as an argument to `gladlang.py`.
+### 1. Installation
 
-```bash
-python gladlang.py "test.glad"
-```
-
-**Output:**
-
-```
---- OOP & Inheritance Tester ---
---- Creating a Pet ---
-A new pet is born!
-Sammy makes a generic pet sound.
---- Creating a Dog ---
-A new pet is born!
-Buddy says: Woof!
-Buddy wags its tail.
-```
-
-### Using the Interactive Shell
-
-Run the interpreter without any arguments to start the interactive Read-Eval-Print Loop (REPL) shell.
+#### Option A: Install via Pip (Recommended)
+If you just want to use the language, install it via pip:
 
 ```bash
-python gladlang.py
-```
-
-**Shell:**
+pip install gladlang
 
 ```
-Welcome to GladLang (v0.1.0)
-Type 'exit' or 'quit' to close the shell.
---------------------------------------------------
-GladLang > PRINT "Hello, " + "World!"
-Hello, World!
-0
-GladLang > LET a = 10 * (2 + 3)
-0
-GladLang > PRINT a
-50
-0
-GladLang > exit
-```
 
-## Building the Executable
+#### Option B: Install from Source (For Developers)
 
-You can build a **standalone executable** using **PyInstaller**:
+If you want to modify the codebase, clone the repository and install it in **editable mode**:
 
 ```bash
-pyinstaller gladlang.py -F --icon=favicon.ico
+git clone https://github.com/gladw-in/gladlang.git
+cd gladlang
+pip install -e .
+
 ```
 
-This will create a single-file executable at `dist/gladlang`.
+---
 
------
+### 2. Usage
 
-### Adding to System PATH for Global Use
+Once installed, you can use the global `gladlang` command.
 
-You can then add it to your system **PATH** so it can be run globally as "**gladlang**" from anywhere.
+#### Interactive Shell (REPL)
 
-#### Windows:
+Run the interpreter without arguments to start the shell:
 
-1.  **Move or copy** the executable to a folder of your choice, for example:
-    ```bash
-    move dist\gladlang.exe "C:\Programs\GladLang"
-    ```
-2.  **Add that folder to your system PATH:**
-      * Press **Win + R**, type `sysdm.cpl`, press **Enter**.
-      * Go to **Advanced** $\rightarrow$ **Environment Variables**.
-      * Under **System variables**, select **Path** $\rightarrow$ **Edit** $\rightarrow$ **New**.
-      * Add the full path (e.g., `C:\Programs\GladLang`).
-3.  **Open a new terminal and test:**
-    ```bash
-    gladlang "test_recursion.glad"
-    ```
+```bash
+gladlang
 
-#### macOS / Linux:
+```
 
-1.  **Move** the executable to `/usr/local/bin` (or another directory in your PATH):
-    ```bash
-    sudo mv dist/gladlang /usr/local/bin/
-    ```
-2.  **Make sure it's executable:**
-    ```bash
-    sudo chmod +x /usr/local/bin/gladlang
-    ```
-3.  **Test it anywhere:**
-    ```bash
-    gladlang "test_recursion.glad"
-    ```
+#### Running a Script
 
-Now you can run GladLang from any folder without prefixing `./dist/`.
+Pass a file path to execute a script:
+
+```bash
+gladlang "tests/test.glad"
+
+```
+
+---
+
+### 3. Running Without Installation (Source)
+
+You can run the interpreter directly from the source code without installing it via pip:
+
+```bash
+python run.py "tests/test.glad"
+```
+
+---
+
+### 4. Building the Executable
+
+You can build a **standalone executable** (no Python required) using **PyInstaller**:
+
+```bash
+pip install pyinstaller
+pyinstaller run.py --paths src -F --name gladlang --icon=favicon.ico
+
+```
+
+This will create a single-file executable at `dist/gladlang` (or `gladlang.exe` on Windows).
+
+**Adding to PATH (Optional):**
+To run the standalone executable from anywhere:
+
+* **Windows:** Move it to a folder and add that folder to your System PATH variables.
+* **Mac/Linux:** Move it to `/usr/local/bin`: `sudo mv dist/gladlang /usr/local/bin/`
 
 -----
 
@@ -205,12 +187,19 @@ LET a = 10 # This is an inline comment
 
 #### Variables
 
-Variables are assigned using the `LET` keyword.
+Variables are assigned using the `LET` keyword. You can also unpack lists directly into variables using **Destructuring**.
 
 ```glad
 LET a = 10
 LET b = "Hello"
 LET my_list = [a, b, 123]
+
+# Destructuring Assignment
+LET point = [10, 20]
+LET [x, y] = point
+
+PRINT x # 10
+PRINT y # 20
 ```
 
 #### Numbers
@@ -224,27 +213,62 @@ LET float_result = 10 / 4     # 2.5
 
 #### Strings
 
-Strings are defined with double quotes and support escape characters. They can be concatenated with `+`.
+Strings can be defined in three ways:
+1.  **Double Quotes:** Standard strings.
+2.  **Triple Quotes:** Multi-line strings that preserve formatting.
+3.  **Backticks:** Template strings supporting interpolation.
 
 ```glad
-LET newline = "Hello\nWorld"
-LET quoted = "She said, \"This is cool!\""
-PRINT "Hello, " + "GladLang"
+# Standard
+LET s = "Hello\nWorld"
+
+# Multi-line
+LET menu = """
+1. Start
+2. Settings
+3. Exit
+"""
+
+# Interpolation (Template Strings)
+LET name = "Glad"
+PRINT `Welcome back, ${name}!`
+PRINT `5 + 10 = ${5 + 10}`
 ```
 
-#### Lists
+#### Lists, Slicing & Comprehensions
 
-Lists are ordered collections of any type. They support indexing, assignment, and concatenation.
+Lists are ordered collections. You can access elements, slice them, or create new lists dynamically using comprehensions.
 
 ```glad
-LET my_list = [1, "hello", 2 * 3, TRUE]
+LET nums = [0, 1, 2, 3, 4, 5]
 
-PRINT my_list[1] # Access: "hello"
+# Indexing & Assignment
+PRINT nums[1]        # 1
+LET nums[1] = 100
 
-LET my_list[1] = "world" # Assign
-PRINT my_list[1] # "world"
+# Slicing [start:end]
+PRINT nums[0:3]      # [0, 1, 2]
+PRINT nums[3:]       # [3, 4, 5]
 
-LET other_list = my_list + [FALSE, 100]
+# List Comprehension
+LET squares = [n ** 2 FOR n IN nums]
+PRINT squares        # [0, 1, 4, 9, 16, 25]
+```
+
+#### Dictionaries
+
+Dictionaries are key-value pairs enclosed in `{}`. Keys must be Strings or Numbers.
+
+```glad
+LET person = {
+  "name": "Glad",
+  "age": 25,
+  "is_admin": TRUE
+}
+
+PRINT person["name"]       # Access: "Glad"
+LET person["age"] = 26     # Modify
+LET person["city"] = "NYC" # Add new key
 ```
 
 #### Booleans
@@ -269,24 +293,48 @@ The `NULL` keyword represents a null or "nothing" value. It is falsy and prints 
 
 ### 3\. Operators
 
-#### Arithmetic & Precedence
+#### Math Operations
 
-`^` (power), `*`, `/` (division), `+`, `-`. Standard operator precedence is respected.
+GladLang supports standard arithmetic plus advanced operators like Modulo, Floor Division, and Power.
 
 ```glad
+PRINT 2 ** 3      # Power: 8
+PRINT 10 // 3     # Floor Division: 3
+PRINT 10 % 3      # Modulo: 1
+
+# Standard precedence rules apply
+PRINT 2 + 3 * 4   # 14
 PRINT 1 + 2 * 3   # 7
 PRINT (1 + 2) * 3 # 9
 ```
 
-#### Comparison & Logical
+#### Comparisons & Logic
 
-  * **Comparison:** `==`, `!=`, `<`, `>`, `<=`, `>=`
-  * **Logical:** `AND`, `OR`, `NOT`
-
-<!-- end list -->
+You can compare values, chain comparisons for ranges, and check object identity.
 
 ```glad
+# Equality & Inequality
+PRINT 1 == 1      # True
+PRINT 1 != 2      # True
+
+# Chained Comparisons (Ranges)
+LET age = 25
+IF 18 <= age < 30 THEN
+  PRINT "Young Adult"
+ENDIF
+
 PRINT (10 < 20) AND (10 != 5) # 1 (True)
+
+# Identity ('is' checks if variables refer to the same object)
+LET a = [1, 2]
+LET b = a
+PRINT b is a      # True
+PRINT b == [1, 2] # True (Values match)
+
+# Boolean Operators (case-insensitive)
+IF a and b THEN
+  PRINT "Both exist"
+ENDIF
 ```
 
 #### Increment / Decrement

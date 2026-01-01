@@ -1,0 +1,10 @@
+PRINT "--- List Slicing ---"
+LET nums = [0, 1, 2, 3, 4, 5]
+PRINT nums[0:3]  # [0, 1, 2]
+PRINT nums[2:5]  # [2, 3, 4]
+PRINT nums[3:]   # [3, 4, 5]
+
+PRINT "--- String Slicing ---"
+LET text = "Hello World"
+PRINT text[0:5]  # Hello
+PRINT text[6:]   # World

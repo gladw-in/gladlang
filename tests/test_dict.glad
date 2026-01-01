@@ -1,0 +1,43 @@
+# test_dict.glad
+
+# 1. Create a Dictionary
+PRINT "--- Creating Dictionary ---"
+LET my_dict = {
+  "name": "GladLang",
+  "version": 1.0,
+  "is_awesome": 1  # 1 is TRUE
+}
+
+PRINT my_dict
+# Expected: {'name': 'GladLang', 'version': 1.0, 'is_awesome': 1}
+
+# 2. Access Values
+PRINT ""
+PRINT "--- Accessing Values ---"
+PRINT "Name: " + my_dict["name"]
+PRINT "Version: " + STR(my_dict["version"])
+
+# 3. Modify Values
+PRINT ""
+PRINT "--- Modifying Values ---"
+LET my_dict["version"] = 1.1
+PRINT "New Version: " + STR(my_dict["version"])
+
+# 4. Add New Key-Value Pairs
+PRINT ""
+PRINT "--- Adding New Keys ---"
+LET my_dict["author"] = "You"
+PRINT my_dict
+
+# 5. Nested Dictionaries (if supported by recursion)
+PRINT ""
+PRINT "--- Nested Dictionary ---"
+LET nested = {
+  "meta": {
+    "id": 101,
+    "status": "active"
+  },
+  "data": [1, 2, 3]
+}
+PRINT nested["meta"]["status"]
+# Expected: active

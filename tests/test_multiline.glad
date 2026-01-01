@@ -1,0 +1,14 @@
+LET big_text = """
+Line 1: Hello
+Line 2: World
+"""
+
+PRINT big_text
+
+LET code_snippet = """
+DEF hello():
+  PRINT "Hi"
+"""
+
+PRINT "Code Snippet:"
+PRINT code_snippet

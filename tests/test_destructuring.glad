@@ -1,0 +1,11 @@
+PRINT "--- Destructuring Test ---"
+LET [x, y, z] = [10, 20, 30]
+
+PRINT "x: " + x
+PRINT "y: " + y
+PRINT "z: " + z
+
+PRINT "--- Calculating ---"
+LET [a, b] = [x * 2, y / 2]
+PRINT "a: " + a  # 20
+PRINT "b: " + b  # 10
