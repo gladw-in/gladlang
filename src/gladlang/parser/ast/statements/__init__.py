@@ -12,8 +12,8 @@ from .try_catch_node import TryCatchNode
 from .throw_node import ThrowNode
 from .switch_node import SwitchNode
 from .print_node import PrintNode
-from .multi_var_assign_node import MultiVarAssignNode
-from .var_assign_node import VarAssignNode
+from .multi_variable_assign_node import MultiVariableAssignNode
+from .variable_assign_node import VariableAssignNode
 
 __all__ = [
     "StatementListNode",
@@ -28,6 +28,6 @@ __all__ = [
     "ThrowNode",
     "SwitchNode",
     "PrintNode",
-    "MultiVarAssignNode",
-    "VarAssignNode",
+    "MultiVariableAssignNode",
+    "VariableAssignNode",
 ]

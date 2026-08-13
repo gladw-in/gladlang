@@ -16,7 +16,6 @@ This is the full overview of the GladLang language, its features, and how to run
     - [1. Installation](#1-installation)
     - [2. Usage](#2-usage)
     - [3. Running Without Installation (Source)](#3-running-without-installation-source)
-    - [4. Download](#4-download)
 - [Language Tour (Syntax Reference)](#language-tour-syntax-reference)
     - [1. Comments](#1-comments)
     - [2. Variables and Data Types](#2-variables-and-data-types)
@@ -108,7 +107,7 @@ GladLang supports a rich, modern feature set:
   * **Constants:** Declare immutable values using `FINAL`. These use **Atomic Locking** (`set_if_absent`) to prevent race conditions and are fully protected from shadowing or modification.
   * **Memory Safety:** Built-in protection against Denial-of-Service attacks. List repetition is capped at **1,000,000** elements, and a global **Instruction Budget** prevents infinite loop lockups.
   * **Logical Accuracy:** Full **Short-Circuit Evaluation** for `AND`/`OR` operators and corrected math logic for compound assignments like `+=`.
-  * **Built-ins:** `PRINTLN`, `PRINT`, `INPUT`, `STR`, `INT`, `FLOAT`, `BOOL`, `LEN`.
+  * **Built-ins:** `PRINTLN`, `PRINT`, `INPUT`, `STR`, `INT`, `FLOAT`, `BOOL`, `LEN`, `LENGTH`, `PRINTF`, `TIME`, `RANDOM`, `DELAY`.
   * **Error Handling:** Robust, user-friendly runtime error reporting with full tracebacks.
   * **Advanced Math:** Compound assignments (`+=`, `*=`), Power (`**`), Modulo (`%`), and automatic float division.
   * **Rich Comparisons:** Chained comparisons (`1 < x < 10`), Identity checks (`IS`), and runtime type-checking (`INSTANCEOF`).
@@ -129,7 +128,11 @@ pip install gladlang
 
 ```
 
-#### Option B: Install from Source (For Developers)
+#### Option B: Use from Releases
+
+Pre-built binaries for Windows, Linux, and macOS are available on the [GitHub Releases](https://github.com/gladw-in/gladlang/releases/latest) page.
+
+#### Option C: Install from Source (For Developers)
 
 If you want to modify the codebase, clone the repository and install it in **editable mode**:
 
@@ -182,12 +185,6 @@ You can run the interpreter directly from the source code without installing it 
 python run.py "tests/test.glad"
 
 ```
-
----
-
-### 4. Download
-
-Pre-built binaries for Windows, Linux, and macOS are available on the [GitHub Releases](https://github.com/gladw-in/gladlang/releases/latest) page.
 
 -----
 
@@ -918,14 +915,23 @@ PRINTLN Config.increment()    # 1
 
 ### 7\. Built-in Functions
 
-  * `PRINTLN(value)`: Prints a value to the console **with** a new line (Standard output).
-  * `PRINT(value)`: Prints a value **without** a new line (Useful for prompts).
+  * `PRINTLN(value)`: Prints a value to the console **with** a new line.
+  * `PRINT(value)`: Prints a value **without** a new line.
   * `INPUT()`: Reads a line of text from the user as a String.
   * `STR(value)`: Casts a value to a String.
   * `INT(value)`: Casts a String or Float to an Integer.
   * `FLOAT(value)`: Casts a String or Integer to a Float.
   * `BOOL(value)`: Casts a value to its Boolean representation (`TRUE` or `FALSE`).
-  * `LEN(value)`: Returns the length of a String, List, or Dict. (Calling `LEN` on a `Number` will raise a runtime error.) Alias: `LENGTH()`.
+  * `LEN(value)`: Returns the length of a String, List, or Dict. Alias: `LENGTH()`.
+  * `PRINTF(format, ...)`: Prints formatted text. Supports `%s` (string), `%d` (integer), `%f` (float), and `%%` (literal percent). Extra arguments are ignored.
+  * `TIME()`: Returns the current time as a float (seconds since epoch).
+  * `TIME_SECONDS()`: Returns the current time as an integer (seconds since epoch).
+  * `TIME_MILLIS()`: Returns the current time as an integer (milliseconds since epoch).
+  * `TIME_NANOS()`: Returns the current time as an integer (nanoseconds since epoch).
+  * `RANDOM()`: Returns a cryptographically secure random 32‑bit integer.
+  * `RANDOM_FLOAT()`: Returns a cryptographically secure float in the range `[0.0, 1.0)`.
+  * `RANDOM_RANGE(start, stop)`: Returns a cryptographically secure integer in `[start, stop)` (stop excluded). Requires `start < stop`.
+  * `DELAY(seconds)`: Pauses execution for the given number of seconds (capped at 60 seconds for safety). Only finite, non‑negative numbers are accepted.
 
 -----
 
