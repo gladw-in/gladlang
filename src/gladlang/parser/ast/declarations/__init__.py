@@ -1,15 +1,15 @@
 """Declaration nodes – functions, classes, enums, constants, and visibility statements."""
 
-from .fun_def_node import FunDefNode
+from .function_definition_node import FunctionDefinitionNode
 from .class_node import ClassNode
 from .enum_node import EnumNode
-from .final_var_assign_node import FinalVarAssignNode
-from .visibility_stmt_node import VisibilityStmtNode
+from .final_variable_assign_node import FinalVariableAssignNode
+from .visibility_statement_node import VisibilityStatementNode
 
 __all__ = [
-    "FunDefNode",
+    "FunctionDefinitionNode",
     "ClassNode",
     "EnumNode",
-    "FinalVarAssignNode",
-    "VisibilityStmtNode",
+    "FinalVariableAssignNode",
+    "VisibilityStatementNode",
 ]
