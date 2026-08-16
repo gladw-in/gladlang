@@ -2,10 +2,10 @@
 
 
 class StatementListNode:
-    def __init__(self, statement_nodes, pos_start, pos_end):
+    def __init__(self, statement_nodes, position_start, position_end):
         self.statement_nodes = statement_nodes
-        self.pos_start = pos_start
-        self.pos_end = pos_end
+        self.position_start = position_start
+        self.position_end = position_end
 
     def __repr__(self):
         return f'[{", ".join(map(str, self.statement_nodes))}]'
