@@ -4,13 +4,13 @@ from .number_node import NumberNode
 from .string_node import StringNode
 from .list_node import ListNode
 from .dict_node import DictNode
-from .var_access_node import VarAccessNode
-from .bin_op_node import BinOpNode
-from .unary_op_node import UnaryOpNode
-from .ternary_op_node import TernaryOpNode
-from .chained_comp_node import ChainedCompNode
+from .variable_access_node import VariableAccessNode
+from .binary_operator_node import BinaryOperatorNode
+from .unary_operator_node import UnaryOperatorNode
+from .ternary_operator_node import TernaryOperatorNode
+from .chained_comparison_node import ChainedComparisonNode
 from .call_node import CallNode
-from .post_op_node import PostOpNode
+from .post_operator_node import PostOperatorNode
 from .new_instance_node import NewInstanceNode
 
 __all__ = [
@@ -18,12 +18,12 @@ __all__ = [
     "StringNode",
     "ListNode",
     "DictNode",
-    "VarAccessNode",
-    "BinOpNode",
-    "UnaryOpNode",
-    "TernaryOpNode",
-    "ChainedCompNode",
+    "VariableAccessNode",
+    "BinaryOperatorNode",
+    "UnaryOperatorNode",
+    "TernaryOperatorNode",
+    "ChainedComparisonNode",
     "CallNode",
-    "PostOpNode",
+    "PostOperatorNode",
     "NewInstanceNode",
 ]
