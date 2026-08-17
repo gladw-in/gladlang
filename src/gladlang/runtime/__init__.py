@@ -1,7 +1,7 @@
-"""Runtime package – exposes Context, RTResult, and SymbolTable."""
+"""Runtime package – exposes Context, RuntimeResult, and SymbolTable."""
 
 from .context import Context
-from .rt_result import RTResult
+from .runtime_result import RuntimeResult
 from .symbol_table import SymbolTable
 
-__all__ = ["Context", "RTResult", "SymbolTable"]
+__all__ = ["Context", "RuntimeResult", "SymbolTable"]

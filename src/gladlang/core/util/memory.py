@@ -23,33 +23,33 @@ def start_memory_watchdog(max_mb):
         return
 
     def watch():
-        proc = psutil.Process(os.getpid())
-        limit = max_mb * 1024 * 1024
+        process = psutil.Process(os.getpid())
+        memory_limit_bytes = max_mb * 1024 * 1024
 
         while True:
-            if proc.memory_info().rss > limit:
+            if process.memory_info().rss > memory_limit_bytes:
                 sys.stderr.write("System Error: Memory Limit Exceeded\n")
                 os._exit(1)
 
             time.sleep(Settings.WATCHDOG_SLEEP_INTERVAL)
 
-    t = threading.Thread(target=watch, daemon=True)
-    t.start()
+    watchdog_thread = threading.Thread(target=watch, daemon=True)
+    watchdog_thread.start()
 
 
 def set_memory_limit(max_mb):
     if resource is not None:
         try:
-            soft, hard = resource.getrlimit(resource.RLIMIT_AS)
+            soft_limit, hard_limit = resource.getrlimit(resource.RLIMIT_AS)
             limit_bytes = max_mb * 1024 * 1024
-            new_soft = (
-                min(limit_bytes, hard)
-                if hard != resource.RLIM_INFINITY
+            new_soft_limit = (
+                min(limit_bytes, hard_limit)
+                if hard_limit != resource.RLIM_INFINITY
                 else limit_bytes
             )
 
-            resource.setrlimit(resource.RLIMIT_AS, (new_soft, hard))
-        except Exception as e:
-            sys.stderr.write(f"Warning: Could not set memory limit: {e}\n")
+            resource.setrlimit(resource.RLIMIT_AS, (new_soft_limit, hard_limit))
+        except Exception as exception:
+            sys.stderr.write(f"Warning: Could not set memory limit: {exception}\n")
     else:
         start_memory_watchdog(max_mb)

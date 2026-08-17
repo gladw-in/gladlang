@@ -2,10 +2,10 @@
 
 
 class NumberNode:
-    def __init__(self, tok):
-        self.tok = tok
-        self.pos_start = self.tok.pos_start
-        self.pos_end = self.tok.pos_end
+    def __init__(self, token):
+        self.token = token
+        self.position_start = self.token.position_start
+        self.position_end = self.token.position_end
 
     def __repr__(self):
-        return f"{self.tok}"
+        return f"{self.token}"
