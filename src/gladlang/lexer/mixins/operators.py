@@ -7,24 +7,31 @@ from gladlang.core.constants.token_types import GL_NE, GL_EE, GL_EQ
 
 class LexerOperators:
     def make_not_equals(self):
-        pos_start = self.pos.copy()
+        position_start = self.position.copy()
         self.advance()
 
-        if self.current_char == "=":
+        if self.current_character == "=":
             self.advance()
-            return Token(GL_NE, pos_start=pos_start, pos_end=self.pos), None
+            return (
+                Token(GL_NE, position_start=position_start, position_end=self.position),
+                None,
+            )
 
         self.advance()
 
-        return None, InvalidSyntaxError(pos_start, self.pos, "Expected '=' after '!'")
+        return None, InvalidSyntaxError(
+            position_start, self.position, "Expected '=' after '!'"
+        )
 
     def make_equals(self):
-        tok_type = GL_EQ
-        pos_start = self.pos.copy()
+        token_type = GL_EQ
+        position_start = self.position.copy()
         self.advance()
 
-        if self.current_char == "=":
+        if self.current_character == "=":
             self.advance()
-            tok_type = GL_EE
+            token_type = GL_EE
 
-        return Token(tok_type, pos_start=pos_start, pos_end=self.pos)
+        return Token(
+            token_type, position_start=position_start, position_end=self.position
+        )
