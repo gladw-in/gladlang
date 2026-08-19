@@ -13,7 +13,7 @@ from .functions.function_group import FunctionGroup
 from .functions.bound_method import BoundMethod
 from .functions.built_in_function import BuiltInFunction
 from .classes.class_ import Class
-from .classes.instance import Instance
+from .classes.instance_ import Instance
 from .classes.super_ import Super
 from .classes.type_ import Type
 from .enums.enum import Enum
