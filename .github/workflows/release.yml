@@ -18,7 +18,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Read version
         id: version
@@ -41,10 +41,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Setup Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v7
         with:
           python-version: "3.12"
 
@@ -102,14 +102,14 @@ jobs:
   linux:
     name: Linux x64
     needs: version
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Setup Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v7
         with:
           python-version: "3.12"
 
@@ -155,10 +155,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Setup Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v7
         with:
           python-version: "3.12"
           architecture: arm64
@@ -205,10 +205,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Setup Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v7
         with:
           python-version: "3.12"
           architecture: x64
@@ -260,25 +260,25 @@ jobs:
 
     steps:
       - name: Download Windows
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v8
         with:
           name: GladLang-Windows-x64
           path: release
 
       - name: Download Linux
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v8
         with:
           name: GladLang-Linux-x64
           path: release
 
       - name: Download macOS ARM64
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v8
         with:
           name: GladLang-macOS-arm64
           path: release
 
       - name: Download macOS x64
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v8
         with:
           name: GladLang-macOS-x64
           path: release
@@ -347,7 +347,9 @@ jobs:
           cat SHA256SUMS.txt
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           files: |
             release/GladLang-${{ needs.version.outputs.version }}-Windows-x64.zip
