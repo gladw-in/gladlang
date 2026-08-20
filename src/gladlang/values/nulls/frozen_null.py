@@ -10,7 +10,7 @@ class FrozenNull(NullBase):
     def __init__(self, value, is_null=False):
         super().__init__(value, is_null)
 
-    def set_pos(self, pos_start=None, pos_end=None):
+    def set_position(self, position_start=None, position_end=None):
         return self
 
     def set_context(self, context=None):

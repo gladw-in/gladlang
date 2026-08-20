@@ -1,33 +1,33 @@
 """Source detachment – recursively removes source text references from AST nodes to free memory."""
 
 
-def detach_value(val):
-    if isinstance(val, (list, tuple)):
-        for item in val:
+def detach_value(value):
+    if isinstance(value, (list, tuple)):
+        for item in value:
             detach_value(item)
 
-    elif hasattr(val, "pos_start"):
-        detach_source_from_node(val)
+    elif hasattr(value, "position_start"):
+        detach_source_from_node(value)
 
 
-def detach_source_from_node(node, _visited=None):
+def detach_source_from_node(node, visited=None):
     if node is None:
         return
 
-    if _visited is None:
-        _visited = {}
+    if visited is None:
+        visited = {}
 
-    node_id = id(node)
-    if node_id in _visited and _visited[node_id] is node:
+    node_identifier = id(node)
+    if node_identifier in visited and visited[node_identifier] is node:
         return
 
-    _visited[node_id] = node
+    visited[node_identifier] = node
 
-    if hasattr(node, "pos_start") and node.pos_start:
-        node.pos_start.detach_source()
+    if hasattr(node, "position_start") and node.position_start:
+        node.position_start.detach_source()
 
-    if hasattr(node, "pos_end") and node.pos_end:
-        node.pos_end.detach_source()
+    if hasattr(node, "position_end") and node.position_end:
+        node.position_end.detach_source()
 
     try:
         items = vars(node).items()
@@ -39,5 +39,5 @@ def detach_source_from_node(node, _visited=None):
 
             items.append((name, getattr(node, name)))
 
-    for _, val in items:
-        detach_value(val)
+    for _, value in items:
+        detach_value(value)
