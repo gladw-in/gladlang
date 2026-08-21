@@ -9,8 +9,8 @@ from gladlang.parser.parser import Parser
 from gladlang.runtime.context import Context
 
 
-def run(fn, text, context=None, instruction_limit=None):
-    lexer = Lexer(fn, text)
+def run(filename, text, context=None, instruction_limit=None):
+    lexer = Lexer(filename, text)
 
     tokens, error = lexer.make_tokens()
     if error:
@@ -25,8 +25,8 @@ def run(fn, text, context=None, instruction_limit=None):
         last = tokens[-1] if tokens else first
 
         return None, InvalidSyntaxError(
-            first.pos_start if first else None,
-            last.pos_end if last else None,
+            first.position_start if first else None,
+            last.position_end if last else None,
             "Expression too complex (maximum recursion depth exceeded during parsing)",
         )
 

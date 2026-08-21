@@ -2,8 +2,14 @@
 
 from .position import Position
 from .error import Error
-from .illegal_char_error import IllegalCharError
+from .illegal_character_error import IllegalCharacterError
 from .invalid_syntax_error import InvalidSyntaxError
-from .rt_error import RTError
+from .runtime_error import RuntimeError
 
-__all__ = ["Position", "Error", "IllegalCharError", "InvalidSyntaxError", "RTError"]
+__all__ = [
+    "Position",
+    "Error",
+    "IllegalCharacterError",
+    "InvalidSyntaxError",
+    "RuntimeError",
+]
