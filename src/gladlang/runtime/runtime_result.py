@@ -1,7 +1,7 @@
-"""RTResult – propagates return, break, continue, and error signals during interpretation."""
+"""RuntimeResult – propagates return, break, continue, and error signals during interpretation."""
 
 
-class RTResult:
+class RuntimeResult:
     __slots__ = (
         "value",
         "error",
@@ -24,26 +24,28 @@ class RTResult:
 
         return self
 
-    def register(self, res):
-        if res.error is None and not (
-            res.should_return or res.should_break or res.should_continue
+    def register(self, inner_result):
+        if inner_result.error is None and not (
+            inner_result.should_return
+            or inner_result.should_break
+            or inner_result.should_continue
         ):
-            return res.value
+            return inner_result.value
 
-        if res.error:
-            self.error = res.error
+        if inner_result.error:
+            self.error = inner_result.error
 
-        if res.should_return:
-            self.return_value = res.return_value
+        if inner_result.should_return:
+            self.return_value = inner_result.return_value
             self.should_return = True
 
-        if res.should_break:
+        if inner_result.should_break:
             self.should_break = True
 
-        if res.should_continue:
+        if inner_result.should_continue:
             self.should_continue = True
 
-        return res.value
+        return inner_result.value
 
     def success(self, value):
         self.value = value

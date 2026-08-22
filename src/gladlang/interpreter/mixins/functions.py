@@ -1,72 +1,76 @@
 """Visitor for function definitions."""
 
-from gladlang.core.errors import RTError
-from gladlang.runtime.rt_result import RTResult
+from gladlang.core.errors import RuntimeError
+from gladlang.runtime.runtime_result import RuntimeResult
 from gladlang.values.functions.function import Function
 from gladlang.values.functions.function_group import FunctionGroup
 
 
 class InterpreterFunctions:
-    def visit_FunDefNode(self, node, context):
-        res = RTResult()
+    def visit_FunctionDefinitionNode(self, node, context):
+        result = RuntimeResult()
 
-        func_name = node.var_name_tok.value if node.var_name_tok else None
+        function_name = (
+            node.variable_name_token.value if node.variable_name_token else None
+        )
         defining_class = context.active_class
 
-        func = Function(
-            func_name,
+        function = Function(
+            function_name,
             node.body_node,
-            node.arg_name_toks,
+            node.argument_name_tokens,
             context,
             visibility=getattr(node, "visibility", "PUBLIC"),
             defining_class=defining_class,
             is_static=getattr(node, "is_static", False),
         )
 
-        if func_name:
-            if func_name in context.symbol_table.finals:
-                return res.failure(
-                    RTError(
-                        node.pos_start,
-                        node.pos_end,
-                        f"Cannot override constant '{func_name}' with a function definition",
+        if function_name:
+            if function_name in context.symbol_table.finals:
+                return result.failure(
+                    RuntimeError(
+                        node.position_start,
+                        node.position_end,
+                        f"Cannot override constant '{function_name}' with a function definition",
                         context,
                     )
                 )
 
-            existing_val = context.symbol_table.get(func_name)
+            existing_value = context.symbol_table.get(function_name)
 
-            if existing_val is not None:
-                if isinstance(existing_val, FunctionGroup):
-                    arity = len(func.arg_names)
-                    if arity in existing_val.functions:
-                        existing_val.functions[arity] = func
+            if existing_value is not None:
+                if isinstance(existing_value, FunctionGroup):
+                    argument_count = len(function.argument_names)
+                    if argument_count in existing_value.functions:
+                        existing_value.functions[argument_count] = function
                     else:
-                        err = existing_val.add_function(func)
-                        if err and isinstance(err, RTResult) and err.error:
-                            return err
+                        error = existing_value.add_function(function)
+                        if error and isinstance(error, RuntimeResult) and error.error:
+                            return error
 
-                    func = existing_val
+                    function = existing_value
 
-                elif isinstance(existing_val, Function):
-                    existing_arity = len(existing_val.arg_names)
-                    new_arity = len(func.arg_names)
-                    if existing_arity == new_arity:
-                        context.symbol_table.set(func_name, func)
+                elif isinstance(existing_value, Function):
+                    existing_argument_count = len(existing_value.argument_names)
+                    new_argument_count = len(function.argument_names)
+                    if existing_argument_count == new_argument_count:
+                        context.symbol_table.set(function_name, function)
                     else:
-                        group = FunctionGroup(func_name)
-                        group.add_function(existing_val)
-                        err = group.add_function(func)
-                        if err and isinstance(err, RTResult) and err.error:
-                            return err
+                        function_group = FunctionGroup(function_name)
+                        function_group.add_function(existing_value)
+                        error = function_group.add_function(function)
+                        if error and isinstance(error, RuntimeResult) and error.error:
+                            return error
 
-                        context.symbol_table.set(func_name, group)
-                        func = group
+                        context.symbol_table.set(function_name, function_group)
+                        function = function_group
                 else:
-                    context.symbol_table.set(func_name, func)
+                    context.symbol_table.set(function_name, function)
             else:
-                context.symbol_table.set(func_name, func)
+                context.symbol_table.set(function_name, function)
 
-        return res.success(
-            func.set_pos(node.pos_start, node.pos_end).set_context(context)
+        return result.success(
+            function.set_position(node.position_start, node.position_end).set_context(
+                context
+            )
         )
