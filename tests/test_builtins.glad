@@ -1,0 +1,301 @@
+# ============================================================
+#  Complete test suite for all built-in functions
+#  PRINT, PRINTLN, STR, INT, FLOAT, BOOL, LEN, LENGTH,
+#  INPUT, PRINTF, TIME, TIME_SECONDS, TIME_MILLIS, TIME_NANOS,
+#  RANDOM, RANDOM_FLOAT, RANDOM_RANGE, DELAY
+# ============================================================
+
+PRINTLN "============================================"
+PRINTLN "  Testing All Built-in Functions"
+PRINTLN "============================================"
+
+PRINTLN ""
+
+PRINTLN "--- 1. PRINT and PRINTLN ---"
+PRINT "Hello, "
+PRINTLN "World!"
+PRINTLN ""
+
+
+PRINTLN "--- 2. Type Conversion (STR, INT, FLOAT, BOOL) ---"
+
+LET num = 123.456
+LET str_num = STR(num)
+PRINTLN "STR(123.456) = ", str_num
+
+LET int_from_float = INT(3.99)
+PRINTLN "INT(3.99) = ", int_from_float
+LET int_from_string = INT("42")
+PRINTLN "INT(\"42\") = ", int_from_string
+
+LET float_from_int = FLOAT(10)
+PRINTLN "FLOAT(10) = ", float_from_int
+LET float_from_string = FLOAT("3.14")
+PRINTLN "FLOAT(\"3.14\") = ", float_from_string
+
+LET bool_true = BOOL(1)
+LET bool_false = BOOL(0)
+PRINTLN "BOOL(1) = ", bool_true
+PRINTLN "BOOL(0) = ", bool_false
+
+TRY
+    LET bad_int = INT("abc")
+    PRINTLN "FAIL: INT(\"abc\") should have raised error"
+CATCH e
+    PRINTLN "Caught expected error: ", e
+ENDTRY
+
+PRINTLN ""
+
+
+PRINTLN "--- 3. LEN / LENGTH ---"
+
+LET my_string = "GladLang"
+LET my_list = [10, 20, 30, 40]
+LET my_dict = {"a": 1, "b": 2, "c": 3}
+
+PRINTLN "LEN(\"GladLang\") = ", LEN(my_string)
+PRINTLN "LENGTH(\"GladLang\") = ", LENGTH(my_string)
+PRINTLN "LEN([10,20,30,40]) = ", LEN(my_list)
+PRINTLN "LEN({'a':1, 'b':2, 'c':3}) = ", LEN(my_dict)
+
+TRY
+    LEN(42)
+    PRINTLN "FAIL: LEN(42) should have raised error"
+CATCH e
+    PRINTLN "Caught expected error: ", e
+ENDTRY
+
+PRINTLN ""
+
+
+PRINTLN "--- 4. INPUT (requires user input) ---"
+PRINTLN "Type something and press Enter: "
+LET user_input = INPUT()
+PRINTLN "You entered: ", user_input
+PRINTLN ""
+
+
+PRINTLN "--- 5. PRINTF (format string) ---"
+
+PRINTF("Hello, %s!\n", "Glad")
+PRINTF("Answer: %d, Pi: %f, Percent: %%\n", 42, 3.14159)
+
+TRY
+    PRINTF("Missing %d\n")
+CATCH e
+    PRINTLN "Caught expected error (missing arg): ", e
+ENDTRY
+
+TRY
+    PRINTF("Bad %d\n", "not int")
+CATCH e
+    PRINTLN "Caught expected error (type mismatch): ", e
+ENDTRY
+
+TRY
+    PRINTF("%x\n", 255)
+CATCH e
+    PRINTLN "Caught expected error (unsupported specifier): ", e
+ENDTRY
+
+PRINTLN ""
+
+
+PRINTLN "--- 6. TIME functions ---"
+
+LET t1 = TIME()
+LET t2 = TIME_SECONDS()
+LET t3 = TIME_MILLIS()
+LET t4 = TIME_NANOS()
+
+PRINTLN "TIME:           ", t1
+PRINTLN "TIME_SECONDS:   ", t2
+PRINTLN "TIME_MILLIS:    ", t3
+PRINTLN "TIME_NANOS:     ", t4
+
+LET t1b = TIME()
+IF t1b > t1 THEN
+    PRINTLN "TIME increased correctly"
+ELSE
+    PRINTLN "TIME increase test failed (0)"
+ENDIF
+
+PRINTLN ""
+
+
+PRINTLN "--- 7. RANDOM functions ---"
+
+LET r1 = RANDOM()
+LET r2 = RANDOM_FLOAT()
+LET r3 = RANDOM_RANGE(0, 10)
+
+PRINTLN "RANDOM:                  ", r1
+PRINTLN "RANDOM_FLOAT:            ", r2
+PRINTLN "RANDOM_RANGE(0, 10):     ", r3
+
+IF r2 >= 0 AND r2 < 1 THEN
+    PRINTLN "RANDOM_FLOAT range OK"
+ELSE
+    PRINTLN "RANDOM_FLOAT out of range!"
+ENDIF
+
+IF r3 >= 0 AND r3 < 10 THEN
+    PRINTLN "RANDOM_RANGE range OK"
+ELSE
+    PRINTLN "RANDOM_RANGE out of range!"
+ENDIF
+
+TRY
+    LET bad = RANDOM_RANGE(5, 3)
+    PRINTLN "FAIL: should have raised error"
+CATCH e
+    PRINTLN "Caught expected error (start >= stop): ", e
+ENDTRY
+
+PRINTLN ""
+
+
+PRINTLN "--- 8. DELAY ---"
+
+LET before = TIME_MILLIS()
+DELAY(0.1)
+LET after = TIME_MILLIS()
+LET diff = after - before
+PRINTLN "Delayed for ", diff, " ms (expected ≈ 100 ms)"
+IF diff >= 50 AND diff <= 200 THEN
+    PRINTLN "DELAY duration seems plausible"
+ELSE
+    PRINTLN "DELAY duration may be off"
+ENDIF
+
+PRINTLN ""
+
+
+PRINTLN "--- 9. Edge Cases (Overflow, Infinite, Output Cap) ---"
+
+# DELAY cap
+TRY
+    DELAY(999999999)
+    PRINTLN "FAIL: DELAY should have capped"
+CATCH e
+    PRINTLN "Caught expected error (delay cap): ", e
+ENDTRY
+
+# PRINTF with infinite number
+TRY
+    PRINTF("%d\n", 1e400)
+    PRINTLN "FAIL: should have caught overflow"
+CATCH e
+    PRINTLN "Caught expected error (PRINTF inf): ", e
+ENDTRY
+
+# RANDOM_RANGE with infinite
+TRY
+    RANDOM_RANGE(0, 1e400)
+    PRINTLN "FAIL: should have caught overflow"
+CATCH e
+    PRINTLN "Caught expected error (RANDOM_RANGE inf): ", e
+ENDTRY
+
+# RANDOM_RANGE with huge range (exceeds MAX_INT_BITS)
+TRY
+    LET huge = 2 ** 200000  # exceeds MAX_INT_BITS (100000)
+    RANDOM_RANGE(0, huge)
+    PRINTLN "FAIL: should have caught bit-limit"
+CATCH e
+    PRINTLN "Caught expected error (range too large): ", e
+ENDTRY
+
+# PRINTF output size cap (uses 11 million chars, which exceeds MAX_STRING_SIZE = 10,000,000)
+TRY
+    LET huge_str = "a" * 11000000
+    PRINTF("%s", huge_str)
+    PRINTLN "FAIL: should have caught output size"
+CATCH e
+    PRINTLN "Caught expected error (output size cap): ", e
+ENDTRY
+
+PRINTLN ""
+
+
+PRINTLN "--- 10. PRINTF Precision (%.Nf) ---"
+
+# Basic precision — visually verify against the expected value in each label
+PRINTF("%.0f (expect 4): %.0f\n", 3.7, 3.7)
+PRINTF("%.2f (expect 3.14): %.2f\n", 3.14159, 3.14159)
+PRINTF("%.10f (expect 1.5000000000): %.10f\n", 1.5, 1.5)
+PRINTF("%.0f on 9.9 (expect 10): %.0f\n", 9.9, 9.9)
+
+# Precision exactly at the cap (100) must still succeed
+TRY
+    PRINTF("%.100f\n", 1.0)
+    PRINTLN "precision=100 (at cap) succeeded as expected"
+CATCH e
+    PRINTLN "FAIL: precision=100 should not have been rejected: ", e
+ENDTRY
+
+# Precision over the cap must be rejected fast, before any huge string is built
+TRY
+    PRINTF("%.999999999f\n", 1.0)
+    PRINTLN "FAIL: should have rejected precision over the cap"
+CATCH e
+    PRINTLN "Caught expected error (precision cap): ", e
+ENDTRY
+
+# Pathological input: an absurdly long run of digits must also be rejected fast
+TRY
+    PRINTF("%.999999999999999999999999999f\n", 1.0)
+    PRINTLN "FAIL: should have rejected the oversized digit run"
+CATCH e
+    PRINTLN "Caught expected error (digit run too long): ", e
+ENDTRY
+
+# Precision is not meaningful for %s — must error, not silently ignore it
+TRY
+    PRINTF("%.2s\n", "hello")
+    PRINTLN "FAIL: should have rejected precision on %s"
+CATCH e
+    PRINTLN "Caught expected error (precision on %s): ", e
+ENDTRY
+
+# Precision is not meaningful for %d — must error, not silently ignore it
+TRY
+    PRINTF("%.2d\n", 42)
+    PRINTLN "FAIL: should have rejected precision on %d"
+CATCH e
+    PRINTLN "Caught expected error (precision on %d): ", e
+ENDTRY
+
+# Malformed: a dot with no digits after it
+TRY
+    PRINTF("%.f\n", 3.14)
+    PRINTLN "FAIL: should have rejected a dot with no digits"
+CATCH e
+    PRINTLN "Caught expected error (dot, no digits): ", e
+ENDTRY
+
+# Malformed: a dot at the very end of the format string, no type character at all
+TRY
+    PRINTF("%.")
+    PRINTLN "FAIL: should have rejected a trailing dot with no type char"
+CATCH e
+    PRINTLN "Caught expected error (trailing dot): ", e
+ENDTRY
+
+# Non-finite value with a precision must not crash — precision is a no-op on inf/nan
+TRY
+    PRINTF("%.2f\n", 1e400)
+    PRINTLN "inf with precision handled without crashing"
+CATCH e
+    PRINTLN "FAIL: should not have raised for inf with precision: ", e
+ENDTRY
+
+# Backward compatibility: plain %f (no precision) must still work exactly as before
+PRINTF("plain %%f still works: %f\n", 3.14159)
+
+# Backward compatibility: %% must still work exactly as before
+PRINTF("literal percent still works: 100%%\n")
+
+PRINTLN ""
+PRINTLN "All tests completed successfully."
