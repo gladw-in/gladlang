@@ -11,22 +11,22 @@ class NullBase(Number):
         self._is_null = is_null
 
     def get_comparison_eq(self, other, visited=None):
-        if hasattr(other, "class_ref") and hasattr(other, "symbol_table"):
+        if hasattr(other, "class_reference") and hasattr(other, "symbol_table"):
             if self._is_null:
                 return Number(0).set_context(self.context), None
 
         if isinstance(other, (NullBase)):
-            equal = self._is_null == other._is_null and self.value == other.value
-            return Number(int(equal)).set_context(self.context), None
+            are_equal = self._is_null == other._is_null and self.value == other.value
+            return Number(int(are_equal)).set_context(self.context), None
 
         return Number(0).set_context(self.context), None
 
     def get_comparison_ne(self, other):
-        eq, err = self.get_comparison_eq(other)
-        if err:
-            return None, err
+        equal_result, error = self.get_comparison_eq(other)
+        if error:
+            return None, error
 
-        return Number(1 - int(eq.is_true())).set_context(self.context), None
+        return Number(1 - int(equal_result.is_true())).set_context(self.context), None
 
     def get_comparison_lt(self, other):
         if self._is_null:
@@ -56,15 +56,17 @@ class NullBase(Number):
         if not other:
             other = self
 
-        from gladlang.core.errors import RTError
+        from gladlang.core.errors import RuntimeError
 
-        return RTError(self.pos_start, other.pos_end, "Illegal operation", self.context)
+        return RuntimeError(
+            self.position_start, other.position_end, "Illegal operation", self.context
+        )
 
     def is_true(self):
         if self._is_null:
             return False
 
-        return self.value != 0
+        return bool(self.value)
 
     def __repr__(self):
         if self._is_null:
