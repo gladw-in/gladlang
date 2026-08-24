@@ -24,6 +24,7 @@ DefaultGroupName=GladLang
 PrivilegesRequired=lowest
 Uninstallable=yes
 ChangesEnvironment=yes
+ChangesAssociations=yes
 
 OutputDir=..\installer-output
 OutputBaseFilename=GladLang-{#MyAppVersion}-Setup
@@ -78,9 +79,37 @@ Root: HKCU; \
     Check: NeedsAddPath(ExpandConstant('{app}')); \
     Flags: preservestringtype
 
+Root: HKCU; \
+    Subkey: "Software\Classes\.glad"; \
+    ValueType: string; \
+    ValueName: ""; \
+    ValueData: "GladLang.File"; \
+    Flags: uninsdeletevalue
+
+Root: HKCU; \
+    Subkey: "Software\Classes\GladLang.File"; \
+    ValueType: string; \
+    ValueName: ""; \
+    ValueData: "GladLang Source File"; \
+    Flags: uninsdeletekey
+
+Root: HKCU; \
+    Subkey: "Software\Classes\GladLang.File\DefaultIcon"; \
+    ValueType: string; \
+    ValueName: ""; \
+    ValueData: "{app}\gladlang.exe,0"
+
+Root: HKCU; \
+    Subkey: "Software\Classes\GladLang.File\shell\open\command"; \
+    ValueType: string; \
+    ValueName: ""; \
+    ValueData: """{app}\gladlang.exe"" ""%1"""
+
 
 [Code]
 
+procedure SHChangeNotify(wEventId: Integer; uFlags: Integer; dwItem1: Integer; dwItem2: Integer);
+external 'SHChangeNotify@shell32.dll stdcall';
 
 function NeedsAddPath(AppPath: string): Boolean;
 var
@@ -253,5 +282,7 @@ begin
     RemoveGladLangFromPath(
       ExpandConstant('{app}')
     );
+
+    SHChangeNotify($08000000, $0000, 0, 0);
   end;
 end;
