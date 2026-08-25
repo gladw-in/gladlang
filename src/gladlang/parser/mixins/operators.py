@@ -7,47 +7,50 @@ from gladlang.core.constants import (
     GL_LSHIFT,
     GL_RSHIFT,
 )
-from gladlang.parser.ast import BinOpNode
+from gladlang.parser.ast import BinaryOperatorNode
 from gladlang.parser.parse_result import ParseResult
 
 
 class ParserOperators:
-    def bin_op(self, func_a, ops, func_b=None):
-        if func_b is None:
-            func_b = func_a
+    def binary_operator(self, function_a, operators, function_b=None):
+        if function_b is None:
+            function_b = function_a
 
-        res = ParseResult()
-        left = res.register(func_a())
-        if res.error:
-            return res
+        result = ParseResult()
+        left = result.register(function_a())
+        if result.error:
+            return result
 
         while (
-            self.current_tok.type in ops
-            or (self.current_tok.type, self.current_tok.value) in ops
+            self.current_token.type in operators
+            or (self.current_token.type, self.current_token.value) in operators
         ):
-            prev_tok = self.tokens[self.tok_idx - 1]
-            if self.current_tok.pos_start.ln != prev_tok.pos_end.ln:
+            previous_token = self.tokens[self.token_index - 1]
+            if (
+                self.current_token.position_start.line
+                != previous_token.position_end.line
+            ):
                 break
 
-            op_tok = self.current_tok
-            res.register_advancement()
+            operator_token = self.current_token
+            result.register_advancement()
             self.advance()
-            right = res.register(func_b())
-            if res.error:
-                return res
+            right = result.register(function_b())
+            if result.error:
+                return result
 
-            left = BinOpNode(left, op_tok, right)
+            left = BinaryOperatorNode(left, operator_token, right)
 
-        return res.success(left)
+        return result.success(left)
 
-    def bitwise_or_expr(self):
-        return self.bin_op(self.bitwise_xor_expr, (GL_BIT_OR,))
+    def bitwise_or_expression(self):
+        return self.binary_operator(self.bitwise_xor_expression, (GL_BIT_OR,))
 
-    def bitwise_xor_expr(self):
-        return self.bin_op(self.bitwise_and_expr, (GL_BIT_XOR,))
+    def bitwise_xor_expression(self):
+        return self.binary_operator(self.bitwise_and_expression, (GL_BIT_XOR,))
 
-    def bitwise_and_expr(self):
-        return self.bin_op(self.shift_expr, (GL_BIT_AND,))
+    def bitwise_and_expression(self):
+        return self.binary_operator(self.shift_expression, (GL_BIT_AND,))
 
-    def shift_expr(self):
-        return self.bin_op(self.arith_expr, (GL_LSHIFT, GL_RSHIFT))
+    def shift_expression(self):
+        return self.binary_operator(self.arith_expression, (GL_LSHIFT, GL_RSHIFT))

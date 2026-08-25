@@ -10,19 +10,19 @@ class ParseResult:
     def register_advancement(self):
         self.advance_count += 1
 
-    def register(self, res):
-        self.advance_count += res.advance_count
-        if res.error:
-            self.error = res.error
+    def register(self, other_result):
+        self.advance_count += other_result.advance_count
+        if other_result.error:
+            self.error = other_result.error
 
-        return res.node
+        return other_result.node
 
     def success(self, node):
         self.node = node
         return self
 
     def failure(self, error):
-        if not self.error or self.advance_count == 0:
+        if not self.error or not self.advance_count:
             self.error = error
 
         return self
