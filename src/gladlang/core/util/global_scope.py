@@ -30,4 +30,17 @@ def get_fresh_global_scope():
     scope.set("LEN", BuiltInFunction("LEN"), as_final=True)
     scope.set("LENGTH", BuiltInFunction("LEN"), as_final=True)
 
+    scope.set("PRINTF", BuiltInFunction("PRINTF"), as_final=True)
+
+    scope.set("TIME", BuiltInFunction("TIME"), as_final=True)
+    scope.set("TIME_SECONDS", BuiltInFunction("TIME_SECONDS"), as_final=True)
+    scope.set("TIME_MILLIS", BuiltInFunction("TIME_MILLIS"), as_final=True)
+    scope.set("TIME_NANOS", BuiltInFunction("TIME_NANOS"), as_final=True)
+
+    scope.set("RANDOM", BuiltInFunction("RANDOM"), as_final=True)
+    scope.set("RANDOM_FLOAT", BuiltInFunction("RANDOM_FLOAT"), as_final=True)
+    scope.set("RANDOM_RANGE", BuiltInFunction("RANDOM_RANGE"), as_final=True)
+
+    scope.set("DELAY", BuiltInFunction("DELAY"), as_final=True)
+
     return scope

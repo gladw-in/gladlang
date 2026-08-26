@@ -2,6 +2,6 @@
 
 
 class BreakNode:
-    def __init__(self, pos_start, pos_end):
-        self.pos_start = pos_start
-        self.pos_end = pos_end
+    def __init__(self, position_start, position_end):
+        self.position_start = position_start
+        self.position_end = position_end
