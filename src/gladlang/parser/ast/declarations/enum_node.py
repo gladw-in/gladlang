@@ -2,8 +2,8 @@
 
 
 class EnumNode:
-    def __init__(self, enum_name_tok, cases, pos_start, pos_end):
-        self.enum_name_tok = enum_name_tok
+    def __init__(self, enum_name_token, cases, position_start, position_end):
+        self.enum_name_token = enum_name_token
         self.cases = cases
-        self.pos_start = pos_start
-        self.pos_end = pos_end
+        self.position_start = position_start
+        self.position_end = position_end

@@ -7,18 +7,18 @@ from gladlang.core.constants.token_types import GL_KEYWORD, GL_IDENTIFIER
 
 class LexerIdentifiers:
     def make_identifier(self):
-        id_str = ""
-        pos_start = self.pos.copy()
+        identifier_text = ""
+        position_start = self.position.copy()
 
-        while self.current_char is not None and (
-            id_str == ""
-            and self.current_char.isidentifier()
-            or id_str != ""
-            and ("a" + self.current_char).isidentifier()
+        while self.current_character is not None and (
+            identifier_text == ""
+            and self.current_character.isidentifier()
+            or identifier_text != ""
+            and ("a" + self.current_character).isidentifier()
         ):
-            id_str += self.current_char
+            identifier_text += self.current_character
             self.advance()
 
-        tok_type = GL_KEYWORD if id_str in KEYWORDS else GL_IDENTIFIER
+        token_type = GL_KEYWORD if identifier_text in KEYWORDS else GL_IDENTIFIER
 
-        return Token(tok_type, id_str, pos_start, self.pos)
+        return Token(token_type, identifier_text, position_start, self.position)

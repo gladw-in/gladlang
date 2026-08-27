@@ -2,22 +2,24 @@
 
 
 class Token:
-    __slots__ = ("type", "value", "pos_start", "pos_end")
+    __slots__ = ("type", "value", "position_start", "position_end")
 
-    def __init__(self, type_, value=None, pos_start=None, pos_end=None):
-        self.type = type_
-        self.value = value
+    def __init__(
+        self, token_type, token_value=None, position_start=None, position_end=None
+    ):
+        self.type = token_type
+        self.value = token_value
 
-        if pos_start:
-            self.pos_start = pos_start.copy()
-            self.pos_end = pos_start.copy()
-            self.pos_end.advance()
+        if position_start:
+            self.position_start = position_start.copy()
+            self.position_end = position_start.copy()
+            self.position_end.advance()
 
-        if pos_end:
-            self.pos_end = pos_end.copy()
+        if position_end:
+            self.position_end = position_end.copy()
 
-    def matches(self, type_, value):
-        return self.type == type_ and self.value == value
+    def matches(self, token_type, token_value):
+        return self.type == token_type and self.value == token_value
 
     def __repr__(self):
         if self.value is not None:
