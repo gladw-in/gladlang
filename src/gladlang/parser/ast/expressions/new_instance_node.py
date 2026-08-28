@@ -2,12 +2,12 @@
 
 
 class NewInstanceNode:
-    def __init__(self, class_name_tok, arg_nodes):
-        self.class_name_tok = class_name_tok
-        self.arg_nodes = arg_nodes
-        self.pos_start = self.class_name_tok.pos_start
+    def __init__(self, class_name_token, argument_nodes):
+        self.class_name_token = class_name_token
+        self.argument_nodes = argument_nodes
+        self.position_start = self.class_name_token.position_start
 
-        if len(arg_nodes) > 0:
-            self.pos_end = arg_nodes[-1].pos_end
+        if len(argument_nodes) > 0:
+            self.position_end = argument_nodes[-1].position_end
         else:
-            self.pos_end = self.class_name_tok.pos_end
+            self.position_end = self.class_name_token.position_end
