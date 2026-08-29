@@ -5,25 +5,32 @@ from gladlang.values.value import Value
 
 
 class EnumMember(Value):
-    __slots__ = ("enum_name", "member_name", "value", "pos_start", "pos_end", "context")
+    __slots__ = (
+        "enum_name",
+        "member_name",
+        "value",
+        "position_start",
+        "position_end",
+        "context",
+    )
 
     def __init__(self, enum_name, member_name, value):
         self.enum_name = enum_name
         self.member_name = member_name
         self.value = value
-        self.pos_start = self.pos_end = self.context = None
+        self.position_start = self.position_end = self.context = None
 
-    def set_pos(self, pos_start=None, pos_end=None):
-        self.pos_start = pos_start
-        self.pos_end = pos_end
+    def set_position(self, position_start=None, position_end=None):
+        self.position_start = position_start
+        self.position_end = position_end
         return self
 
     def set_context(self, context=None):
         self.context = context
         return self
 
-    def get_attr(self, name_tok, context=None):
-        if name_tok.value == "value":
+    def get_attribute(self, name_token, context=None):
+        if name_token.value == "value":
             return self.value, None
 
         return None, self.illegal_operation()
@@ -40,11 +47,11 @@ class EnumMember(Value):
         return Number(0).set_context(self.context), None
 
     def get_comparison_ne(self, other):
-        eq, err = self.get_comparison_eq(other)
-        if err:
-            return None, err
+        equal_result, error = self.get_comparison_eq(other)
+        if error:
+            return None, error
 
-        return Number(1 - int(eq.is_true())).set_context(self.context), None
+        return Number(1 - int(equal_result.is_true())).set_context(self.context), None
 
     def get_comparison_is(self, other):
         if isinstance(other, EnumMember):
@@ -70,19 +77,21 @@ class EnumMember(Value):
         if isinstance(other, Class):
             return Number.false.copy(), None
 
-        from gladlang.core.errors import RTError
+        from gladlang.core.errors import RuntimeError
 
-        return None, RTError(
-            self.pos_start,
-            self.pos_end,
+        return None, RuntimeError(
+            self.position_start,
+            self.position_end,
             "Right operand of INSTANCEOF must be a Class or Type",
             self.context,
         )
 
     def copy(self):
-        c = EnumMember(self.enum_name, self.member_name, self.value)
+        member_copy = EnumMember(self.enum_name, self.member_name, self.value)
 
-        return c.set_pos(self.pos_start, self.pos_end).set_context(self.context)
+        return member_copy.set_position(
+            self.position_start, self.position_end
+        ).set_context(self.context)
 
     def __repr__(self):
         return f"{self.enum_name}.{self.member_name}"
