@@ -5,9 +5,9 @@ class IfNode:
     def __init__(self, cases, else_case):
         self.cases = cases
         self.else_case = else_case
-        self.pos_start = self.cases[0][0].pos_start
+        self.position_start = self.cases[0][0].position_start
 
         if self.else_case:
-            self.pos_end = self.else_case.pos_end
+            self.position_end = self.else_case.position_end
         else:
-            self.pos_end = self.cases[len(self.cases) - 1][1].pos_end
+            self.position_end = self.cases[len(self.cases) - 1][1].position_end
