@@ -7,59 +7,61 @@ from gladlang.core.constants.token_types import GL_STRING
 
 class LexerStrings:
     def make_string(self):
-        chars = []
-        pos_start = self.pos.copy()
+        characters = []
+        position_start = self.position.copy()
         is_multiline = False
 
         self.advance()
 
-        if self.current_char == '"' and self.peek() == '"':
+        if self.current_character == '"' and self.peek() == '"':
             is_multiline = True
             self.advance()
             self.advance()
 
         escape_character = False
 
-        while self.current_char is not None:
+        while self.current_character is not None:
             if escape_character:
-                if self.current_char == "n":
-                    chars.append("\n")
-                elif self.current_char == "t":
-                    chars.append("\t")
-                elif self.current_char == "r":
-                    chars.append("\r")
-                elif self.current_char == '"':
-                    chars.append('"')
-                elif self.current_char == "\\":
-                    chars.append("\\")
-                elif self.current_char == "0":
-                    chars.append("\0")
-                elif self.current_char == "u":
-                    hex_chars = []
+                if self.current_character == "n":
+                    characters.append("\n")
+                elif self.current_character == "t":
+                    characters.append("\t")
+                elif self.current_character == "r":
+                    characters.append("\r")
+                elif self.current_character == '"':
+                    characters.append('"')
+                elif self.current_character == "\\":
+                    characters.append("\\")
+                elif self.current_character == "0":
+                    characters.append("\0")
+                elif self.current_character == "u":
+                    hex_characters = []
                     for _ in range(4):
                         self.advance()
-                        if self.current_char is None:
+                        if self.current_character is None:
                             return None, InvalidSyntaxError(
-                                pos_start, self.pos, "Unterminated \\u escape sequence"
+                                position_start,
+                                self.position,
+                                "Unterminated \\u escape sequence",
                             )
 
-                        hex_chars.append(self.current_char)
+                        hex_characters.append(self.current_character)
 
                     try:
-                        chars.append(chr(int("".join(hex_chars), 16)))
+                        characters.append(chr(int("".join(hex_characters), 16)))
                     except ValueError:
                         return None, InvalidSyntaxError(
-                            pos_start,
-                            self.pos,
-                            f"Invalid \\u escape: \\u{''.join(hex_chars)}",
+                            position_start,
+                            self.position,
+                            f"Invalid \\u escape: \\u{''.join(hex_characters)}",
                         )
                 else:
-                    chars.append(self.current_char)
+                    characters.append(self.current_character)
 
                 escape_character = False
-            elif self.current_char == "\\":
+            elif self.current_character == "\\":
                 escape_character = True
-            elif self.current_char == '"':
+            elif self.current_character == '"':
                 if is_multiline:
                     if self.peek() == '"':
                         self.advance()
@@ -67,22 +69,22 @@ class LexerStrings:
                             self.advance()
                             break
                         else:
-                            chars.append('""')
+                            characters.append('""')
                     else:
-                        chars.append('"')
+                        characters.append('"')
                 else:
                     break
             else:
-                chars.append(self.current_char)
+                characters.append(self.current_character)
 
             self.advance()
 
-        if self.current_char is None:
+        if self.current_character is None:
             return None, InvalidSyntaxError(
-                pos_start, self.pos, "Unterminated string literal"
+                position_start, self.position, "Unterminated string literal"
             )
 
-        string = "".join(chars)
+        string_value = "".join(characters)
         self.advance()
 
-        return Token(GL_STRING, string, pos_start, self.pos)
+        return Token(GL_STRING, string_value, position_start, self.position)
