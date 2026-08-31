@@ -2,8 +2,8 @@
 
 
 class TailCall:
-    __slots__ = ("function", "args")
+    __slots__ = ("function", "arguments")
 
-    def __init__(self, function, args):
+    def __init__(self, function, arguments):
         self.function = function
-        self.args = args
+        self.arguments = arguments
