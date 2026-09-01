@@ -2,12 +2,14 @@
 
 
 class CallNode:
-    def __init__(self, node_to_call, arg_nodes):
+    def __init__(self, node_to_call, argument_nodes):
         self.node_to_call = node_to_call
-        self.arg_nodes = arg_nodes
-        self.pos_start = self.node_to_call.pos_start
+        self.argument_nodes = argument_nodes
+        self.position_start = self.node_to_call.position_start
 
-        if len(self.arg_nodes) > 0:
-            self.pos_end = self.arg_nodes[len(self.arg_nodes) - 1].pos_end
+        if len(self.argument_nodes) > 0:
+            self.position_end = self.argument_nodes[
+                len(self.argument_nodes) - 1
+            ].position_end
         else:
-            self.pos_end = self.node_to_call.pos_end
+            self.position_end = self.node_to_call.position_end
