@@ -10,7 +10,9 @@ class StringElementAccess:
     def get_element_at(self, index):
         from gladlang.values.primitives.string import String
 
-        if not isinstance(index, Number):
+        if not isinstance(index, Number) or (
+            hasattr(index, "_is_null") and index._is_null
+        ):
             return None, RuntimeError(
                 self.position_start,
                 self.position_end,

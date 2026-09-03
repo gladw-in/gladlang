@@ -1,6 +1,6 @@
 """List and dictionary comprehension nodes."""
 
-from .list_comp_node import ListCompNode
-from .dict_comp_node import DictCompNode
+from .list_comprehension_node import ListComprehensionNode
+from .dict_comprehension_node import DictComprehensionNode
 
-__all__ = ["ListCompNode", "DictCompNode"]
+__all__ = ["ListComprehensionNode", "DictComprehensionNode"]

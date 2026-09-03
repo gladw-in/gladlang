@@ -28,6 +28,9 @@ class NumberBitwise:
         return (Number(0), None) if self.is_true() else (Number(1), None)
 
     def bitted_and_by(self, other):
+        if hasattr(other, "_is_null") and other._is_null:
+            return None, self._illegal(other)
+
         from gladlang.values.primitives.number import Number
 
         if isinstance(other, Number):
@@ -40,6 +43,9 @@ class NumberBitwise:
         return None, self._illegal(other)
 
     def bitted_or_by(self, other):
+        if hasattr(other, "_is_null") and other._is_null:
+            return None, self._illegal(other)
+
         from gladlang.values.primitives.number import Number
 
         if isinstance(other, Number):
@@ -52,6 +58,9 @@ class NumberBitwise:
         return None, self._illegal(other)
 
     def bitted_xor_by(self, other):
+        if hasattr(other, "_is_null") and other._is_null:
+            return None, self._illegal(other)
+
         from gladlang.values.primitives.number import Number
 
         if isinstance(other, Number):

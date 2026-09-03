@@ -10,6 +10,9 @@ class NumberArithmeticDivMod:
     __slots__ = ()
 
     def dived_by(self, other):
+        if hasattr(other, "_is_null") and other._is_null:
+            return None, self._illegal(other)
+
         from gladlang.values.primitives.number import Number
 
         if isinstance(other, Number):
@@ -44,6 +47,9 @@ class NumberArithmeticDivMod:
         return None, self._illegal(other)
 
     def modded_by(self, other):
+        if hasattr(other, "_is_null") and other._is_null:
+            return None, self._illegal(other)
+
         from gladlang.values.primitives.number import Number
 
         if isinstance(other, Number):
@@ -69,6 +75,9 @@ class NumberArithmeticDivMod:
         return None, self._illegal(other)
 
     def floordived_by(self, other):
+        if hasattr(other, "_is_null") and other._is_null:
+            return None, self._illegal(other)
+
         from gladlang.values.primitives.number import Number
 
         if isinstance(other, Number):

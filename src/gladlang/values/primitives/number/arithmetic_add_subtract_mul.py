@@ -10,6 +10,9 @@ class NumberArithmeticAddSubtractMul:
     __slots__ = ()
 
     def added_to(self, other):
+        if hasattr(other, "_is_null") and other._is_null:
+            return None, self._illegal(other)
+
         from gladlang.values.primitives.number import Number
 
         if isinstance(other, Number):
@@ -40,6 +43,9 @@ class NumberArithmeticAddSubtractMul:
         return None, self._illegal(other)
 
     def subbed_by(self, other):
+        if hasattr(other, "_is_null") and other._is_null:
+            return None, self._illegal(other)
+
         from gladlang.values.primitives.number import Number
 
         if isinstance(other, Number):
@@ -65,6 +71,9 @@ class NumberArithmeticAddSubtractMul:
         return None, self._illegal(other)
 
     def multed_by(self, other):
+        if hasattr(other, "_is_null") and other._is_null:
+            return None, self._illegal(other)
+
         from gladlang.values.primitives.number import Number
 
         if isinstance(other, Number):

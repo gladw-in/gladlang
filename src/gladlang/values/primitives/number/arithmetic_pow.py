@@ -10,6 +10,9 @@ class NumberArithmeticPow:
     __slots__ = ()
 
     def powed_by(self, other):
+        if hasattr(other, "_is_null") and other._is_null:
+            return None, self._illegal(other)
+
         from gladlang.values.primitives.number import Number
 
         if isinstance(other, Number):

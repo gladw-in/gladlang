@@ -29,6 +29,9 @@ class ListArithmetic:
         return None, self._illegal(other)
 
     def multed_by(self, other):
+        if hasattr(other, "_is_null") and other._is_null:
+            return None, self._illegal(other)
+
         from gladlang.values.primitives.list import List
 
         if isinstance(other, Number):

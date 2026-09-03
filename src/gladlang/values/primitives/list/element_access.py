@@ -8,7 +8,9 @@ class ListElementAccess:
     __slots__ = ()
 
     def get_element_at(self, index):
-        if not isinstance(index, Number):
+        if not isinstance(index, Number) or (
+            hasattr(index, "_is_null") and index._is_null
+        ):
             return None, RuntimeError(
                 self.position_start,
                 self.position_end,
@@ -27,7 +29,9 @@ class ListElementAccess:
             )
 
     def set_element_at(self, index, value):
-        if not isinstance(index, Number):
+        if not isinstance(index, Number) or (
+            hasattr(index, "_is_null") and index._is_null
+        ):
             return None, RuntimeError(
                 self.position_start,
                 self.position_end,

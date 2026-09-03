@@ -1,7 +1,7 @@
 """Visitor for slicing operations on lists and strings."""
 
-from gladlang.core.errors import RTError
-from gladlang.runtime.rt_result import RTResult
+from gladlang.core.errors import RuntimeError
+from gladlang.runtime.runtime_result import RuntimeResult
 from gladlang.values.primitives.number import Number
 from gladlang.values.primitives.string import String
 from gladlang.values.primitives.list import List
@@ -9,67 +9,75 @@ from gladlang.values.primitives.list import List
 
 class InterpreterSlices:
     def visit_SliceAccessNode(self, node, context):
-        res = RTResult()
+        result = RuntimeResult()
 
-        obj = res.register(self.visit(node.node_to_slice, context))
-        if res.error:
-            return res
+        object_to_slice = result.register(self.visit(node.node_to_slice, context))
+        if result.error:
+            return result
 
-        start_idx = 0
+        start_index = 0
         if node.start_node is not None:
-            start_val = res.register(self.visit(node.start_node, context))
-            if res.error:
-                return res
+            start_value = result.register(self.visit(node.start_node, context))
+            if result.error:
+                return result
 
-            if not isinstance(start_val, Number):
-                return res.failure(
-                    RTError(
-                        node.start_node.pos_start,
-                        node.start_node.pos_end,
+            if not isinstance(start_value, Number) or (
+                hasattr(start_value, "_is_null") and start_value._is_null
+            ):
+                return result.failure(
+                    RuntimeError(
+                        node.start_node.position_start,
+                        node.start_node.position_end,
                         "Start index must be a number",
                         context,
                     )
                 )
 
-            start_idx = int(start_val.value)
+            start_index = int(start_value.value)
 
-        end_idx = None
+        end_index = None
         if node.end_node:
-            end_val = res.register(self.visit(node.end_node, context))
-            if res.error:
-                return res
+            end_value = result.register(self.visit(node.end_node, context))
+            if result.error:
+                return result
 
-            if not isinstance(end_val, Number):
-                return res.failure(
-                    RTError(
-                        node.end_node.pos_start,
-                        node.end_node.pos_end,
+            if not isinstance(end_value, Number) or (
+                hasattr(end_value, "_is_null") and end_value._is_null
+            ):
+                return result.failure(
+                    RuntimeError(
+                        node.end_node.position_start,
+                        node.end_node.position_end,
                         "End index must be a number",
                         context,
                     )
                 )
 
-            end_idx = int(end_val.value)
+            end_index = int(end_value.value)
 
-        if isinstance(obj, List):
-            new_elements = [e.copy() for e in obj.elements[start_idx:end_idx]]
-            return res.success(
+        if isinstance(object_to_slice, List):
+            new_elements = [
+                element.copy()
+                for element in object_to_slice.elements[start_index:end_index]
+            ]
+
+            return result.success(
                 List(new_elements)
                 .set_context(context)
-                .set_pos(node.pos_start, node.pos_end)
+                .set_position(node.position_start, node.position_end)
             )
-        elif isinstance(obj, String):
-            return res.success(
-                String(obj.value[start_idx:end_idx])
+        elif isinstance(object_to_slice, String):
+            return result.success(
+                String(object_to_slice.value[start_index:end_index])
                 .set_context(context)
-                .set_pos(node.pos_start, node.pos_end)
+                .set_position(node.position_start, node.position_end)
             )
         else:
-            return res.failure(
-                RTError(
-                    node.pos_start,
-                    node.pos_end,
-                    f"Type {type(obj).__name__} is not sliceable",
+            return result.failure(
+                RuntimeError(
+                    node.position_start,
+                    node.position_end,
+                    f"Type {type(object_to_slice).__name__} is not sliceable",
                     context,
                 )
             )
