@@ -1,6 +1,7 @@
 """Built-in: INT numeric conversion."""
 
 from gladlang.core.errors import RuntimeError
+from gladlang.core.util.int_text import str_to_int
 from gladlang.core.util.settings import Settings
 from gladlang.runtime.runtime_result import RuntimeResult
 from gladlang.values.primitives.number import Number
@@ -35,7 +36,7 @@ class BuiltInFunctionInt:
                 int_value = int(argument.value)
             else:
                 try:
-                    int_value = int(argument.value)
+                    int_value = str_to_int(argument.value)
                 except ValueError:
                     int_value = int(float(argument.value))
 

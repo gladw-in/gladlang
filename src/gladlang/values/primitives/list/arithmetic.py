@@ -1,6 +1,9 @@
 """List `+` (concatenation) and `*` (repetition), both with size-limit checks."""
 
+import math
+
 from gladlang.core.errors import RuntimeError
+from gladlang.core.util.int_text import int_to_str
 from gladlang.core.util.settings import Settings
 from gladlang.values.primitives.number import Number
 
@@ -36,13 +39,23 @@ class ListArithmetic:
 
         if isinstance(other, Number):
             multiplier_raw = other.value
-            if isinstance(multiplier_raw, float) and not multiplier_raw.is_integer():
-                return None, RuntimeError(
-                    other.position_start,
-                    other.position_end,
-                    f"List repetition count must be a whole number, got {multiplier_raw}",
-                    self.context,
-                )
+
+            if isinstance(multiplier_raw, float):
+                if not math.isfinite(multiplier_raw):
+                    return None, RuntimeError(
+                        other.position_start,
+                        other.position_end,
+                        f"List repetition count must be finite, got {multiplier_raw}",
+                        self.context,
+                    )
+
+                if not multiplier_raw.is_integer():
+                    return None, RuntimeError(
+                        other.position_start,
+                        other.position_end,
+                        f"List repetition count must be a whole number, got {multiplier_raw}",
+                        self.context,
+                    )
 
             multiplier = int(multiplier_raw)
             if multiplier < 0:
@@ -58,7 +71,7 @@ class ListArithmetic:
                 return None, RuntimeError(
                     other.position_start,
                     other.position_end,
-                    f"List repetition result ({result_length}) exceeds maximum allowed size ({Settings.MAX_LIST_SIZE})",
+                    f"List repetition result ({int_to_str(result_length)}) exceeds maximum allowed size ({Settings.MAX_LIST_SIZE})",
                     self.context,
                 )
 

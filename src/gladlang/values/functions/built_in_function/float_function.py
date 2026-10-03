@@ -41,6 +41,15 @@ class BuiltInFunctionFloat:
                     call_context,
                 )
             )
+        except OverflowError:
+            return result.failure(
+                RuntimeError(
+                    self.position_start,
+                    self.position_end,
+                    "FLOAT: result too large (exceeds float range)",
+                    call_context,
+                )
+            )
 
         if math.isinf(float_value) or math.isnan(float_value):
             return result.failure(

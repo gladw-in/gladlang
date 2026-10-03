@@ -1,6 +1,9 @@
 """String `+` (concatenation with String or Number) and `*` (repetition)."""
 
+import math
+
 from gladlang.core.errors import RuntimeError
+from gladlang.core.util.int_text import int_to_grouped_str, int_to_str
 from gladlang.core.util.settings import Settings
 from gladlang.values.primitives.number import Number
 
@@ -24,7 +27,7 @@ class StringArithmetic:
             return String(self.value + other.value).set_context(self.context), None
 
         elif isinstance(other, Number):
-            suffix = str(other.value)
+            suffix = int_to_str(other.value)
             new_length = len(self.value) + len(suffix)
             if new_length > Settings.MAX_STRING_SIZE:
                 return None, RuntimeError(
@@ -43,13 +46,23 @@ class StringArithmetic:
 
         if isinstance(other, Number):
             multiplier_raw = other.value
-            if isinstance(multiplier_raw, float) and not multiplier_raw.is_integer():
-                return None, RuntimeError(
-                    other.position_start,
-                    other.position_end,
-                    f"String repetition count must be a whole number, got {multiplier_raw}",
-                    self.context,
-                )
+
+            if isinstance(multiplier_raw, float):
+                if not math.isfinite(multiplier_raw):
+                    return None, RuntimeError(
+                        other.position_start,
+                        other.position_end,
+                        f"String repetition count must be finite, got {multiplier_raw}",
+                        self.context,
+                    )
+
+                if not multiplier_raw.is_integer():
+                    return None, RuntimeError(
+                        other.position_start,
+                        other.position_end,
+                        f"String repetition count must be a whole number, got {multiplier_raw}",
+                        self.context,
+                    )
 
             multiplier = int(multiplier_raw)
             if multiplier < 0:
@@ -65,7 +78,7 @@ class StringArithmetic:
                 return None, RuntimeError(
                     other.position_start,
                     other.position_end,
-                    f"String repetition result ({new_length:,} chars) exceeds maximum allowed size ({Settings.MAX_STRING_SIZE:,} chars)",
+                    f"String repetition result ({int_to_grouped_str(new_length)} chars) exceeds maximum allowed size ({Settings.MAX_STRING_SIZE:,} chars)",
                     self.context,
                 )
 

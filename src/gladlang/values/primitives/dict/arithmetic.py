@@ -11,7 +11,10 @@ class DictArithmetic:
         from gladlang.values.primitives.dict import Dict
 
         if isinstance(other, Dict):
-            new_length = len(self.elements) + len(other.elements)
+            new_keys = set(self.elements)
+            new_keys.update(other.elements)
+
+            new_length = len(new_keys)
             if new_length > Settings.MAX_DICT_SIZE:
                 return None, RuntimeError(
                     other.position_start,

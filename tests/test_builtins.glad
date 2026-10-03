@@ -182,21 +182,11 @@ CATCH e
     PRINTLN "Caught expected error (delay cap): ", e
 ENDTRY
 
-# PRINTF with infinite number
-TRY
-    PRINTF("%d\n", 1e400)
-    PRINTLN "FAIL: should have caught overflow"
-CATCH e
-    PRINTLN "Caught expected error (PRINTF inf): ", e
-ENDTRY
-
-# RANDOM_RANGE with infinite
-TRY
-    RANDOM_RANGE(0, 1e400)
-    PRINTLN "FAIL: should have caught overflow"
-CATCH e
-    PRINTLN "Caught expected error (RANDOM_RANGE inf): ", e
-ENDTRY
+# Non-finite float literals (e.g. 1e400) are now rejected at lex time, so
+# they can never reach PRINTF/RANDOM_RANGE as a runtime value. That rejection
+# is covered separately in test_invalid_float_literal_positive.glad and
+# test_invalid_float_literal_negative.glad (both are expected-failure files,
+# since a syntax error aborts the whole program before any TRY/CATCH runs).
 
 # RANDOM_RANGE with huge range (exceeds MAX_INT_BITS)
 TRY
@@ -283,13 +273,9 @@ CATCH e
     PRINTLN "Caught expected error (trailing dot): ", e
 ENDTRY
 
-# Non-finite value with a precision must not crash — precision is a no-op on inf/nan
-TRY
-    PRINTF("%.2f\n", 1e400)
-    PRINTLN "inf with precision handled without crashing"
-CATCH e
-    PRINTLN "FAIL: should not have raised for inf with precision: ", e
-ENDTRY
+# Non-finite values can no longer be constructed at all (the 1e400 literal
+# itself is rejected at lex time), so the old "PRINTF handles inf gracefully"
+# case is unreachable and has been removed. See test_invalid_float_literal_*.glad.
 
 # Backward compatibility: plain %f (no precision) must still work exactly as before
 PRINTF("plain %%f still works: %f\n", 3.14159)

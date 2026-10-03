@@ -62,3 +62,36 @@ PRINTLN "\n-- Dict -> List --"
 LET values = [data[k] FOR k IN data]
 PRINTLN "Values: " + STR(values)
 # Expected: ['Glad', 1]
+PRINTLN "\n--- Duplicate Key Regression ---"
+
+LET duplicate_keys = {
+    "same": 1,
+    "same": 2
+}
+
+PRINTLN "Duplicate key final value: " + STR(duplicate_keys["same"])
+# Expected: 2
+
+
+PRINTLN "\n--- Dictionary Merge Regression ---"
+
+LET merge_left = {
+    "x": 1,
+    "a": 10
+}
+
+LET merge_right = {
+    "x": 2,
+    "b": 20
+}
+
+LET merged = merge_left + merge_right
+
+PRINTLN "Merged duplicate key: " + STR(merged["x"])
+# Expected: 2
+
+PRINTLN "Merged new key a: " + STR(merged["a"])
+# Expected: 10
+
+PRINTLN "Merged new key b: " + STR(merged["b"])
+# Expected: 20

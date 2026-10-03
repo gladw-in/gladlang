@@ -1,0 +1,172 @@
+PRINTLN "=== GladLang big integer full test ==="
+
+FUNC factorial(n)
+    IF n < 0 THEN
+        THROW "Factorial is undefined for negative numbers"
+    ENDIF
+
+    LET result = 1
+    LET i = 2
+
+    WHILE i <= n
+        result *= i
+        i++
+    ENDWHILE
+
+    RETURN result
+ENDFUNC
+
+LET passed = 0
+LET failed = 0
+
+FUNC check(name, ok)
+    IF ok THEN
+        passed++
+        PRINTLN `PASS  ${name}`
+    ELSE
+        failed++
+        PRINTLN `FAIL  ${name}`
+    ENDIF
+ENDFUNC
+
+LET big = factorial(5000)
+LET text = STR(big)
+LET huge = 1
+LET k = 0
+WHILE k < 20000
+    huge *= 7
+    k++
+ENDWHILE
+
+PRINTLN "--- numbers to text ---"
+check("5000! has 16326 digits", LEN(text) == 16326)
+check("5000! starts with 4228577926", text[0:10] == "4228577926")
+check("5000! ends with zeros", text[16316:16326] == "0000000000")
+check("20000-digit-ish power works", LEN(STR(huge)) > 16000)
+check("negative number keeps sign", STR(0 - big)[0:1] == "-")
+check("negative number length", LEN(STR(0 - big)) == 16327)
+check("small number unchanged", STR(factorial(20)) == "2432902008176640000")
+check("zero", STR(0) == "0")
+check("float unchanged", STR(1.5) == "1.5")
+
+PRINTLN "--- strings ---"
+check("interpolation", LEN(`${big}`) == 16326)
+check("string + number", LEN("x" + big) == 16327)
+check("number + string", LEN(big + "x") == 16327)
+check("string + number prefix", ("x" + big)[0:11] == "x4228577926")
+
+PRINTLN "--- text to number ---"
+check("INT(STR(n)) round trip", INT(text) == big)
+check("INT of 20000-digit string", LEN(STR(INT("1" + "0" * 20000))) == 20001)
+check("INT of small string", INT("12345") == 12345)
+check("INT of negative string", INT("-42") == -42)
+check("INT of float string", INT("3.9") == 3)
+
+PRINTLN "--- collections ---"
+LET numbers = [big, 1]
+LET table = {"k": big}
+LET keyed = {big: 1}
+LET nested = {"a": [big, {"b": big}]}
+check("big int in list", LEN(STR(numbers)) == 16326 + 5)
+check("big int as dict value", LEN(STR(table)) > 16326)
+check("big int as dict key", LEN(STR(keyed)) > 16326)
+check("big int nested", LEN(STR(nested)) > 2 * 16326)
+check("dict lookup with big key", keyed[big] == 1)
+check("list equality with big ints", [big] == [big])
+
+PRINTLN "--- arithmetic ---"
+check("big == big", big == big)
+check("big < big + 1", big < big + 1)
+check("big % 1000 is 0", big % 1000 == 0)
+check("big // big is 1", big // big == 1)
+
+PRINTLN "--- output ---"
+TRY
+    PRINTLN text[0:30]
+    PRINTLN big
+    PRINTLN "PASS  PRINTLN full number"
+    passed++
+CATCH err
+    PRINTLN `FAIL  PRINTLN full number: ${err}`
+    failed++
+ENDTRY
+
+TRY
+    PRINTF("%d\n", factorial(3000))
+    PRINTLN "PASS  PRINTF %d big number"
+    passed++
+CATCH err
+    PRINTLN `FAIL  PRINTF %d: ${err}`
+    failed++
+ENDTRY
+
+PRINTLN "--- errors must be catchable (never crash) ---"
+LET lst = [1, 2]
+LET dct = {"a": 1}
+LET word = "abc"
+
+TRY
+    LET r = lst[huge]
+    PRINTLN "FAIL  list index with huge number should error"
+    failed++
+CATCH err
+    PRINTLN "PASS  list index out of bounds is caught"
+    passed++
+ENDTRY
+
+TRY
+    LET r = word[huge]
+    PRINTLN "FAIL  string index with huge number should error"
+    failed++
+CATCH err
+    PRINTLN "PASS  string index out of bounds is caught"
+    passed++
+ENDTRY
+
+TRY
+    LET r = dct[huge]
+    PRINTLN "FAIL  dict missing huge key should error"
+    failed++
+CATCH err
+    PRINTLN "PASS  dict missing key is caught"
+    passed++
+ENDTRY
+
+TRY
+    LET r = FLOAT(huge)
+    PRINTLN "FAIL  FLOAT of huge number should error"
+    failed++
+CATCH err
+    PRINTLN "PASS  FLOAT overflow is caught"
+    passed++
+ENDTRY
+
+TRY
+    LET r = word * huge
+    PRINTLN "FAIL  string repeat by huge number should error"
+    failed++
+CATCH err
+    PRINTLN "PASS  string repeat too large is caught"
+    passed++
+ENDTRY
+
+TRY
+    LET r = lst * huge
+    PRINTLN "FAIL  list repeat by huge number should error"
+    failed++
+CATCH err
+    PRINTLN "PASS  list repeat too large is caught"
+    passed++
+ENDTRY
+
+TRY
+    factorial(0 - 1)
+    PRINTLN "FAIL  negative factorial should throw"
+    failed++
+CATCH err
+    PRINTLN `PASS  THROW still works: ${err}`
+    passed++
+ENDTRY
+
+PRINTLN "=== done ==="
+PRINTLN `passed: ${passed}   failed: ${failed}`

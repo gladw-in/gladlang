@@ -48,6 +48,14 @@ class NumberArithmeticPow:
                     self.context,
                 )
 
+            if isinstance(result, int) and result.bit_length() > Settings.MAX_INT_BITS:
+                return None, RuntimeError(
+                    other.position_start,
+                    other.position_end,
+                    "Arithmetic result too large (exceeds integer size limit)",
+                    self.context,
+                )
+
             if isinstance(result, complex):
                 return None, RuntimeError(
                     other.position_start,

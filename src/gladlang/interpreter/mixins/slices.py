@@ -1,6 +1,7 @@
 """Visitor for slicing operations on lists and strings."""
 
 from gladlang.core.errors import RuntimeError
+from gladlang.core.util.numbers import require_integer_number
 from gladlang.runtime.runtime_result import RuntimeResult
 from gladlang.values.primitives.number import Number
 from gladlang.values.primitives.string import String
@@ -33,7 +34,16 @@ class InterpreterSlices:
                     )
                 )
 
-            start_index = int(start_value.value)
+            start_index, error = require_integer_number(
+                start_value.value,
+                start_value.position_start,
+                start_value.position_end,
+                context,
+                "Slice start",
+            )
+
+            if error:
+                return result.failure(error)
 
         end_index = None
         if node.end_node:
@@ -53,7 +63,16 @@ class InterpreterSlices:
                     )
                 )
 
-            end_index = int(end_value.value)
+            end_index, error = require_integer_number(
+                end_value.value,
+                end_value.position_start,
+                end_value.position_end,
+                context,
+                "Slice end",
+            )
+
+            if error:
+                return result.failure(error)
 
         if isinstance(object_to_slice, List):
             new_elements = [

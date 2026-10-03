@@ -1,6 +1,7 @@
 """Core Number with slots, construction, and generic protocol methods."""
 
 from gladlang.core.errors import RuntimeError
+from gladlang.core.util.int_text import int_to_str
 from gladlang.values.value import Value
 
 
@@ -64,4 +65,4 @@ class NumberCore(Value):
         return self._illegal(other)
 
     def __repr__(self):
-        return str(self.value)
+        return int_to_str(self.value)

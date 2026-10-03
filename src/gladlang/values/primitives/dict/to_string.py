@@ -1,5 +1,6 @@
 """Recursive string representation for Dict with cycle detection."""
 
+from gladlang.core.util.int_text import int_to_str
 from gladlang.values.primitives.string import String
 
 
@@ -41,7 +42,7 @@ class DictToString:
             elif isinstance(key, str):
                 key_string = f'"{key}"'
             else:
-                key_string = repr(key)
+                key_string = int_to_str(key)
 
             key_value_pairs.append(f"{key_string}: {value_string}")
 

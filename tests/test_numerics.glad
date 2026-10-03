@@ -175,3 +175,15 @@ PRINTLN ""
 PRINTLN "============================================="
 PRINTLN "        ALL NUMERIC EDGE TESTS COMPLETE      "
 PRINTLN "============================================="
+PRINTLN "\n=== NUMERIC BOUNDARY REGRESSIONS ==="
+
+PRINTLN "Zero: " + STR(0.0)
+PRINTLN "Negative zero: " + STR(-0.0)
+PRINTLN "Small finite float: " + STR(1e-308)
+PRINTLN "Large finite float: " + STR(1e308)
+PRINTLN "Valid underscore float: " + STR(1_000.2_3)
+# NOTE: underscores are only supported within the integer/fractional
+# mantissa in this implementation, not within exponent digits
+# (e.g. `1e1_0` is rejected). The example below places the underscore
+# in the mantissa only, ahead of a plain exponent.
+PRINTLN "Valid mantissa-underscore float with exponent: " + STR(1.2_3e4)

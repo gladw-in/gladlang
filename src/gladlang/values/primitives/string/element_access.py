@@ -1,6 +1,8 @@
 """Read a character from a string by index."""
 
 from gladlang.core.errors import RuntimeError
+from gladlang.core.util.int_text import int_to_str
+from gladlang.core.util.numbers import require_integer_number
 from gladlang.values.primitives.number import Number
 
 
@@ -20,13 +22,24 @@ class StringElementAccess:
                 self.context,
             )
 
+        index_value, error = require_integer_number(
+            index.value,
+            index.position_start,
+            index.position_end,
+            self.context,
+            "String index",
+        )
+
+        if error:
+            return None, error
+
         try:
-            character = self.value[int(index.value)]
+            character = self.value[index_value]
             return String(character).set_context(self.context), None
         except IndexError:
             return None, RuntimeError(
                 self.position_start,
                 self.position_end,
-                f"String index {index.value} out of bounds",
+                f"String index {int_to_str(index.value)} out of bounds",
                 self.context,
             )

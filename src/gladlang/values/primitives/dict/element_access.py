@@ -1,6 +1,7 @@
 """Dict subscript access: d[key] get/set, with key-type and size-limit checks."""
 
 from gladlang.core.errors import RuntimeError
+from gladlang.core.util.int_text import int_to_str
 from gladlang.core.util.settings import Settings
 from gladlang.values.primitives.number import Number
 from gladlang.values.primitives.string import String
@@ -24,7 +25,7 @@ class DictElementAccess:
             return None, RuntimeError(
                 self.position_start,
                 self.position_end,
-                f"Key '{key.value}' not found",
+                f"Key '{int_to_str(key.value)}' not found",
                 self.context,
             )
 

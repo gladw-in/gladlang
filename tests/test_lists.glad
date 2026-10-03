@@ -33,3 +33,49 @@ PRINTLN "--- List Repetition ---"
 LET zeros = [0] * 5
 PRINTLN "Zeros: " + STR(zeros)
 # Expected: [0, 0, 0, 0, 0]
+PRINTLN "\n--- Fractional Index Regression ---"
+
+TRY
+    PRINTLN my_list[1.5]
+    PRINTLN "FAIL: Fractional list index was accepted"
+CATCH error
+    PRINTLN "PASS: Fractional list index rejected"
+ENDTRY
+
+
+PRINTLN "\n--- Fractional Slice Regression ---"
+
+TRY
+    PRINTLN STR(my_list[1.5:])
+    PRINTLN "FAIL: Fractional slice start was accepted"
+CATCH error
+    PRINTLN "PASS: Fractional slice start rejected"
+ENDTRY
+
+TRY
+    PRINTLN STR(my_list[:1.5])
+    PRINTLN "FAIL: Fractional slice end was accepted"
+CATCH error
+    PRINTLN "PASS: Fractional slice end rejected"
+ENDTRY
+
+TRY
+    PRINTLN STR(my_list[1.5:2])
+    PRINTLN "FAIL: Fractional slice boundary was accepted"
+CATCH error
+    PRINTLN "PASS: Fractional slice boundary rejected"
+ENDTRY
+
+
+PRINTLN "\n--- List Repetition Boundary ---"
+
+LET repeated = [1] * 5
+PRINTLN "Valid repetition: " + STR(repeated)
+# Expected: [1, 1, 1, 1, 1]
+
+TRY
+    LET invalid_repeat = [1] * 1.5
+    PRINTLN "FAIL: Fractional repetition count accepted"
+CATCH error
+    PRINTLN "PASS: Fractional repetition count rejected"
+ENDTRY

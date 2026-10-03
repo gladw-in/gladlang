@@ -60,3 +60,21 @@ chars = [c FOR c IN "abc " + tamil_str]
 PRINTLN "Comprehension chars: " + STR(chars)
 
 PRINTLN "All Unicode (Tamil/Kannada) tests passed."
+PRINTLN "\n-- Fractional String Index --"
+
+TRY
+    PRINTLN "hello"[1.5]
+    PRINTLN "FAIL: Fractional string index accepted"
+CATCH error
+    PRINTLN "PASS: Fractional string index rejected"
+ENDTRY
+
+
+PRINTLN "\n-- Fractional String Repetition --"
+
+TRY
+    LET invalid_repeated = "x" * 1.5
+    PRINTLN "FAIL: Fractional string repetition accepted"
+CATCH error
+    PRINTLN "PASS: Fractional string repetition rejected"
+ENDTRY
