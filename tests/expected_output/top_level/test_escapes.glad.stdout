@@ -1,0 +1,24 @@
+=== 1. Standard String Escapes (Double Quotes) ===
+Line 1
+Line 2
+Column 1	Column 2
+Quote: "Hello"
+Backslash: \
+
+=== 2. Template String Escapes (Backticks) ===
+Line A
+Line B
+Start	End
+This contains a backtick: ` inside the string
+The value is GladLang
+Use ${name} to interpolate
+
+Summary:
+	* Name: GladLang
+	* Code: ${name}
+	* File: "C:\Program Files\GladLang"
+
+
+--- Unicode Escape Regression ---
+Valid Unicode escape: A
+Valid Unicode escape: é

@@ -26,3 +26,7 @@ Summary:
 \t* Code: \${name}
 \t* File: "C:\\Program Files\\GladLang"
 `
+PRINTLN "\n--- Unicode Escape Regression ---"
+
+PRINTLN "Valid Unicode escape: " + "\u0041"
+PRINTLN "Valid Unicode escape: " + "\u00E9"

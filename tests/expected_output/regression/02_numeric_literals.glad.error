@@ -1,0 +1,2 @@
+Invalid Syntax: Invalid numeric literal: '_' must be between digits
+File $REPO/tests/regression/02_numeric_literals.glad, line 4

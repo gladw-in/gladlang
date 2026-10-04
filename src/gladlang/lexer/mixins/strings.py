@@ -45,16 +45,27 @@ class LexerStrings:
                                 "Unterminated \\u escape sequence",
                             )
 
+                        if self.current_character not in "0123456789abcdefABCDEF":
+                            return None, InvalidSyntaxError(
+                                position_start,
+                                self.position,
+                                "Invalid \\u escape: expected 4 hexadecimal digits, "
+                                f"got '{''.join(hex_characters)}{self.current_character}'",
+                            )
+
                         hex_characters.append(self.current_character)
 
-                    try:
-                        characters.append(chr(int("".join(hex_characters), 16)))
-                    except ValueError:
+                    code_point = int("".join(hex_characters), 16)
+
+                    if 0xD800 <= code_point <= 0xDFFF:
                         return None, InvalidSyntaxError(
                             position_start,
                             self.position,
-                            f"Invalid \\u escape: \\u{''.join(hex_characters)}",
+                            f"Invalid \\u escape: surrogate code point "
+                            f"\\u{''.join(hex_characters)}",
                         )
+
+                    characters.append(chr(code_point))
                 else:
                     characters.append(self.current_character)
 

@@ -1,0 +1,17 @@
+--- Size Limit Tester ---
+--- List repetition (limit 1,000,000) ---
+PASS: list of exactly 1,000,000 is allowed
+PASS: list repetition over limit rejected
+Caught: List repetition result (1000001) exceeds maximum allowed size (1000000)
+PASS: list repetition far over limit rejected
+--- List concatenation (limit 1,000,000) ---
+PASS: concatenation to exactly 1,000,000 is allowed
+PASS: list concatenation over limit rejected
+Caught: List concatenation result (1000001) exceeds maximum allowed size (1000000)
+--- String repetition (limit 10,000,000) ---
+PASS: string of exactly 10,000,000 chars is allowed
+PASS: string repetition over limit rejected
+Caught: String repetition result (10,000,001 chars) exceeds maximum allowed size (10,000,000 chars)
+--- String concatenation (limit 10,000,000) ---
+PASS: string concatenation over limit rejected
+Caught: String concatenation result (10,000,001 chars) exceeds maximum allowed size (10,000,000 chars)

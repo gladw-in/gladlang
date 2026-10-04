@@ -1,0 +1,2 @@
+Illegal Character: Invalid hex literal: '_' must be between digits
+File $REPO/tests/regression/17_radix_underscore_placement.glad, line 1

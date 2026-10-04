@@ -1,0 +1,7 @@
+PRINTLN("\u0041")
+PRINTLN("\u12G4")
+PRINTLN("\uD800")
+PRINTLN("\uDFFF")
+
+PRINT(`hello`)
+PRINT(`unterminated)

@@ -24,13 +24,34 @@ class LexerRadixLiteral:
         self.advance()
 
         digits = ""
+        previous_was_digit = False
         while self.current_character is not None:
             if self.current_character == "_":
+                if not previous_was_digit:
+                    return None, IllegalCharacterError(
+                        start_position,
+                        self.position,
+                        f"Invalid {label} literal: '_' must be between digits",
+                    )
+
                 self.advance()
+
+                if (
+                    self.current_character is None
+                    or self.current_character not in allowed_characters
+                ):
+                    return None, IllegalCharacterError(
+                        start_position,
+                        self.position,
+                        f"Invalid {label} literal: '_' must be between digits",
+                    )
+
+                previous_was_digit = False
                 continue
 
             if self.current_character in allowed_characters:
                 digits += self.current_character
+                previous_was_digit = True
                 self.advance()
             else:
                 break

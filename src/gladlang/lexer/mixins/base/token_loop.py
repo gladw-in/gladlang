@@ -18,19 +18,24 @@ class LexerTokenLoop:
             self.advance()
 
         tokens = []
+
         while self.current_character is not None:
-            if len(tokens) > Settings.MAX_TOKENS:
+            if self.current_character in " \t\r\n":
+                self.advance()
+                continue
+
+            if self.current_character == "#":
+                self.skip_comment()
+                continue
+
+            if len(tokens) >= Settings.MAX_TOKENS:
                 return [], IllegalCharacterError(
                     self.position,
                     self.position,
                     f"Source produces too many tokens (exceeds limit of {Settings.MAX_TOKENS:,})",
                 )
 
-            if self.current_character in " \t\r\n":
-                self.advance()
-            elif self.current_character == "#":
-                self.skip_comment()
-            elif self.current_character in DIGITS:
+            if self.current_character in DIGITS:
                 token, error = self.make_number()
                 if error:
                     return [], error
@@ -85,7 +90,14 @@ class LexerTokenLoop:
                 if isinstance(result, tuple):
                     return [], result[1]
 
-                tokens += result
+                if len(tokens) + len(result) > Settings.MAX_TOKENS:
+                    return [], IllegalCharacterError(
+                        self.position,
+                        self.position,
+                        f"Source produces too many tokens (exceeds limit of {Settings.MAX_TOKENS:,})",
+                    )
+
+                tokens.extend(result)
             else:
                 return [], self._lex_illegal_character()
 

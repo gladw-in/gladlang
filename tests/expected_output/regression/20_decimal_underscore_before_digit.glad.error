@@ -1,0 +1,2 @@
+Invalid Syntax: Invalid numeric literal: '_' must be between digits
+File $REPO/tests/regression/20_decimal_underscore_before_digit.glad, line 1

@@ -1,0 +1,31 @@
+--- COMPREHENSIVE NUMBER BASE TEST ---
+
+[1] Hexadecimal Tests
+0xff (Expected: 255)   -> 255
+0x1A (Expected: 26)    -> 26
+0X10 (Expected: 16)    -> 16
+0xDEADBEEF (Expected: 3735928559) -> 3735928559
+0x0 (Expected: 0)      -> 0
+
+[2] Octal Tests
+0o77 (Expected: 63)    -> 63
+0O10 (Expected: 8)     -> 8
+0o0 (Expected: 0)      -> 0
+0o1234567 (Expected: 342391) -> 342391
+
+[3] Binary Tests
+0b101 (Expected: 5)    -> 5
+0B1111 (Expected: 15)  -> 15
+0b0 (Expected: 0)      -> 0
+0b11111111 (Expected: 255) -> 255
+
+[4] Mixed Expressions
+0x10 + 0b10 - 0o10 (Expected: 10) -> 10
+0b1100 | 0b0011 (Expected: 15)    -> 15
+
+[5] Radix Underscore Regression Tests
+Valid radix underscore: 65535
+Valid binary underscore: 170
+Valid octal underscore: 4095
+
+--- ALL TESTS COMPLETE ---

@@ -83,4 +83,10 @@ LET bitwise = 0b1100 | 0b0011
 # 12 | 3 = 15
 PRINTLN "0b1100 | 0b0011 (Expected: 15)    -> " + bitwise
 
+PRINTLN "\n[5] Radix Underscore Regression Tests"
+
+PRINTLN "Valid radix underscore: " + STR(0xFF_FF)
+PRINTLN "Valid binary underscore: " + STR(0b1010_1010)
+PRINTLN "Valid octal underscore: " + STR(0o77_77)
+
 PRINTLN "\n--- ALL TESTS COMPLETE ---"

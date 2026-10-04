@@ -41,6 +41,14 @@ class LexerMakeTemplateString:
                 if error:
                     return [], error
 
+                if len(tokens) >= Settings.MAX_TOKENS:
+                    return [], InvalidSyntaxError(
+                        start_position,
+                        self.position.copy(),
+                        f"Source produces too many tokens "
+                        f"(exceeds limit of {Settings.MAX_TOKENS:,})",
+                    )
+
             elif escape_next:
                 if self.current_character == "n":
                     literal_buffer.append("\n")
@@ -73,6 +81,13 @@ class LexerMakeTemplateString:
                 self.advance()
 
         text_part = "".join(literal_buffer)
+
+        if self.current_character is None:
+            return [], InvalidSyntaxError(
+                start_position,
+                self.position.copy(),
+                "Unterminated template string",
+            )
 
         tokens.append(
             Token(

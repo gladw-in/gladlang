@@ -1,0 +1,3 @@
+# Same as test_invalid_float_literal_positive.glad but for the negative case.
+# Expected to fail with an InvalidSyntaxError.
+PRINTLN(-1e999)

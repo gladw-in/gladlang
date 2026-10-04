@@ -1,0 +1,4 @@
+# A float literal whose value overflows to +inf must be rejected at lex time,
+# not silently turned into a Python/GladLang `inf` value. This file is expected
+# to fail with an InvalidSyntaxError (see EXPECTED_FAILURES in run_tests.py).
+PRINTLN(1e999)

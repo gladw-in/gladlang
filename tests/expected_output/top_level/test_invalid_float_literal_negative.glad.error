@@ -1,0 +1,2 @@
+Invalid Syntax: Floating-point literal is not finite
+File $REPO/tests/test_invalid_float_literal_negative.glad, line 3

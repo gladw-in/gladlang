@@ -1,0 +1,2 @@
+Invalid Syntax: Invalid \u escape: expected 4 hexadecimal digits, got '12G'
+File $REPO/tests/regression/03_strings_templates.glad, line 2
