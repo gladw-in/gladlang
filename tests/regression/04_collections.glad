@@ -1,0 +1,15 @@
+LET a = [1, 2, 3]
+
+PRINTLN(a[0])
+PRINTLN(a[1.5])
+
+PRINTLN("abc"[1])
+PRINTLN("abc"[1.5])
+
+PRINTLN(a[0:2])
+PRINTLN(a[0.5:2])
+
+LET d1 = {"a": 1, "b": 2}
+LET d2 = {"b": 3, "c": 4}
+
+PRINTLN(d1 + d2)

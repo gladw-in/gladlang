@@ -1,0 +1,3 @@
+FUNC test(THIS)
+    RETURN THIS
+ENDFUNC

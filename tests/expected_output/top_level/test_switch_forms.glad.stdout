@@ -1,0 +1,7 @@
+--- SWITCH Forms Tester ---
+PASS: an empty switch does nothing
+PASS: default-only switch runs the default
+PASS: cases-only switch runs a matching case
+PASS: cases-only switch with no match does nothing
+PASS: string cases
+PASS: default after unmatched multi-value case

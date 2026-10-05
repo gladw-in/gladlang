@@ -10,9 +10,28 @@ class ParserFunctionArguments:
 
         if self.current_token.type != GL_RPAREN:
             if self.current_token.type == GL_IDENTIFIER:
+                if self.current_token.value in [
+                    token.value for token in argument_tokens
+                ]:
+                    result.failure(
+                        InvalidSyntaxError(
+                            self.current_token.position_start,
+                            self.current_token.position_end,
+                            f"Duplicate function argument '{self.current_token.value}'",
+                        )
+                    )
+                    return None
+
                 argument_tokens.append(self.current_token)
             elif self.current_token.matches(GL_KEYWORD, "THIS"):
-                argument_tokens.append(self.current_token)
+                result.failure(
+                    InvalidSyntaxError(
+                        self.current_token.position_start,
+                        self.current_token.position_end,
+                        "'THIS' is reserved and cannot be used as a parameter name",
+                    )
+                )
+                return None
             else:
                 result.failure(
                     InvalidSyntaxError(
@@ -31,9 +50,28 @@ class ParserFunctionArguments:
                 self.advance()
 
                 if self.current_token.type == GL_IDENTIFIER:
+                    if self.current_token.value in [
+                        token.value for token in argument_tokens
+                    ]:
+                        result.failure(
+                            InvalidSyntaxError(
+                                self.current_token.position_start,
+                                self.current_token.position_end,
+                                f"Duplicate function argument '{self.current_token.value}'",
+                            )
+                        )
+                        return None
+
                     argument_tokens.append(self.current_token)
                 elif self.current_token.matches(GL_KEYWORD, "THIS"):
-                    argument_tokens.append(self.current_token)
+                    result.failure(
+                        InvalidSyntaxError(
+                            self.current_token.position_start,
+                            self.current_token.position_end,
+                            "'THIS' is reserved and cannot be used as a parameter name",
+                        )
+                    )
+                    return None
                 else:
                     result.failure(
                         InvalidSyntaxError(

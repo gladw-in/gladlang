@@ -1,0 +1,57 @@
+PRINTLN "--- SWITCH Forms Tester ---"
+
+FUNC check(label, ok)
+    IF ok THEN
+        PRINTLN "PASS: " + label
+    ELSE
+        PRINTLN "FAIL: " + label
+    ENDIF
+ENDFUNC
+
+LET log = []
+
+SWITCH 1
+ENDSWITCH
+check("an empty switch does nothing", LEN(log) == 0)
+
+SWITCH 1
+    DEFAULT
+        log = log + ["default only"]
+ENDSWITCH
+check("default-only switch runs the default", STR(log) == "[\"default only\"]")
+
+log = []
+SWITCH 1
+    CASE 1
+        log = log + ["matched"]
+ENDSWITCH
+check("cases-only switch runs a matching case", STR(log) == "[\"matched\"]")
+
+log = []
+SWITCH 3
+    CASE 1
+        log = log + ["one"]
+    CASE 2
+        log = log + ["two"]
+ENDSWITCH
+check("cases-only switch with no match does nothing", LEN(log) == 0)
+
+log = []
+SWITCH "b"
+    CASE "a"
+        log = log + ["a"]
+    CASE "b"
+        log = log + ["b"]
+    DEFAULT
+        log = log + ["other"]
+ENDSWITCH
+check("string cases", STR(log) == "[\"b\"]")
+
+log = []
+SWITCH 9
+    CASE 1, 2, 3
+        log = log + ["small"]
+    DEFAULT
+        log = log + ["large"]
+ENDSWITCH
+check("default after unmatched multi-value case", STR(log) == "[\"large\"]")

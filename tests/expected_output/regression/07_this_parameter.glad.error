@@ -1,0 +1,2 @@
+Invalid Syntax: 'THIS' is reserved and cannot be used as a parameter name
+File $REPO/tests/regression/07_this_parameter.glad, line 1

@@ -1,0 +1,7 @@
+FUNC hello(a)
+    RETURN a
+ENDFUNC
+
+FUNC hello(a)
+    RETURN a + 1
+ENDFUNC

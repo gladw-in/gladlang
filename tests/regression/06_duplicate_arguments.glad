@@ -1,0 +1,3 @@
+FUNC test(a, b, a)
+    RETURN a
+ENDFUNC

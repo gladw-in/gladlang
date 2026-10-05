@@ -1,0 +1,15 @@
+PRINTLN "--- PRINT and PRINTLN Forms ---"
+PRINT "no newline,"
+PRINT " continued"
+PRINTLN ""
+PRINTLN()
+PRINTLN("parenthesised")
+PRINTLN(1, 2)
+PRINT(1, "a", 3)
+PRINTLN ""
+PRINTLN 1, 2
+PRINTLN (1), 2
+PRINTLN (1 + 2) * 3
+PRINTLN "list:", [1, 2], "dict:", {"k": 1}
+PRINTLN "bare PRINTLN as the last statement prints a blank line:"
+PRINTLN
