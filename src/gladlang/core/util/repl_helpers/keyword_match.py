@@ -1,9 +1,9 @@
 """Block keyword sets and matcher for balance scanning."""
 
-START_KEYS = {"DEF", "CLASS", "ENUM", "IF", "WHILE", "FOR", "TRY", "SWITCH"}
+START_KEYS = {"FUNC", "CLASS", "ENUM", "IF", "WHILE", "FOR", "TRY", "SWITCH"}
 
 END_KEYS = {
-    "ENDDEF",
+    "ENDFUNC",
     "ENDCLASS",
     "ENDENUM",
     "ENDIF",

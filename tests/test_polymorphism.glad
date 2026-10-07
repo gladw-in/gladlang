@@ -1,35 +1,35 @@
 PRINTLN "--- Polymorphism Tester ---"
 
 CLASS Pet
-  DEF Pet(name)
+  FUNC Pet(name)
     THIS.name = name
-  ENDDEF
+  ENDFUNC
   
   # This method is NOT overridden by Dog or Cat
-  DEF introduce()
+  FUNC introduce()
     PRINTLN "My name is " + THIS.name + ". I am a pet and I say:"
     # This call to THIS.speak() should use the
     # child's version if it exists.
     THIS.speak()
-  ENDDEF
+  ENDFUNC
   
-  DEF speak()
+  FUNC speak()
     PRINTLN "(Generic pet sound)"
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
 CLASS Dog INHERITS Pet
   # Override speak
-  DEF speak()
+  FUNC speak()
     PRINTLN "Woof!"
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
 CLASS Cat INHERITS Pet
   # Override speak
-  DEF speak()
+  FUNC speak()
     PRINTLN "Meow!"
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
 PRINTLN "--- Creating Dog ---"

@@ -6,15 +6,15 @@ PRINTLN ""
 LET pass_count = 0
 LET fail_count = 0
 
-DEF pass(name)
+FUNC pass(name)
   PRINTLN "[PASS] " + name
   pass_count = pass_count + 1
-ENDDEF
+ENDFUNC
 
-DEF fail(name, reason)
+FUNC fail(name, reason)
   PRINTLN "[FAIL] " + name + " -> " + reason
   fail_count = fail_count + 1
-ENDDEF
+ENDFUNC
 
 PRINTLN "--- Test 1: THROW position ---"
 
@@ -29,10 +29,10 @@ CATCH e
   ENDIF
 ENDTRY
 
-DEF bug1_thrower()
+FUNC bug1_thrower()
   THROW "thrown inside function"
   PRINTLN "UNREACHABLE"
-ENDDEF
+ENDFUNC
 
 TRY
   bug1_thrower()
@@ -67,12 +67,12 @@ PRINTLN ""
 PRINTLN "--- Test 3a: BoundMethod call-site position ---"
 
 CLASS _B3
-  DEF _B3()
+  FUNC _B3()
     THIS.v = 0
-  ENDDEF
-  DEF crash_me()
+  ENDFUNC
+  FUNC crash_me()
     LET _z = 1 / 0
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
 TRY
@@ -91,13 +91,13 @@ PRINTLN ""
 PRINTLN "--- Test 3b: BoundMethod recursion limit context ---"
 
 CLASS _B3b
-  DEF _B3b()
+  FUNC _B3b()
     THIS.n = 0
-  ENDDEF
-  DEF loop()
+  ENDFUNC
+  FUNC loop()
     THIS.n = THIS.n + 1
     RETURN THIS.loop()
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
 TRY
@@ -116,12 +116,12 @@ PRINTLN ""
 PRINTLN "--- Test 3c: Overloaded method wrong-arity error ---"
 
 CLASS _B3c
-  DEF do_work(x)
+  FUNC do_work(x)
     RETURN x * 2
-  ENDDEF
-  DEF do_work(x, y)
+  ENDFUNC
+  FUNC do_work(x, y)
     RETURN x + y
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
 TRY
@@ -159,9 +159,9 @@ CATCH e
   ENDIF
 ENDTRY
 
-DEF _b4_caller(val)
+FUNC _b4_caller(val)
   RETURN INT(val)
-ENDDEF
+ENDFUNC
 
 LET _b4c_caught = FALSE
 TRY
@@ -183,14 +183,14 @@ PRINTLN ""
 
 PRINTLN "--- Test 5: FunctionGroup call-site position ---"
 
-DEF _b5_add(a, b)
+FUNC _b5_add(a, b)
   LET _r = a / b
   RETURN _r
-ENDDEF
+ENDFUNC
 
-DEF _b5_add(a, b, c)
+FUNC _b5_add(a, b, c)
   RETURN a + b + c
-ENDDEF
+ENDFUNC
 
 TRY
   _b5_add(10, 0)
@@ -217,9 +217,9 @@ PRINTLN ""
 PRINTLN "--- Test 6a: NEW constructor call-site position ---"
 
 CLASS _B6
-  DEF _B6()
+  FUNC _B6()
     LET _x = 1 / 0
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
 TRY
@@ -254,15 +254,15 @@ PRINTLN ""
 PRINTLN "--- Test 7: SUPER() call-site position ---"
 
 CLASS _B7Animal
-  DEF _B7Animal()
+  FUNC _B7Animal()
     LET _x = 1 / 0
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
 CLASS _B7Dog INHERITS _B7Animal
-  DEF _B7Dog()
+  FUNC _B7Dog()
     SUPER()
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
 TRY
@@ -279,13 +279,13 @@ PRINTLN ""
 
 PRINTLN "--- Test 8: Wrong-arity error shows intermediate call frames ---"
 
-DEF _b8_inner(a, b)
+FUNC _b8_inner(a, b)
   RETURN a + b
-ENDDEF
+ENDFUNC
 
-DEF _b8_outer()
+FUNC _b8_outer()
   _b8_inner(1)
-ENDDEF
+ENDFUNC
 
 TRY
   _b8_outer()
@@ -301,10 +301,10 @@ PRINTLN ""
 
 PRINTLN "--- Test 9: Recursion limit context (function) ---"
 
-DEF _b9_inf(n)
+FUNC _b9_inf(n)
   LET _tmp = _b9_inf(n + 1)
   RETURN _tmp
-ENDDEF
+ENDFUNC
 
 TRY
   _b9_inf(0)
@@ -321,15 +321,15 @@ PRINTLN ""
 PRINTLN "--- Test 10: No-member error uses calling context ---"
 
 CLASS _B10
-  DEF _B10()
+  FUNC _B10()
     THIS.x = 0
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
-DEF _b10_accessor()
+FUNC _b10_accessor()
   LET _o = NEW _B10()
   LET _v = _o.nonexistent_member
-ENDDEF
+ENDFUNC
 
 TRY
   _b10_accessor()
@@ -346,14 +346,14 @@ PRINTLN ""
 PRINTLN "--- Test 11: Class called without NEW uses calling context ---"
 
 CLASS _B11
-  DEF _B11()
+  FUNC _B11()
     THIS.id = 1
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
-DEF _b11_caller()
+FUNC _b11_caller()
   LET _w = _B11()
-ENDDEF
+ENDFUNC
 
 TRY
   _b11_caller()
@@ -370,9 +370,9 @@ PRINTLN ""
 PRINTLN "--- Test 12: Instance illegal operation has traceback ---"
 
 CLASS _B12
-  DEF _B12(v)
+  FUNC _B12(v)
     THIS.v = v
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
 TRY
@@ -387,12 +387,12 @@ CATCH e
 ENDTRY
 
 CLASS _B12b
-  DEF _B12b(v)
+  FUNC _B12b(v)
     THIS.v = v
-  ENDDEF
-  DEF clone()
+  ENDFUNC
+  FUNC clone()
     RETURN NEW _B12b(THIS.v)
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
 TRY

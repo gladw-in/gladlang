@@ -49,7 +49,7 @@ class StatementsDispatch:
         if self.current_token.matches(GL_KEYWORD, "RETURN"):
             return self._parse_return_statement()
 
-        if self.current_token.matches(GL_KEYWORD, "DEF"):
+        if self.current_token.matches(GL_KEYWORD, "FUNC"):
             return self.function_definition()
 
         if self.current_token.matches(GL_KEYWORD, "CLASS"):

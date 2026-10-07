@@ -1,24 +1,24 @@
 PRINTLN "--- Chained Call Tester ---"
 
 CLASS Engine
-  DEF start()
+  FUNC start()
     PRINTLN "Engine starts. Vroom!"
     RETURN "Engine-OK"
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
 CLASS Car
-  DEF Car()
+  FUNC Car()
     # A car "has a" engine
     THIS.engine = NEW Engine()
-  ENDDEF
+  ENDFUNC
   
-  DEF start_car()
+  FUNC start_car()
     PRINTLN "Turning key..."
     # This is a chained call: THIS.engine.start()
     LET status = THIS.engine.start()
     PRINTLN "Car start status: " + status
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
 PRINTLN "Creating car..."

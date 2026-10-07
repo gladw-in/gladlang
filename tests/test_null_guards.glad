@@ -6,17 +6,17 @@ PRINTLN ""
 LET pass_count = 0
 LET fail_count = 0
 
-DEF pass(name)
+FUNC pass(name)
     PRINTLN "[PASS] " + name
     pass_count = pass_count + 1
-ENDDEF
+ENDFUNC
 
-DEF fail(name, reason)
+FUNC fail(name, reason)
     PRINTLN "[FAIL] " + name + " -> " + reason
     fail_count = fail_count + 1
-ENDDEF
+ENDFUNC
 
-DEF expect_illegal(name, thunk)
+FUNC expect_illegal(name, thunk)
     TRY
         thunk()
         fail(name, "expected 'Illegal operation' but no error was raised")
@@ -27,9 +27,9 @@ DEF expect_illegal(name, thunk)
             fail(name, "expected 'Illegal operation' but got: " + e)
         ENDIF
     ENDTRY
-ENDDEF
+ENDFUNC
 
-DEF expect_error(name, thunk, expected_message)
+FUNC expect_error(name, thunk, expected_message)
     TRY
         thunk()
         fail(name, "expected an error but none was raised")
@@ -40,38 +40,38 @@ DEF expect_error(name, thunk, expected_message)
             fail(name, "expected '" + expected_message + "' but got: " + e)
         ENDIF
     ENDTRY
-ENDDEF
+ENDFUNC
 
-DEF expect_value(name, actual, expected)
+FUNC expect_value(name, actual, expected)
     IF actual == expected THEN
         pass(name)
     ELSE
         fail(name, "expected " + expected + " but got " + actual)
     ENDIF
-ENDDEF
+ENDFUNC
 
 PRINTLN "--- Section 1: Number arithmetic with NULL (must all be Illegal Operation) ---"
 
-expect_illegal("1a: 5 + NULL",  DEF() RETURN 5 + NULL ENDDEF)
-expect_illegal("1b: 5 - NULL",  DEF() RETURN 5 - NULL ENDDEF)
-expect_illegal("1c: 5 * NULL",  DEF() RETURN 5 * NULL ENDDEF)
-expect_illegal("1d: 5 / NULL",  DEF() RETURN 5 / NULL ENDDEF)
-expect_illegal("1e: 5 % NULL",  DEF() RETURN 5 % NULL ENDDEF)
-expect_illegal("1f: 5 // NULL", DEF() RETURN 5 // NULL ENDDEF)
-expect_illegal("1g: 5 ** NULL", DEF() RETURN 5 ** NULL ENDDEF)
-expect_illegal("1h: 5 & NULL",  DEF() RETURN 5 & NULL ENDDEF)
-expect_illegal("1i: 5 | NULL",  DEF() RETURN 5 | NULL ENDDEF)
-expect_illegal("1j: 5 ^ NULL",  DEF() RETURN 5 ^ NULL ENDDEF)
-expect_illegal("1k: 5 << NULL", DEF() RETURN 5 << NULL ENDDEF)
-expect_illegal("1l: 5 >> NULL", DEF() RETURN 5 >> NULL ENDDEF)
+expect_illegal("1a: 5 + NULL",  FUNC() RETURN 5 + NULL ENDFUNC)
+expect_illegal("1b: 5 - NULL",  FUNC() RETURN 5 - NULL ENDFUNC)
+expect_illegal("1c: 5 * NULL",  FUNC() RETURN 5 * NULL ENDFUNC)
+expect_illegal("1d: 5 / NULL",  FUNC() RETURN 5 / NULL ENDFUNC)
+expect_illegal("1e: 5 % NULL",  FUNC() RETURN 5 % NULL ENDFUNC)
+expect_illegal("1f: 5 // NULL", FUNC() RETURN 5 // NULL ENDFUNC)
+expect_illegal("1g: 5 ** NULL", FUNC() RETURN 5 ** NULL ENDFUNC)
+expect_illegal("1h: 5 & NULL",  FUNC() RETURN 5 & NULL ENDFUNC)
+expect_illegal("1i: 5 | NULL",  FUNC() RETURN 5 | NULL ENDFUNC)
+expect_illegal("1j: 5 ^ NULL",  FUNC() RETURN 5 ^ NULL ENDFUNC)
+expect_illegal("1k: 5 << NULL", FUNC() RETURN 5 << NULL ENDFUNC)
+expect_illegal("1l: 5 >> NULL", FUNC() RETURN 5 >> NULL ENDFUNC)
 
 PRINTLN ""
 PRINTLN "--- Section 2: List/string indexing and slicing with NULL ---"
 
-expect_error("2a: list[NULL] get",       DEF() RETURN [1,2,3][NULL] ENDDEF, "List index must be a Number")
-expect_error("2b: string[NULL] get",     DEF() RETURN "hello"[NULL] ENDDEF, "String index must be a Number")
-expect_error("2c: list[NULL:] slice",    DEF() RETURN [1,2,3,4,5][NULL:] ENDDEF, "Start index must be a number")
-expect_error("2d: list[:NULL] slice",    DEF() RETURN [1,2,3,4,5][:NULL] ENDDEF, "End index must be a number")
+expect_error("2a: list[NULL] get",       FUNC() RETURN [1,2,3][NULL] ENDFUNC, "List index must be a Number")
+expect_error("2b: string[NULL] get",     FUNC() RETURN "hello"[NULL] ENDFUNC, "String index must be a Number")
+expect_error("2c: list[NULL:] slice",    FUNC() RETURN [1,2,3,4,5][NULL:] ENDFUNC, "Start index must be a number")
+expect_error("2d: list[:NULL] slice",    FUNC() RETURN [1,2,3,4,5][:NULL] ENDFUNC, "End index must be a number")
 
 TRY
     LET l2e = [1, 2, 3]
@@ -84,7 +84,7 @@ ENDTRY
 PRINTLN ""
 PRINTLN "--- Section 3: List repetition with NULL ---"
 
-expect_illegal("3a: list * NULL", DEF() RETURN [1,2,3] * NULL ENDDEF)
+expect_illegal("3a: list * NULL", FUNC() RETURN [1,2,3] * NULL ENDFUNC)
 
 PRINTLN ""
 PRINTLN "--- Section 4: TRUE/FALSE must still behave exactly as before (not blocked) ---"

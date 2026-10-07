@@ -1,16 +1,16 @@
 PRINTLN "--- Function Tester ---"
 
 # Define a function that adds two numbers and returns the result
-DEF add(a, b)
+FUNC add(a, b)
   PRINTLN "Running function 'add'..."
   LET result = a + b
   RETURN result
-ENDDEF
+ENDFUNC
 
 # Define a function with no return (it will return NULL)
-DEF say_hello(name)
+FUNC say_hello(name)
   PRINTLN "Hello, " + name
-ENDDEF
+ENDFUNC
 
 # --- Test Function 1 (with RETURN) ---
 PRINTLN "Calling add(10, 5)..."

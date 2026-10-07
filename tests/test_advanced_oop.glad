@@ -1,12 +1,12 @@
 PRINTLN "--- Advanced OOP & Closure Test ---"
 
 # This function creates a 'greeter' function
-DEF create_greeter(greeting)
-  DEF greeter_func(name)
+FUNC create_greeter(greeting)
+  FUNC greeter_func(name)
     RETURN greeting + ", " + name + "!"
-  ENDDEF
+  ENDFUNC
   RETURN greeter_func
-ENDDEF
+ENDFUNC
 
 PRINTLN "Creating greeter functions..."
 LET say_hello = create_greeter("Hello")
@@ -14,16 +14,16 @@ LET say_hi = create_greeter("Hi")
 
 # Create a class that holds a function
 CLASS Person
-  DEF Person(name, greeter_func)
+  FUNC Person(name, greeter_func)
     THIS.name = name
     THIS.greeter = greeter_func # Store the function as an attribute
-  ENDDEF
+  ENDFUNC
   
-  DEF greet()
+  FUNC greet()
     # Call the stored function, passing in our name
     LET message = THIS.greeter(THIS.name)
     PRINTLN message
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
 PRINTLN "--- Creating people ---"

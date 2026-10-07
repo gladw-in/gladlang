@@ -6,14 +6,14 @@
 
 EXPORT LET internal_pi = 3.14159 AS PI
 
-EXPORT DEF internal_add(a, b)
+EXPORT FUNC internal_add(a, b)
     RETURN a + b
-ENDDEF AS add
+ENDFUNC AS add
 
 EXPORT CLASS InternalCalculator
-    DEF add(a, b)
+    FUNC add(a, b)
         RETURN a + b
-    ENDDEF
+    ENDFUNC
 ENDCLASS AS Calculator
 
 EXPORT LET plain = "no alias"

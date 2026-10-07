@@ -13,18 +13,18 @@ CLASS Config
     STATIC PRIVATE LET secret_key = 12345
 
     # Static Method to reveal secret (tests internal access)
-    STATIC PUBLIC DEF get_secret()
+    STATIC PUBLIC FUNC get_secret()
         RETURN Config.secret_key
-    ENDDEF
+    ENDFUNC
 ENDCLASS
 
 CLASS BaseService
     # Protected Static: Visible to Subclasses
     STATIC PROTECTED LET service_name = "Base"
     
-    STATIC PUBLIC DEF get_base_name()
+    STATIC PUBLIC FUNC get_base_name()
         RETURN BaseService.service_name
-    ENDDEF
+    ENDFUNC
 ENDCLASS
 
 CLASS UserService INHERITS BaseService
@@ -32,26 +32,26 @@ CLASS UserService INHERITS BaseService
     STATIC PUBLIC LET user_count = 0
 
     # Static Constructor Logic (Manual)
-    STATIC PUBLIC DEF init_static()
+    STATIC PUBLIC FUNC init_static()
         UserService.user_count = 10
-    ENDDEF
+    ENDFUNC
 
     # Static Method modifying Static Field
-    STATIC PUBLIC DEF add_user()
+    STATIC PUBLIC FUNC add_user()
         UserService.user_count = UserService.user_count + 1
         RETURN UserService.user_count
-    ENDDEF
+    ENDFUNC
 
     # Test Accessing Parent Static (Protected)
-    STATIC PUBLIC DEF get_parent_name()
+    STATIC PUBLIC FUNC get_parent_name()
         # Should be able to access 'service_name' from BaseService
         RETURN BaseService.service_name
-    ENDDEF
+    ENDFUNC
     
     # Instance method accessing Static
-    PUBLIC DEF instance_info()
+    PUBLIC FUNC instance_info()
         RETURN "Instance seeing static: " + UserService.user_count
-    ENDDEF
+    ENDFUNC
 ENDCLASS
 
 # ---------------------------------------------------------
@@ -159,9 +159,9 @@ ENDTRY
 
 PRINTLN "-> Attempting to use THIS inside a STATIC method..."
 CLASS StaticThisTester
-    STATIC PUBLIC DEF bad_method()
+    STATIC PUBLIC FUNC bad_method()
         RETURN THIS.some_field
-    ENDDEF
+    ENDFUNC
 ENDCLASS
 TRY
     StaticThisTester.bad_method()
@@ -172,20 +172,56 @@ ENDTRY
 
 PRINTLN "-> Attempting to use SUPER inside a STATIC method..."
 CLASS SuperStaticParent
-    STATIC DEF parent_method()
+    STATIC FUNC parent_method()
         RETURN "parent"
-    ENDDEF
+    ENDFUNC
 ENDCLASS
 CLASS SuperStaticChild INHERITS SuperStaticParent
-    STATIC PUBLIC DEF child_method()
+    STATIC PUBLIC FUNC child_method()
         RETURN SUPER.parent_method()
-    ENDDEF
+    ENDFUNC
 ENDCLASS
 TRY
     SuperStaticChild.child_method()
     PRINTLN "FAIL: Should have rejected SUPER in static method"
 CATCH e
     PRINTLN "SUCCESS: Caught expected error -> " + e
+ENDTRY
+
+PRINTLN "\n=== INHERITED STATIC CACHE REGRESSION ==="
+
+CLASS StaticCacheBase
+    STATIC PUBLIC LET value = 1
+ENDCLASS
+
+CLASS StaticCacheChild INHERITS StaticCacheBase
+ENDCLASS
+
+PRINTLN "Initial inherited static value: " + StaticCacheChild.value
+# Expected: 1
+
+StaticCacheBase.value = 2
+
+PRINTLN "Updated inherited static value: " + StaticCacheChild.value
+# Expected: 2
+
+
+PRINTLN "\n=== INHERITED STATIC MEMBER COLLISION ==="
+
+TRY
+    CLASS StaticFieldParent
+        STATIC PUBLIC LET collision = 10
+    ENDCLASS
+
+    CLASS StaticMethodChild INHERITS StaticFieldParent
+        STATIC PUBLIC FUNC collision()
+            RETURN 20
+        ENDFUNC
+    ENDCLASS
+
+    PRINTLN "FAIL: Static field/method collision was accepted"
+CATCH e
+    PRINTLN "SUCCESS: Static field/method collision rejected: " + e
 ENDTRY
 
 PRINTLN "\n=== ALL TESTS COMPLETED ==="

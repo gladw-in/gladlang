@@ -1,12 +1,12 @@
 PRINTLN "=== 1. Testing Global Function Overloading ==="
 
-DEF add(a, b)
+FUNC add(a, b)
   RETURN a + b
-ENDDEF
+ENDFUNC
 
-DEF add(a, b, c)
+FUNC add(a, b, c)
   RETURN a + b + c
-ENDDEF
+ENDFUNC
 
 # Test 2 args
 LET sum1 = add(10, 20)
@@ -23,19 +23,19 @@ PRINTLN "\n=== 2. Testing Class Method Overloading ==="
 
 CLASS Calculator
   # Single argument variant
-  DEF calc(x)
+  FUNC calc(x)
     RETURN x * 2
-  ENDDEF
+  ENDFUNC
 
   # Two argument variant
-  DEF calc(x, y)
+  FUNC calc(x, y)
     RETURN x * y
-  ENDDEF
+  ENDFUNC
   
   # Three argument variant
-  DEF calc(x, y, z)
+  FUNC calc(x, y, z)
     RETURN x + y + z
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
 LET c = NEW Calculator()
@@ -54,20 +54,20 @@ PRINTLN "\n=== 3. Testing Constructor Overloading ==="
 
 CLASS Vector
   # Default constructor
-  DEF Vector()
+  FUNC Vector()
     THIS.x = 0
     THIS.y = 0
-  ENDDEF
+  ENDFUNC
 
   # Constructor with values
-  DEF Vector(x, y)
+  FUNC Vector(x, y)
     THIS.x = x
     THIS.y = y
-  ENDDEF
+  ENDFUNC
 
-  DEF str()
+  FUNC str()
     RETURN "[" + THIS.x + ", " + THIS.y + "]"
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
 LET v1 = NEW Vector()
@@ -93,21 +93,21 @@ PRINTLN "\n=== 5. Testing Copy Constructor ==="
 
 CLASS Point
   # Standard Constructor (2 Arguments)
-  DEF Point(x, y)
+  FUNC Point(x, y)
     THIS.x = x
     THIS.y = y
-  ENDDEF
+  ENDFUNC
 
   # Copy Constructor (1 Argument)
   # This works because overloading is based on argument count (arity)
-  DEF Point(other)
+  FUNC Point(other)
     THIS.x = other.x
     THIS.y = other.y
-  ENDDEF
+  ENDFUNC
 
-  DEF str()
+  FUNC str()
     RETURN "(" + THIS.x + ", " + THIS.y + ")"
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
 # Create an original point
@@ -128,3 +128,66 @@ PRINTLN "Original p1: " + p1.str()
 PRINTLN "Modified p2: " + p2.str()
 # Expected p1: (10, 20)
 # Expected p2: (999, 20)
+
+PRINTLN "\n=== 8. Same-Arity Override with Different Visibility ==="
+
+CLASS PrivateOverrideBase
+    PRIVATE FUNC value(a)
+        RETURN 500
+    ENDFUNC
+ENDCLASS
+
+CLASS PublicOverrideChild INHERITS PrivateOverrideBase
+    PUBLIC FUNC value(a)
+        RETURN 600
+    ENDFUNC
+ENDCLASS
+
+LET override_child = NEW PublicOverrideChild()
+
+PRINTLN "Same-arity override result: " + override_child.value(1)
+# Expected: 600
+
+
+PRINTLN "\n=== 9. Inherited Static/Instance Overload Mismatch ==="
+
+TRY
+    CLASS StaticBase
+        STATIC PUBLIC FUNC calculate(a)
+            RETURN 700
+        ENDFUNC
+    ENDCLASS
+
+    CLASS InstanceChild INHERITS StaticBase
+        PUBLIC FUNC calculate(a, b)
+            RETURN 800
+        ENDFUNC
+    ENDCLASS
+
+    PRINTLN "FAIL: static/instance overload mismatch was accepted"
+CATCH error
+    PRINTLN "PASS: static/instance overload mismatch rejected"
+ENDTRY
+
+
+PRINTLN "\n=== 10. Valid Inherited Overloads ==="
+
+CLASS ValidOverloadBase
+    PUBLIC FUNC calculate(a)
+        RETURN 10
+    ENDFUNC
+ENDCLASS
+
+CLASS ValidOverloadChild INHERITS ValidOverloadBase
+    PUBLIC FUNC calculate(a, b)
+        RETURN 20
+    ENDFUNC
+ENDCLASS
+
+LET valid_child = NEW ValidOverloadChild()
+
+PRINTLN "Inherited overload: " + valid_child.calculate(1)
+PRINTLN "Child overload: " + valid_child.calculate(1, 2)
+# Expected:
+# Inherited overload: 10
+# Child overload: 20

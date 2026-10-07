@@ -1,16 +1,16 @@
 PRINTLN "--- Closure Tester ---"
 
 # This function creates and returns *another* function
-DEF make_adder(a)
+FUNC make_adder(a)
   # 'adder_func' is defined *inside* make_adder
-  DEF adder_func(b)
+  FUNC adder_func(b)
     # This function "closes over" or "captures" the variable 'a'
     # from its parent's scope (the 'make_adder' function).
     RETURN a + b
-  ENDDEF
+  ENDFUNC
   
   RETURN adder_func
-ENDDEF
+ENDFUNC
 
 PRINTLN "Creating add_five..."
 # 'add_five' is now a function that holds 'a = 5' in its memory
@@ -28,18 +28,18 @@ PRINTLN "add_five(10) = " + add_five(10) # Should be 15
 
 PRINTLN "--- Deeply Nested Closures (4 levels) ---"
 
-DEF level1(x)
-    DEF level2(y)
-        DEF level3(z)
-            DEF level4(w)
+FUNC level1(x)
+    FUNC level2(y)
+        FUNC level3(z)
+            FUNC level4(w)
                 RETURN x + y + z + w
-            ENDDEF
+            ENDFUNC
             RETURN level4
-        ENDDEF
+        ENDFUNC
         RETURN level3
-    ENDDEF
+    ENDFUNC
     RETURN level2
-ENDDEF
+ENDFUNC
 
 LET l2 = level1(10)
 LET l3 = l2(20)
@@ -47,17 +47,17 @@ LET l4 = l3(30)
 LET result = l4(40)
 PRINTLN "10 + 20 + 30 + 40 = " + STR(result) + " (expected: 100)"
 
-DEF outer(a)
+FUNC outer(a)
     LET b = 5
-    DEF middle(c)
+    FUNC middle(c)
         LET d = 10
-        DEF inner(e)
+        FUNC inner(e)
             RETURN a + b + c + d + e
-        ENDDEF
+        ENDFUNC
         RETURN inner
-    ENDDEF
+    ENDFUNC
     RETURN middle
-ENDDEF
+ENDFUNC
 
 LET mid = outer(1)
 LET inn = mid(2)

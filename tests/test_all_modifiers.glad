@@ -18,7 +18,7 @@ CLASS BaseEntity
     PUBLIC STATIC LET pub_static_val = "I am a Public Static String"
     PRIVATE STATIC LET priv_static_val = "I am a Private Static String"
 
-    DEF BaseEntity()
+    FUNC BaseEntity()
         # --- 3. INSTANCE ATTRIBUTES (ALL DATA TYPES) ---
         # Instance attributes are correctly defined inside the constructor
         
@@ -34,53 +34,53 @@ CLASS BaseEntity
         # PROTECTED attributes (Accessible in BaseEntity and subclasses)
         PROTECTED THIS.prot_bool = TRUE
         PROTECTED THIS.prot_float = 3.14159
-    ENDDEF
+    ENDFUNC
 
     # --- 4. METHODS ---
-    PUBLIC DEF pub_method()
+    PUBLIC FUNC pub_method()
         RETURN "Public Method Executed"
-    ENDDEF
+    ENDFUNC
 
-    PRIVATE DEF priv_method()
+    PRIVATE FUNC priv_method()
         RETURN "Private Method Executed"
-    ENDDEF
+    ENDFUNC
 
-    PROTECTED DEF prot_method()
+    PROTECTED FUNC prot_method()
         RETURN "Protected Method Executed"
-    ENDDEF
+    ENDFUNC
 
     # --- 5. INTERNAL ACCESS TESTING ---
-    PUBLIC DEF test_internal_access()
+    PUBLIC FUNC test_internal_access()
         PRINTLN "Internal Private String: " + THIS.priv_str
         PRINTLN "Internal Private Dict: " + STR(THIS.priv_dict)
         PRINTLN "Internal Private Method: " + THIS.priv_method()
         PRINTLN "Internal Private Static: " + BaseEntity.priv_static_val
         PRINTLN "Internal Private Enum: " + STR(BaseEntity.PrivEnum.X)
-    ENDDEF
+    ENDFUNC
 ENDCLASS
 
 
 CLASS ChildEntity INHERITS BaseEntity
-    DEF ChildEntity()
+    FUNC ChildEntity()
         SUPER()
-    ENDDEF
+    ENDFUNC
 
     # --- 6. PROTECTED INHERITANCE TESTING ---
-    PUBLIC DEF test_protected_access()
+    PUBLIC FUNC test_protected_access()
         PRINTLN "Subclass Protected Bool: " + STR(THIS.prot_bool)
         PRINTLN "Subclass Protected Float: " + STR(THIS.prot_float)
         PRINTLN "Subclass Protected Method: " + THIS.prot_method()
-    ENDDEF
+    ENDFUNC
 
     # Attempt to access Parent's Private members from Child
-    PUBLIC DEF attempt_private_access()
+    PUBLIC FUNC attempt_private_access()
         PRINTLN "Attempting to access parent's private field from subclass..."
         TRY
             PRINTLN THIS.priv_str
         CATCH err
             PRINTLN "SUCCESS: Caught expected error -> " + STR(err)
         ENDTRY
-    ENDDEF
+    ENDFUNC
 ENDCLASS
 
 

@@ -6,7 +6,7 @@ Line 2: World
 PRINTLN big_text
 
 LET code_snippet = """
-DEF hello():
+FUNC hello():
   PRINTLN "Hi"
 """
 

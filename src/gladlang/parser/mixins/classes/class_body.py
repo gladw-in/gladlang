@@ -38,7 +38,7 @@ class ParserClassBody:
             result.register_advancement()
             self.advance()
 
-        if self.current_token.matches(GL_KEYWORD, "DEF"):
+        if self.current_token.matches(GL_KEYWORD, "FUNC"):
             return self._parse_class_method(
                 result, class_name_token, visibility, is_static, methods
             )
@@ -63,7 +63,7 @@ class ParserClassBody:
                 InvalidSyntaxError(
                     self.current_token.position_start,
                     self.current_token.position_end,
-                    "Expected 'DEF', 'LET', 'FINAL' or 'STATIC' inside class body",
+                    "Expected 'FUNC', 'LET', 'FINAL' or 'STATIC' inside class body",
                 )
             )
             return False

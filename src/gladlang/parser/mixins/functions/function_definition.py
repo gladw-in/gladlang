@@ -10,12 +10,12 @@ class ParserFunctionDefinition:
     def function_definition(self):
         result = ParseResult()
 
-        if not self.current_token.matches(GL_KEYWORD, "DEF"):
+        if not self.current_token.matches(GL_KEYWORD, "FUNC"):
             return result.failure(
                 InvalidSyntaxError(
                     self.current_token.position_start,
                     self.current_token.position_end,
-                    "Expected 'DEF'",
+                    "Expected 'FUNC'",
                 )
             )
 
@@ -44,7 +44,7 @@ class ParserFunctionDefinition:
         self.loop_count = 0
         self.function_count += 1
 
-        body = result.register(self.statement_list(("ENDDEF",)))
+        body = result.register(self.statement_list(("ENDFUNC",)))
 
         self.function_count -= 1
         self.loop_count = saved_loop_count
@@ -52,12 +52,12 @@ class ParserFunctionDefinition:
         if result.error:
             return result
 
-        if not self.current_token.matches(GL_KEYWORD, "ENDDEF"):
+        if not self.current_token.matches(GL_KEYWORD, "ENDFUNC"):
             return result.failure(
                 InvalidSyntaxError(
                     def_token.position_start,
                     self.current_token.position_end,
-                    "Expected 'ENDDEF'",
+                    "Expected 'ENDFUNC'",
                 )
             )
 

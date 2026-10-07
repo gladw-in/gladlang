@@ -18,7 +18,7 @@ class ParserParse:
 
         while self.current_token.type != GL_EOF:
             if self.current_token.type == GL_KEYWORD and self.current_token.value in (
-                "ENDDEF",
+                "ENDFUNC",
                 "ENDIF",
                 "ENDCLASS",
                 "ENDWHILE",

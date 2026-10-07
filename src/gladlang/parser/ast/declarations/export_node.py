@@ -1,4 +1,4 @@
-"""ExportNode – represents EXPORT LET/DEF/CLASS [AS alias] statements."""
+"""ExportNode – represents EXPORT LET/FUNC/CLASS [AS alias] statements."""
 
 
 class ExportNode:

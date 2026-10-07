@@ -24,7 +24,7 @@ class StatementsReturnThrow:
         start_position = self.current_token.position_start.copy()
 
         END_KEYWORDS = {
-            "ENDDEF",
+            "ENDFUNC",
             "ELSE",
             "ENDIF",
             "ENDWHILE",

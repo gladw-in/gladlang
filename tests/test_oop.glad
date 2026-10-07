@@ -12,14 +12,14 @@ PRINTLN "Ref Equality (False): " + STR(p1 == p3)
 
 # --- Define Base Class ---
 CLASS Pet
-  DEF Pet(name)
+  FUNC Pet(name)
     THIS.name = name
     PRINTLN "A new pet is born!"
-  ENDDEF
+  ENDFUNC
   
-  DEF speak()
+  FUNC speak()
     PRINTLN THIS.name + " makes a generic pet sound."
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
 # --- Define Subclass ---
@@ -27,14 +27,14 @@ CLASS Dog INHERITS Pet
   # This class automatically uses the 'init' from Pet
   
   # Override the 'speak' method
-  DEF speak()
+  FUNC speak()
     PRINTLN THIS.name + " says: Woof!"
-  ENDDEF
+  ENDFUNC
   
   # Add a new method
-  DEF wag_tail()
+  FUNC wag_tail()
     PRINTLN THIS.name + " wags its tail."
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
 PRINTLN "--- Creating a Pet ---"

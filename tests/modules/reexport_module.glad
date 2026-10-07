@@ -6,9 +6,9 @@
 
 LET internal_greeting = "hello"
 
-DEF internal_shout(text)
+FUNC internal_shout(text)
     RETURN text + "!!!"
-ENDDEF
+ENDFUNC
 
 LET already_public = "no alias needed"
 

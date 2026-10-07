@@ -8,20 +8,20 @@ EXPORT LET E = 2.71828
 
 LET internal_helper = "not exported"
 
-EXPORT DEF add(a, b)
+EXPORT FUNC add(a, b)
     RETURN a + b
-ENDDEF
+ENDFUNC
 
-EXPORT DEF multiply(a, b)
+EXPORT FUNC multiply(a, b)
     RETURN a * b
-ENDDEF
+ENDFUNC
 
 EXPORT CLASS Calculator
-    DEF add(a, b)
+    FUNC add(a, b)
         RETURN a + b
-    ENDDEF
+    ENDFUNC
 
-    DEF multiply(a, b)
+    FUNC multiply(a, b)
         RETURN a * b
-    ENDDEF
+    ENDFUNC
 ENDCLASS

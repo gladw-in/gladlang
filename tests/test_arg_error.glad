@@ -1,8 +1,8 @@
 PRINTLN "--- Argument Error Tester ---"
 
-DEF add(a, b)
+FUNC add(a, b)
   RETURN a + b
-ENDDEF
+ENDFUNC
 
 PRINTLN "Calling add(10, 5, 20)..."
 LET c = add(10, 5, 20) # This line should crash

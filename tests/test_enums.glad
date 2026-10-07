@@ -153,10 +153,10 @@ CLASS Server
         GUEST
     ENDENUM
 
-    DEF Server()
+    FUNC Server()
         # The class can use its own private Enum
         PRINTLN "Server initialized with Status: ", STR(Server.Status.OFFLINE)
-    ENDDEF
+    ENDFUNC
 ENDCLASS
 
 PRINTLN "--- Testing Encapsulated Enums ---"

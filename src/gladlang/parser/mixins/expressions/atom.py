@@ -65,7 +65,7 @@ class ExpressionsAtom:
                 )
         elif current_token.type == GL_LSQUARE:
             return self.list_expression()
-        elif current_token.matches(GL_KEYWORD, "DEF"):
+        elif current_token.matches(GL_KEYWORD, "FUNC"):
             return self.function_definition()
         elif current_token.matches(GL_KEYWORD, "CLASS"):
             return self.class_definition()
@@ -76,6 +76,6 @@ class ExpressionsAtom:
             InvalidSyntaxError(
                 current_token.position_start,
                 current_token.position_end,
-                "Expected int, float, string, identifier, '+', '-', '++', '--', '(', '[', 'DEF', 'CLASS', or 'NEW'",
+                "Expected int, float, string, identifier, '+', '-', '++', '--', '(', '[', 'FUNC', 'CLASS', or 'NEW'",
             )
         )

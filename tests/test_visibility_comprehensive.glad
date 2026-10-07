@@ -10,22 +10,22 @@ PRINTLN ""
 PRINTLN "--- SECTION 1: Basic Visibility (Single Class) ---"
 
 CLASS BasicTest
-    DEF BasicTest()
+    FUNC BasicTest()
         PUBLIC THIS.pub_var = "public"
         PRIVATE THIS.priv_var = "private"
         PROTECTED THIS.prot_var = "protected"
-    ENDDEF
+    ENDFUNC
 
-    PUBLIC DEF get_priv()  RETURN THIS.priv_var  ENDDEF
-    PROTECTED DEF get_prot() RETURN THIS.prot_var ENDDEF
-    PRIVATE DEF get_priv_method() RETURN "private method" ENDDEF
+    PUBLIC FUNC get_priv()  RETURN THIS.priv_var  ENDFUNC
+    PROTECTED FUNC get_prot() RETURN THIS.prot_var ENDFUNC
+    PRIVATE FUNC get_priv_method() RETURN "private method" ENDFUNC
 
-    PUBLIC DEF test_internal()
+    PUBLIC FUNC test_internal()
         PRINTLN "  Internal access to priv_var: " + THIS.priv_var
         PRINTLN "  Internal call to priv_method: " + THIS.get_priv_method()
         PRINTLN "  Internal access to prot_var: " + THIS.prot_var
         PRINTLN "  Internal call to prot_method: " + THIS.get_prot()
-    ENDDEF
+    ENDFUNC
 ENDCLASS
 
 LET b = NEW BasicTest()
@@ -75,19 +75,19 @@ PRINTLN ""
 PRINTLN "--- SECTION 2: PROTECTED Members in Subclass ---"
 
 CLASS ParentProt
-    DEF ParentProt()
+    FUNC ParentProt()
         PROTECTED THIS.prot_val = 100
-    ENDDEF
-    PROTECTED DEF prot_meth() RETURN "parent_protected" ENDDEF
+    ENDFUNC
+    PROTECTED FUNC prot_meth() RETURN "parent_protected" ENDFUNC
 ENDCLASS
 
 CLASS ChildProt INHERITS ParentProt
-    DEF ChildProt()
+    FUNC ChildProt()
         SUPER()
-    ENDDEF
-    PUBLIC DEF access_protected()
+    ENDFUNC
+    PUBLIC FUNC access_protected()
         RETURN "prot_val=" + STR(THIS.prot_val) + ", prot_meth=" + THIS.prot_meth()
-    ENDDEF
+    ENDFUNC
 ENDCLASS
 
 LET cp = NEW ChildProt()
@@ -109,31 +109,31 @@ PRINTLN ""
 PRINTLN "--- SECTION 3: PRIVATE Members are NOT Inherited ---"
 
 CLASS ParentPriv
-    DEF ParentPriv()
+    FUNC ParentPriv()
         PRIVATE THIS.priv_val = "parent_secret"
-    ENDDEF
-    PRIVATE DEF priv_meth() RETURN "parent_private_method" ENDDEF
-    PUBLIC DEF get_priv_val() RETURN THIS.priv_val ENDDEF
+    ENDFUNC
+    PRIVATE FUNC priv_meth() RETURN "parent_private_method" ENDFUNC
+    PUBLIC FUNC get_priv_val() RETURN THIS.priv_val ENDFUNC
 ENDCLASS
 
 CLASS ChildPriv INHERITS ParentPriv
-    DEF ChildPriv()
+    FUNC ChildPriv()
         SUPER()
-    ENDDEF
-    PUBLIC DEF try_access_private()
+    ENDFUNC
+    PUBLIC FUNC try_access_private()
         TRY
             RETURN THIS.priv_val
         CATCH e
             RETURN "ERROR: " + STR(e)
         ENDTRY
-    ENDDEF
-    PUBLIC DEF try_call_private()
+    ENDFUNC
+    PUBLIC FUNC try_call_private()
         TRY
             RETURN THIS.priv_meth()
         CATCH e
             RETURN "ERROR: " + STR(e)
         ENDTRY
-    ENDDEF
+    ENDFUNC
 ENDCLASS
 
 LET cpv = NEW ChildPriv()
@@ -149,18 +149,18 @@ PRINTLN ""
 PRINTLN "--- SECTION 4: Name Mangling (Private Members Don't Collide) ---"
 
 CLASS ParentMangle
-    DEF ParentMangle()
+    FUNC ParentMangle()
         PRIVATE THIS.secret = "Parent"
-    ENDDEF
-    PUBLIC DEF get_parent() RETURN THIS.secret ENDDEF
+    ENDFUNC
+    PUBLIC FUNC get_parent() RETURN THIS.secret ENDFUNC
 ENDCLASS
 
 CLASS ChildMangle INHERITS ParentMangle
-    DEF ChildMangle()
+    FUNC ChildMangle()
         SUPER()
         PRIVATE THIS.secret = "Child"
-    ENDDEF
-    PUBLIC DEF get_child() RETURN THIS.secret ENDDEF
+    ENDFUNC
+    PUBLIC FUNC get_child() RETURN THIS.secret ENDFUNC
 ENDCLASS
 
 LET m = NEW ChildMangle()
@@ -175,12 +175,12 @@ PRINTLN ""
 PRINTLN "--- SECTION 5: Private Method Override (Parent calls its own) ---"
 
 CLASS ParentCallOwn
-    PRIVATE DEF secret() RETURN "Parent's private" ENDDEF
-    PUBLIC DEF call_secret() RETURN THIS.secret() ENDDEF
+    PRIVATE FUNC secret() RETURN "Parent's private" ENDFUNC
+    PUBLIC FUNC call_secret() RETURN THIS.secret() ENDFUNC
 ENDCLASS
 
 CLASS ChildCallOwn INHERITS ParentCallOwn
-    PRIVATE DEF secret() RETURN "Child's private" ENDDEF
+    PRIVATE FUNC secret() RETURN "Child's private" ENDFUNC
 ENDCLASS
 
 LET co = NEW ChildCallOwn()
@@ -195,12 +195,12 @@ PRINTLN ""
 PRINTLN "--- SECTION 6: Protected Method Override (Polymorphism) ---"
 
 CLASS ParentPoly
-    PROTECTED DEF speak() RETURN "Parent" ENDDEF
-    PUBLIC DEF talk() RETURN THIS.speak() ENDDEF
+    PROTECTED FUNC speak() RETURN "Parent" ENDFUNC
+    PUBLIC FUNC talk() RETURN THIS.speak() ENDFUNC
 ENDCLASS
 
 CLASS ChildPoly INHERITS ParentPoly
-    PROTECTED DEF speak() RETURN "Child" ENDDEF
+    PROTECTED FUNC speak() RETURN "Child" ENDFUNC
 ENDCLASS
 
 LET poly = NEW ChildPoly()
@@ -219,8 +219,8 @@ CLASS StaticVis
     PRIVATE STATIC LET priv_static = "private static"
     PROTECTED STATIC LET prot_static = "protected static"
 
-    STATIC PUBLIC DEF get_priv_static() RETURN StaticVis.priv_static ENDDEF
-    STATIC PROTECTED DEF get_prot_static() RETURN StaticVis.prot_static ENDDEF
+    STATIC PUBLIC FUNC get_priv_static() RETURN StaticVis.priv_static ENDFUNC
+    STATIC PROTECTED FUNC get_prot_static() RETURN StaticVis.prot_static ENDFUNC
 ENDCLASS
 
 PRINTLN "Public static: " + StaticVis.pub_static
@@ -251,13 +251,13 @@ PRINTLN "--- SECTION 8: Static Inheritance (Protected) ---"
 
 CLASS BaseStatic
     STATIC PROTECTED LET base_val = "base"
-    STATIC PROTECTED DEF base_meth() RETURN "base_method" ENDDEF
+    STATIC PROTECTED FUNC base_meth() RETURN "base_method" ENDFUNC
 ENDCLASS
 
 CLASS DerivedStatic INHERITS BaseStatic
-    STATIC PUBLIC DEF access_base()
+    STATIC PUBLIC FUNC access_base()
         RETURN BaseStatic.base_val + " " + BaseStatic.base_meth()
-    ENDDEF
+    ENDFUNC
 ENDCLASS
 
 PRINTLN "Derived accessing parent protected static: " + DerivedStatic.access_base()
@@ -290,8 +290,8 @@ CLASS EnumHolder
         P, Q
     ENDENUM
 
-    PUBLIC DEF get_priv_enum() RETURN EnumHolder.PrivEnum.X ENDDEF
-    PROTECTED DEF get_prot_enum() RETURN EnumHolder.ProtEnum.P ENDDEF
+    PUBLIC FUNC get_priv_enum() RETURN EnumHolder.PrivEnum.X ENDFUNC
+    PROTECTED FUNC get_prot_enum() RETURN EnumHolder.ProtEnum.P ENDFUNC
 ENDCLASS
 
 LET eh = NEW EnumHolder()
@@ -322,13 +322,13 @@ PRINTLN ""
 PRINTLN "--- SECTION 10: LSP Violation (Cannot reduce visibility) ---"
 
 CLASS ParentLSP
-    PUBLIC DEF hello() RETURN "public" ENDDEF
-    PROTECTED DEF hi() RETURN "protected" ENDDEF
+    PUBLIC FUNC hello() RETURN "public" ENDFUNC
+    PROTECTED FUNC hi() RETURN "protected" ENDFUNC
 ENDCLASS
 
 # This should be allowed (widening visibility is OK)
 CLASS GoodChild INHERITS ParentLSP
-    PUBLIC DEF hi() RETURN "now public" ENDDEF
+    PUBLIC FUNC hi() RETURN "now public" ENDFUNC
 ENDCLASS
 
 PRINTLN "GoodChild (widening) works: " + (NEW GoodChild()).hi()
@@ -336,7 +336,7 @@ PRINTLN "GoodChild (widening) works: " + (NEW GoodChild()).hi()
 PRINTLN "Attempting to narrow PUBLIC to PRIVATE (should fail at definition):"
 TRY
     CLASS BadChild INHERITS ParentLSP
-        PRIVATE DEF hello() RETURN "hidden" ENDDEF
+        PRIVATE FUNC hello() RETURN "hidden" ENDFUNC
     ENDCLASS
     PRINTLN "FAIL: LSP violation not detected"
 CATCH e
@@ -346,7 +346,7 @@ ENDTRY
 PRINTLN "Attempting to narrow PROTECTED to PRIVATE (should fail):"
 TRY
     CLASS BadChild2 INHERITS ParentLSP
-        PRIVATE DEF hi() RETURN "hidden" ENDDEF
+        PRIVATE FUNC hi() RETURN "hidden" ENDFUNC
     ENDCLASS
     PRINTLN "FAIL: LSP violation not detected"
 CATCH e
@@ -361,8 +361,8 @@ PRINTLN ""
 PRINTLN "--- SECTION 11: THIS/SUPER inside STATIC (should fail) ---"
 
 CLASS StaticThisTest
-    STATIC PUBLIC DEF bad_this() RETURN THIS ENDDEF
-    STATIC PUBLIC DEF bad_super() RETURN SUPER ENDDEF
+    STATIC PUBLIC FUNC bad_this() RETURN THIS ENDFUNC
+    STATIC PUBLIC FUNC bad_super() RETURN SUPER ENDFUNC
 ENDCLASS
 
 PRINTLN "THIS inside static:"
@@ -389,12 +389,12 @@ PRINTLN ""
 PRINTLN "--- SECTION 12: Same-class instances can access each other's private members ---"
 
 CLASS Peer
-    DEF Peer(v)
+    FUNC Peer(v)
         PRIVATE THIS.val = v
-    ENDDEF
-    PUBLIC DEF get_other_private(other)
+    ENDFUNC
+    PUBLIC FUNC get_other_private(other)
         RETURN other.val
-    ENDDEF
+    ENDFUNC
 ENDCLASS
 
 LET p1 = NEW Peer(100)
@@ -414,8 +414,8 @@ CLASS FinalTest
     PRIVATE STATIC FINAL const_priv = 88
     PROTECTED STATIC FINAL const_prot = 77
 
-    STATIC PUBLIC DEF get_const_priv() RETURN FinalTest.const_priv ENDDEF
-    STATIC PROTECTED DEF get_const_prot() RETURN FinalTest.const_prot ENDDEF
+    STATIC PUBLIC FUNC get_const_priv() RETURN FinalTest.const_priv ENDFUNC
+    STATIC PROTECTED FUNC get_const_prot() RETURN FinalTest.const_prot ENDFUNC
 ENDCLASS
 
 PRINTLN "Public static final: " + FinalTest.const_pub
@@ -448,7 +448,7 @@ PRINTLN "--- SECTION 14: INSTANCEOF works regardless of visibility ---"
 CLASS VisibleBase
 ENDCLASS
 CLASS VisibleChild INHERITS VisibleBase
-    PRIVATE DEF dummy() ENDDEF
+    PRIVATE FUNC dummy() ENDFUNC
 ENDCLASS
 
 LET vc = NEW VisibleChild()
@@ -464,12 +464,12 @@ PRINTLN "--- SECTION 15: Overload groups must have same visibility ---"
 PRINTLN "Attempting to define overloaded methods with different visibility (should fail)..."
 TRY
     CLASS BadOverload
-        PUBLIC DEF work(x)
+        PUBLIC FUNC work(x)
             RETURN x
-        ENDDEF
-        PRIVATE DEF work(x, y)
+        ENDFUNC
+        PRIVATE FUNC work(x, y)
             RETURN x + y
-        ENDDEF
+        ENDFUNC
     ENDCLASS
     PRINTLN "FAIL: Parser allowed inconsistent visibility"
 CATCH e
@@ -486,9 +486,9 @@ PRINTLN "--- SECTION 16: Cache Consistency for Static Members ---"
 PRINTLN "Subtest A: Private static field"
 CLASS CachePrivateField
     STATIC PRIVATE LET secret = 42
-    STATIC PUBLIC DEF get_secret()
+    STATIC PUBLIC FUNC get_secret()
         RETURN CachePrivateField.secret
-    ENDDEF
+    ENDFUNC
 ENDCLASS
 
 PRINTLN "  Access 1: Internal access first (caches it)"
@@ -508,9 +508,9 @@ PRINTLN ""
 PRINTLN "  Access 2: Direct external access first (cache miss)"
 CLASS CachePrivateField2
     STATIC PRIVATE LET secret = 99
-    STATIC PUBLIC DEF get_secret()
+    STATIC PUBLIC FUNC get_secret()
         RETURN CachePrivateField2.secret
-    ENDDEF
+    ENDFUNC
 ENDCLASS
 
 PRINTLN "  Direct external access (should fail):"
@@ -536,9 +536,9 @@ PRINTLN ""
 PRINTLN "Subtest B: Protected static field"
 CLASS CacheProtectedField
     STATIC PROTECTED LET data = "protected"
-    STATIC PUBLIC DEF get_data()
+    STATIC PUBLIC FUNC get_data()
         RETURN CacheProtectedField.data
-    ENDDEF
+    ENDFUNC
 ENDCLASS
 
 PRINTLN "  Access 1: Internal first"
@@ -558,9 +558,9 @@ PRINTLN ""
 PRINTLN "  Access 2: Direct first (cache miss)"
 CLASS CacheProtectedField2
     STATIC PROTECTED LET data = "hidden"
-    STATIC PUBLIC DEF get_data()
+    STATIC PUBLIC FUNC get_data()
         RETURN CacheProtectedField2.data
-    ENDDEF
+    ENDFUNC
 ENDCLASS
 
 PRINTLN "  Direct external access (should fail):"
@@ -585,12 +585,12 @@ ENDIF
 PRINTLN ""
 PRINTLN "Subtest C: Private static method"
 CLASS CachePrivateMethod
-    STATIC PRIVATE DEF helper()
+    STATIC PRIVATE FUNC helper()
         RETURN "secret method"
-    ENDDEF
-    STATIC PUBLIC DEF call_helper()
+    ENDFUNC
+    STATIC PUBLIC FUNC call_helper()
         RETURN CachePrivateMethod.helper()
-    ENDDEF
+    ENDFUNC
 ENDCLASS
 
 PRINTLN "  Access 1: Internal first"
@@ -609,12 +609,12 @@ ENDTRY
 PRINTLN ""
 PRINTLN "  Access 2: Direct first (cache miss)"
 CLASS CachePrivateMethod2
-    STATIC PRIVATE DEF helper()
+    STATIC PRIVATE FUNC helper()
         RETURN "secret method 2"
-    ENDDEF
-    STATIC PUBLIC DEF call_helper()
+    ENDFUNC
+    STATIC PUBLIC FUNC call_helper()
         RETURN CachePrivateMethod2.helper()
-    ENDDEF
+    ENDFUNC
 ENDCLASS
 
 PRINTLN "  Direct external call (should fail):"
