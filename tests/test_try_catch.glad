@@ -55,14 +55,14 @@ CATCH accessErr
 ENDTRY
 
 PRINTLN "\n--- Test 5: RETURN inside FINALLY ---"
-DEF test_finally_return()
+FUNC test_finally_return()
     TRY
         RETURN 1
     FINALLY
         PRINTLN "Finally executed"
         RETURN 2
     ENDTRY
-ENDDEF
+ENDFUNC
 LET result = test_finally_return()
 PRINTLN "Returned value: " + result + " (expected: 2, FINALLY overrides)"
 

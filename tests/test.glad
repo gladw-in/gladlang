@@ -1,10 +1,10 @@
 CLASS Person
-  DEF Person(name)
+  FUNC Person(name)
     THIS.name = name
-  ENDDEF
-  DEF say_hi()
+  ENDFUNC
+  FUNC say_hi()
     PRINTLN "Hi, I am " + THIS.name
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
 LET p = NEW Person("Alex")

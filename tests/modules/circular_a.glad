@@ -8,12 +8,12 @@ PRINTLN "Loading circular_a.glad"
 
 EXPORT LET name = "Module A"
 
-EXPORT DEF get_a_name()
+EXPORT FUNC get_a_name()
     RETURN name
-ENDDEF
+ENDFUNC
 
 IMPORT get_b_name FROM "./circular_b.glad"
 
-EXPORT DEF call_b()
+EXPORT FUNC call_b()
     RETURN get_b_name()
-ENDDEF
+ENDFUNC

@@ -8,39 +8,39 @@ PRINTLN "=== GLADLANG COMPARISON OPERATOR TEST SUITE ==="
 LET pass_count = 0
 LET fail_count = 0
 
-DEF pass(name)
+FUNC pass(name)
     PRINTLN "[PASS] " + name
     pass_count = pass_count + 1
-ENDDEF
+ENDFUNC
 
-DEF fail(name, reason)
+FUNC fail(name, reason)
     PRINTLN "[FAIL] " + name + " -> " + reason
     fail_count = fail_count + 1
-ENDDEF
+ENDFUNC
 
-DEF assert_eq(expected, actual, test_name)
+FUNC assert_eq(expected, actual, test_name)
     IF expected == actual THEN
         pass(test_name)
     ELSE
         fail(test_name, "Expected " + STR(expected) + ", got " + STR(actual))
     ENDIF
-ENDDEF
+ENDFUNC
 
-DEF assert_true(actual, test_name)
+FUNC assert_true(actual, test_name)
     IF actual THEN
         pass(test_name)
     ELSE
         fail(test_name, "Expected truthy, got " + STR(actual))
     ENDIF
-ENDDEF
+ENDFUNC
 
-DEF assert_false(actual, test_name)
+FUNC assert_false(actual, test_name)
     IF NOT actual THEN
         pass(test_name)
     ELSE
         fail(test_name, "Expected falsy, got " + STR(actual))
     ENDIF
-ENDDEF
+ENDFUNC
 
 # ================================================================
 # SECTION 1: NUMBERS
@@ -197,9 +197,9 @@ assert_true(d1 != NULL, `{"a":1} != NULL`)
 PRINTLN "\n--- 5. INSTANCES ---"
 
 CLASS Person
-    DEF Person(name)
+    FUNC Person(name)
         THIS.name = name
-    ENDDEF
+    ENDFUNC
 ENDCLASS
 
 LET p1 = NEW Person("Alice")
@@ -267,8 +267,8 @@ assert_true(r1 != NULL, `Colors.RED != NULL`)
 # ================================================================
 PRINTLN "\n--- 7. FUNCTIONS ---"
 
-DEF func1(x) RETURN x ENDDEF
-DEF func2(x) RETURN x ENDDEF
+FUNC func1(x) RETURN x ENDFUNC
+FUNC func2(x) RETURN x ENDFUNC
 LET func3 = func1
 
 # Equality: functions compare by identity

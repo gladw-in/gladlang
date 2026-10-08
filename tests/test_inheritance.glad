@@ -6,19 +6,19 @@ PRINTLN("=== TESTING INHERITANCE FEATURES ===")
 PRINTLN("\n[1] Single Inheritance Check:")
 
 CLASS Animal
-    DEF speak()
+    FUNC speak()
         PRINTLN("Generic Animal Sound")
-    ENDDEF
+    ENDFUNC
     
-    DEF info()
+    FUNC info()
         RETURN "I am an animal"
-    ENDDEF
+    ENDFUNC
 ENDCLASS
 
 CLASS Dog INHERITS Animal
-    DEF speak()
+    FUNC speak()
         PRINTLN("Woof!")
-    ENDDEF
+    ENDFUNC
 ENDCLASS
 
 LET dog = NEW Dog()
@@ -31,21 +31,21 @@ PRINTLN(dog.info()) # Expected: I am an animal
 PRINTLN("\n[2] Multilevel Inheritance Check:")
 
 CLASS LivingBeing
-    DEF breathe()
+    FUNC breathe()
         PRINTLN("Breathing...")
-    ENDDEF
+    ENDFUNC
 ENDCLASS
 
 CLASS Mammal INHERITS LivingBeing
-    DEF warm_blooded()
+    FUNC warm_blooded()
         RETURN 1
-    ENDDEF
+    ENDFUNC
 ENDCLASS
 
 CLASS Human INHERITS Mammal
-    DEF speak()
+    FUNC speak()
         PRINTLN("Hello World")
-    ENDDEF
+    ENDFUNC
 ENDCLASS
 
 LET person = NEW Human()
@@ -60,17 +60,17 @@ PRINTLN("\n[3] Hierarchical Inheritance Check:")
 
 # Parent: Shape
 CLASS Shape
-    DEF type() RETURN "Generic Shape" ENDDEF
+    FUNC type() RETURN "Generic Shape" ENDFUNC
 ENDCLASS
 
 # Child 1: Circle
 CLASS Circle INHERITS Shape
-    DEF draw() PRINTLN("Drawing Circle") ENDDEF
+    FUNC draw() PRINTLN("Drawing Circle") ENDFUNC
 ENDCLASS
 
 # Child 2: Square
 CLASS Square INHERITS Shape
-    DEF draw() PRINTLN("Drawing Square") ENDDEF
+    FUNC draw() PRINTLN("Drawing Square") ENDFUNC
 ENDCLASS
 
 LET c = NEW Circle()
@@ -88,21 +88,21 @@ s.draw()          # Expected: Drawing Square
 PRINTLN("\n[4] Multiple Inheritance Check:")
 
 CLASS Flyer
-    DEF fly()
+    FUNC fly()
         PRINTLN("I can fly")
-    ENDDEF
+    ENDFUNC
 ENDCLASS
 
 CLASS Swimmer
-    DEF swim()
+    FUNC swim()
         PRINTLN("I can swim")
-    ENDDEF
+    ENDFUNC
 ENDCLASS
 
 CLASS Duck INHERITS Flyer, Swimmer
-    DEF quack()
+    FUNC quack()
         PRINTLN("Quack!")
-    ENDDEF
+    ENDFUNC
 ENDCLASS
 
 LET donald = NEW Duck()
@@ -117,21 +117,21 @@ PRINTLN("\n[5] Hybrid Inheritance (Diamond Problem) Check:")
 PRINTLN("Structure: A -> B, A -> C, D -> B, C")
 
 CLASS A
-    DEF identify()
+    FUNC identify()
         PRINTLN("Method from Class A")
-    ENDDEF
+    ENDFUNC
 ENDCLASS
 
 CLASS B INHERITS A
-    DEF identify()
+    FUNC identify()
         PRINTLN("Method from Class B")
-    ENDDEF
+    ENDFUNC
 ENDCLASS
 
 CLASS C INHERITS A
-    DEF identify()
+    FUNC identify()
         PRINTLN("Method from Class C")
-    ENDDEF
+    ENDFUNC
 ENDCLASS
 
 # D inherits from B and C. 
@@ -163,9 +163,9 @@ CLASS Base
 ENDCLASS
 
 CLASS Derived INHERITS Base
-    DEF get_base_val()
+    FUNC get_base_val()
         RETURN THIS.base_val
-    ENDDEF
+    ENDFUNC
 ENDCLASS
 
 LET obj = NEW Derived()

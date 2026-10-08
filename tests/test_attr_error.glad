@@ -1,9 +1,9 @@
 PRINTLN "--- Attribute Error Tester ---"
 
 CLASS Person
-  DEF Person(name)
+  FUNC Person(name)
     THIS.name = name
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
 LET p = NEW Person("Alex")

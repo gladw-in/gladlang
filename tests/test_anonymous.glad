@@ -1,9 +1,9 @@
 PRINTLN "--- Anonymous Function Tester ---"
 
 # Define an anonymous function and assign it to a variable
-LET double = DEF(x)
+LET double = FUNC(x)
   RETURN x * 2
-ENDDEF
+ENDFUNC
 
 PRINTLN "Calling anonymous 'double' function..."
 PRINTLN "double(5) = " + double(5)
@@ -11,5 +11,5 @@ PRINTLN "double(21) = " + double(21)
 
 # You can even use them immediately (though this is rare)
 PRINTLN "--- IIFE (Immediately Invoked Function Expression) Test ---"
-LET iife_result = (DEF(a, b) RETURN a * b ENDDEF)(6, 7)
+LET iife_result = (FUNC(a, b) RETURN a * b ENDFUNC)(6, 7)
 PRINTLN "IIFE (6, 7) Result: " + iife_result

@@ -1,25 +1,25 @@
 PRINTLN "--- THIS Keyword Tester ---"
 
 CLASS Counter
-  DEF Counter()
+  FUNC Counter()
     THIS.count = 0
-  ENDDEF
+  ENDFUNC
   
   # A helper method
-  DEF _increment()
+  FUNC _increment()
     THIS.count = THIS.count + 1
-  ENDDEF
+  ENDFUNC
   
   # A public method that calls another method using THIS
-  DEF add_two()
+  FUNC add_two()
     PRINTLN "Adding two..."
     THIS._increment() # Call 1
     THIS._increment() # Call 2
-  ENDDEF
+  ENDFUNC
   
-  DEF get_count()
+  FUNC get_count()
     RETURN THIS.count
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
 PRINTLN "Creating counter..."

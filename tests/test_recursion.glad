@@ -1,11 +1,11 @@
 PRINTLN "--- Recursion Depth & Stack Overflow ---"
 
-DEF deep_recurse(n)
+FUNC deep_recurse(n)
     IF n <= 0 THEN
         RETURN 0
     ENDIF
     RETURN deep_recurse(n - 1)
-ENDDEF
+ENDFUNC
 
 PRINTLN "Testing recursion up to 2000 (should succeed)..."
 LET result = deep_recurse(2000)
@@ -40,13 +40,13 @@ ENDTRY
 # 2. Non-tail recursion (limited by total calls, not depth)
 # ------------------------------------------------------------
 PRINTLN "\n--- Non-tail recursion (non_tail_deep) ---"
-DEF non_tail_deep(n)
+FUNC non_tail_deep(n)
     IF n <= 0 THEN
         RETURN 0
     ENDIF
     LET x = non_tail_deep(n - 1)
     RETURN x + 1
-ENDDEF
+ENDFUNC
 
 PRINTLN "Testing 1999 calls (should succeed)..."
 LET result3 = non_tail_deep(1999)
@@ -64,15 +64,15 @@ ENDTRY
 # 3. Mutual recursion (total calls across two functions)
 # ------------------------------------------------------------
 PRINTLN "\n--- Mutual recursion (even/odd) ---"
-DEF is_even(n)
+FUNC is_even(n)
     IF n == 0 THEN RETURN TRUE ENDIF
     RETURN is_odd(n - 1)
-ENDDEF
+ENDFUNC
 
-DEF is_odd(n)
+FUNC is_odd(n)
     IF n == 0 THEN RETURN FALSE ENDIF
     RETURN is_even(n - 1)
-ENDDEF
+ENDFUNC
 
 PRINTLN "Testing 5000 calls (should succeed)..."
 LET even5000 = is_even(5000)
@@ -86,9 +86,9 @@ PRINTLN "is_even(9999) = " + STR(even9999) + " (expected 0 because 9999 is odd)"
 # 4. Normal (non‑recursive) calls – should be unlimited
 # ------------------------------------------------------------
 PRINTLN "\n--- Normal (non‑recursive) calls unlimited ---"
-DEF normal_add(a, b)
+FUNC normal_add(a, b)
     RETURN a + b
-ENDDEF
+ENDFUNC
 
 PRINTLN "Calling normal_add 15000 times in a loop..."
 LET i = 0

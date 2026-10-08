@@ -1,27 +1,27 @@
 PRINTLN "--- Inherited THIS Tester ---"
 
 CLASS Pet
-  DEF Pet(name)
+  FUNC Pet(name)
     THIS.name = name
-  ENDDEF
+  ENDFUNC
   
   # This method uses THIS
-  DEF get_name()
+  FUNC get_name()
     RETURN THIS.name
-  ENDDEF
+  ENDFUNC
   
-  DEF speak()
+  FUNC speak()
     PRINTLN THIS.name + " says ???"
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
 CLASS Dog INHERITS Pet
   # No init, so it uses Pet's init
   
   # Override speak
-  DEF speak()
+  FUNC speak()
     PRINTLN THIS.name + " says Woof!"
-  ENDDEF
+  ENDFUNC
   
   # This class does NOT override get_name
 ENDCLASS

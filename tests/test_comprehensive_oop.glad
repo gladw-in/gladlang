@@ -1,55 +1,55 @@
 PRINTLN "=== GLADLANG MASTER OOP TEST SUITE ===\n"
 
 # --- HELPER TO CATCH ERRORS ---
-DEF assert_error(fn_wrapper, test_name)
+FUNC assert_error(fn_wrapper, test_name)
   TRY
     fn_wrapper()
     PRINTLN "[FAIL] " + test_name + " (Expected Error, but got Success)"
   CATCH e
     PRINTLN "[PASS] " + test_name + " (Caught: " + STR(e) + ")"
   ENDTRY
-ENDDEF
+ENDFUNC
 
 # ==========================================
 # SETUP CLASSES
 # ==========================================
 
 CLASS Base
-  PROTECTED DEF secret_family_recipe()
+  PROTECTED FUNC secret_family_recipe()
     RETURN "Grandma's Secret Sauce"
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
 CLASS Child INHERITS Base
-  DEF Child(name)
+  FUNC Child(name)
     THIS.name = name
     PRIVATE THIS.diary = "My Secrets"
-  ENDDEF
+  ENDFUNC
 
-  PUBLIC DEF get_name()
+  PUBLIC FUNC get_name()
     RETURN THIS.name
-  ENDDEF
+  ENDFUNC
 
-  PUBLIC DEF reveal_family_secret()
+  PUBLIC FUNC reveal_family_secret()
     RETURN THIS.secret_family_recipe()
-  ENDDEF
+  ENDFUNC
 
-  PRIVATE DEF get_diary()
+  PRIVATE FUNC get_diary()
     RETURN THIS.diary
-  ENDDEF
+  ENDFUNC
 
-  PUBLIC DEF read_peer_diary(other_child)
+  PUBLIC FUNC read_peer_diary(other_child)
     RETURN other_child.get_diary()
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
 CLASS Stranger
-  DEF Stranger()
-  ENDDEF
+  FUNC Stranger()
+  ENDFUNC
   
-  PUBLIC DEF try_steal(target)
+  PUBLIC FUNC try_steal(target)
     RETURN target.get_diary()
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
 # ==========================================
@@ -70,16 +70,16 @@ ENDIF
 
 
 PRINTLN "\n--- TEST 2: Private Method Access (External) ---"
-DEF test2_wrapper()
+FUNC test2_wrapper()
   alice.get_diary()
-ENDDEF
+ENDFUNC
 assert_error(test2_wrapper, "External Private Method Call")
 
 
 PRINTLN "\n--- TEST 3: Private Attribute Access (External) ---"
-DEF test3_wrapper()
+FUNC test3_wrapper()
   PRINTLN alice.diary
-ENDDEF
+ENDFUNC
 assert_error(test3_wrapper, "External Private Attribute Access")
 
 
@@ -96,17 +96,17 @@ ENDTRY
 
 
 PRINTLN "\n--- TEST 5: Protected Method Access (External) ---"
-DEF test5_wrapper()
+FUNC test5_wrapper()
   alice.secret_family_recipe()
-ENDDEF
+ENDFUNC
 assert_error(test5_wrapper, "External Protected Method Call")
 
 
 PRINTLN "\n--- TEST 6: Static Security Bypass (Method) ---"
-DEF test6_wrapper()
+FUNC test6_wrapper()
   LET stolen_method = Child.get_diary
   stolen_method(alice) 
-ENDDEF
+ENDFUNC
 assert_error(test6_wrapper, "Static Class Bypass Attempt")
 
 
@@ -123,21 +123,21 @@ ENDTRY
 
 
 PRINTLN "\n--- TEST 8: Stranger Danger ---"
-DEF test8_wrapper()
+FUNC test8_wrapper()
   stranger.try_steal(alice)
-ENDDEF
+ENDFUNC
 assert_error(test8_wrapper, "Stranger Class accessing Private Method")
 
 
 PRINTLN "\n--- TEST 9: Visibility Override (Property) ---"
 CLASS DataContainer
-  DEF DataContainer()
+  FUNC DataContainer()
     PUBLIC THIS.data = "Public"
-  ENDDEF
+  ENDFUNC
   
-  PUBLIC DEF make_private()
+  PUBLIC FUNC make_private()
     PRIVATE THIS.data = "Now Private"
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
 LET d = NEW DataContainer()
@@ -145,20 +145,20 @@ PRINTLN "Initial State: " + d.data
 d.make_private()
 PRINTLN "Made Private. Attempting access..."
 
-DEF test9_wrapper()
+FUNC test9_wrapper()
   PRINTLN d.data
-ENDDEF
+ENDFUNC
 assert_error(test9_wrapper, "Property Visibility Changed at Runtime")
 
 
 PRINTLN "\n--- TEST 10: Deep Inheritance ---"
 CLASS GrandChild INHERITS Child
-  DEF GrandChild()
-  ENDDEF
+  FUNC GrandChild()
+  ENDFUNC
   
-  PUBLIC DEF access_grandparent()
+  PUBLIC FUNC access_grandparent()
     RETURN THIS.secret_family_recipe()
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
 LET junior = NEW GrandChild()
@@ -175,25 +175,25 @@ ENDTRY
 
 PRINTLN "\n--- TEST 11: Private Field Shadowing (Name Mangling) ---"
 CLASS ParentShadow
-  DEF ParentShadow()
+  FUNC ParentShadow()
     PRIVATE THIS.secret = "Parent Secret"
-  ENDDEF
+  ENDFUNC
   
-  PUBLIC DEF get_parent_secret()
+  PUBLIC FUNC get_parent_secret()
     RETURN THIS.secret
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
 CLASS ChildShadow INHERITS ParentShadow
-  DEF ChildShadow()
+  FUNC ChildShadow()
     SUPER()
     # This should NOT overwrite the parent's private 'secret'
     PRIVATE THIS.secret = "Child Secret"
-  ENDDEF
+  ENDFUNC
   
-  PUBLIC DEF get_child_secret()
+  PUBLIC FUNC get_child_secret()
     RETURN THIS.secret
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
 LET shadow = NEW ChildShadow()
@@ -221,33 +221,33 @@ ENDTRY
 
 PRINTLN "\n--- TEST 12: LSP Violation Check (Strict Visibility) ---"
 # Attempt to define a class that hides a Public parent method
-DEF test12_wrapper()
+FUNC test12_wrapper()
   CLASS ParentLSP
-    PUBLIC DEF hello() 
+    PUBLIC FUNC hello()
       PRINTLN "Hi" 
-    ENDDEF
+    ENDFUNC
   ENDCLASS
 
   CLASS BadChild INHERITS ParentLSP
-    PRIVATE DEF hello() 
+    PRIVATE FUNC hello()
       PRINTLN "Hidden" 
-    ENDDEF
+    ENDFUNC
   ENDCLASS
-ENDDEF
+ENDFUNC
 assert_error(test12_wrapper, "Subclass strictly reducing visibility")
 
 
 PRINTLN "\n--- TEST 13: Singleton Pattern (Factory Method) ---"
 CLASS Singleton
   # Constructor must be PUBLIC (Strict Private Constructors are not supported)
-  PUBLIC DEF Singleton()
+  PUBLIC FUNC Singleton()
     THIS.value = 1
-  ENDDEF
+  ENDFUNC
 
-  PUBLIC DEF get_instance()
+  PUBLIC FUNC get_instance()
     # Factory method returning a new instance
     RETURN NEW Singleton()
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
 TRY
@@ -266,17 +266,17 @@ ENDTRY
 
 PRINTLN "\n--- TEST 14: Final Variable Protection ---"
 CLASS SecureConst
-  DEF SecureConst()
+  FUNC SecureConst()
     FINAL THIS.MAX_USERS = 100
     
     # Attack: Try to shadow it with a private variable (which deletes the public one)
     PRIVATE THIS.MAX_USERS = 50
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
-DEF test14_wrapper()
+FUNC test14_wrapper()
   NEW SecureConst()
-ENDDEF
+ENDFUNC
 assert_error(test14_wrapper, "Shadowing a FINAL public variable")
 
 

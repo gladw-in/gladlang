@@ -1,12 +1,12 @@
 PRINTLN "--- TEST 1: PUBLIC ACCESS ---"
 CLASS PublicTest
-  DEF PublicTest(val)
+  FUNC PublicTest(val)
     THIS.val = val
-  ENDDEF
+  ENDFUNC
 
-  PUBLIC DEF get_val()
+  PUBLIC FUNC get_val()
     RETURN THIS.val
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
 LET p = NEW PublicTest(10)
@@ -16,16 +16,16 @@ PRINTLN "Public Method: " + STR(p.get_val())   # Expected: 10
 
 PRINTLN "\n--- TEST 2: PRIVATE ACCESS (METHODS) ---"
 CLASS PrivateMethodTest
-  DEF PrivateMethodTest()
-  ENDDEF
+  FUNC PrivateMethodTest()
+  ENDFUNC
 
-  PRIVATE DEF secret()
+  PRIVATE FUNC secret()
     RETURN "I am secret"
-  ENDDEF
+  ENDFUNC
 
-  PUBLIC DEF access_secret()
+  PUBLIC FUNC access_secret()
     RETURN THIS.secret() # Allowed: Internal call
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
 LET pm = NEW PrivateMethodTest()
@@ -41,14 +41,14 @@ ENDTRY
 
 PRINTLN "\n--- TEST 3: PRIVATE ACCESS (ATTRIBUTES) ---"
 CLASS PrivateAttrTest
-  DEF PrivateAttrTest()
+  FUNC PrivateAttrTest()
     PRIVATE THIS.secret_val = 999
     PUBLIC THIS.public_val = 1
-  ENDDEF
+  ENDFUNC
 
-  PUBLIC DEF get_secret()
+  PUBLIC FUNC get_secret()
     RETURN THIS.secret_val # Allowed: Internal access
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
 LET pa = NEW PrivateAttrTest()
@@ -65,21 +65,21 @@ ENDTRY
 
 PRINTLN "\n--- TEST 4: PROTECTED ACCESS (INHERITANCE) ---"
 CLASS Parent
-  DEF Parent()
-  ENDDEF
+  FUNC Parent()
+  ENDFUNC
 
-  PROTECTED DEF family_secret()
+  PROTECTED FUNC family_secret()
     RETURN "Family Only"
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
 CLASS Child INHERITS Parent
-  DEF Child()
-  ENDDEF
+  FUNC Child()
+  ENDFUNC
 
-  PUBLIC DEF reveal()
+  PUBLIC FUNC reveal()
     RETURN THIS.family_secret() # Allowed: Subclass access
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
 LET c = NEW Child()

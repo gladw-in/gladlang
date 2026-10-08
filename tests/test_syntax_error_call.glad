@@ -1,2 +1,2 @@
-DEF f(a) RETURN a ENDDEF
+FUNC f(a) RETURN a ENDFUNC
 LET z = f(1

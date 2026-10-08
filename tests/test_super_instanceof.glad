@@ -2,26 +2,26 @@ PRINTLN("=== TESTING SUPER AND INSTANCEOF ===")
 
 CLASS Animal
     # Constructor name now matches Class name
-    DEF Animal()
+    FUNC Animal()
         PRINTLN("Animal Constructor")
-    ENDDEF
+    ENDFUNC
 
-    DEF speak()
+    FUNC speak()
         RETURN "..."
-    ENDDEF
+    ENDFUNC
 ENDCLASS
 
 CLASS Dog INHERITS Animal
     # Constructor name now matches Class name
-    DEF Dog()
+    FUNC Dog()
         # Call parent constructor using SUPER()
         SUPER() 
         PRINTLN("Dog Constructor")
-    ENDDEF
+    ENDFUNC
 
-    DEF speak()
+    FUNC speak()
         RETURN "Woof! " + SUPER.speak()
-    ENDDEF
+    ENDFUNC
 ENDCLASS
 
 PRINTLN("\n[1] Testing SUPER in Constructor:")
@@ -38,26 +38,26 @@ PRINTLN("\n[3] TESTING SUPER WITH ARGUMENTS:")
 
 CLASS Animal
     # Parent constructor takes 'name'
-    DEF Animal(name)
+    FUNC Animal(name)
         THIS.name = name
         PRINTLN("Animal Constructor: Set name to " + name)
-    ENDDEF
+    ENDFUNC
 
-    DEF speak()
+    FUNC speak()
         RETURN "..."
-    ENDDEF
+    ENDFUNC
 ENDCLASS
 
 CLASS Dog INHERITS Animal
     # Child constructor takes 'name' and passes it up
-    DEF Dog(name)
+    FUNC Dog(name)
         SUPER(name) # <--- Passing value to parent here
         PRINTLN("Dog Constructor: Ready")
-    ENDDEF
+    ENDFUNC
 
-    DEF speak()
+    FUNC speak()
         RETURN THIS.name + " says Woof!"
-    ENDDEF
+    ENDFUNC
 ENDCLASS
 
 d = NEW Dog("Buddy")
@@ -82,27 +82,27 @@ PRINTLN("c is Animal? " + STR(c INSTANCEOF Animal)) # Expected: 0
 PRINTLN("\n[5] TESTING HYBRID PARENT CALLS")
 
 CLASS Animal
-    DEF Animal()
+    FUNC Animal()
         PRINTLN("Animal Constructor")
-    ENDDEF
+    ENDFUNC
 
-    DEF speak()
+    FUNC speak()
         RETURN "Generic Sound"
-    ENDDEF
+    ENDFUNC
 ENDCLASS
 
 CLASS Human
-    DEF Human()
+    FUNC Human()
         PRINTLN("Human Constructor")
-    ENDDEF
+    ENDFUNC
 
-    DEF speak()
+    FUNC speak()
         RETURN "Hello"
-    ENDDEF
+    ENDFUNC
 ENDCLASS
 
 CLASS Dog INHERITS Animal, Human
-    DEF Dog()
+    FUNC Dog()
         PRINTLN("--- Initializing Dog ---")
         
         # STYLE 1: Explicit Calls (Great for Multiple Inheritance)
@@ -113,12 +113,12 @@ CLASS Dog INHERITS Animal, Human
         # This will call 'Animal' again because it's first in MRO
         PRINTLN("--- Calling SUPER() ---")
         SUPER() 
-    ENDDEF
+    ENDFUNC
 
-    DEF speak()
+    FUNC speak()
         # Mix both styles in methods too
         RETURN "Woof! " + SUPER.speak() + " " + Human.speak()
-    ENDDEF
+    ENDFUNC
 ENDCLASS
 
 d = NEW Dog()
@@ -132,3 +132,69 @@ d = NEW Dog()
 PRINTLN("\n[Speaking]")
 PRINTLN(d.speak())
 # Expected: Woof! Generic Sound Hello
+PRINTLN "\n=== 6. SUPER + Overloaded Methods ==="
+
+CLASS OverloadedParent
+    FUNC calculate(a)
+        RETURN a + 1
+    ENDFUNC
+
+    FUNC calculate(a, b)
+        RETURN a + b
+    ENDFUNC
+ENDCLASS
+
+CLASS OverloadedChild INHERITS OverloadedParent
+    FUNC test()
+        RETURN SUPER.calculate(10) + SUPER.calculate(10, 20)
+    ENDFUNC
+ENDCLASS
+
+LET overloaded_child = NEW OverloadedChild()
+
+PRINTLN "SUPER overload result: " + overloaded_child.test()
+# Expected: 41
+
+
+PRINTLN "\n=== 7. SUPER + Protected Visibility ==="
+
+CLASS ProtectedParent
+    PROTECTED FUNC protected_speak()
+        RETURN "protected"
+    ENDFUNC
+ENDCLASS
+
+CLASS ProtectedChildTest INHERITS ProtectedParent
+    FUNC call_parent()
+        RETURN SUPER.protected_speak()
+    ENDFUNC
+ENDCLASS
+
+LET protected_test = NEW ProtectedChildTest()
+
+PRINTLN "SUPER protected result: " + protected_test.call_parent()
+# Expected: protected
+
+
+PRINTLN "\n=== 8. SUPER + Private Visibility ==="
+
+CLASS PrivateParent
+    PRIVATE FUNC private_speak()
+        RETURN "private"
+    ENDFUNC
+ENDCLASS
+
+CLASS PrivateChildTest INHERITS PrivateParent
+    FUNC call_parent()
+        TRY
+            RETURN SUPER.private_speak()
+        CATCH error
+            RETURN "blocked"
+        ENDTRY
+    ENDFUNC
+ENDCLASS
+
+LET private_test = NEW PrivateChildTest()
+
+PRINTLN "SUPER private result: " + private_test.call_parent()
+# Expected: blocked

@@ -82,10 +82,10 @@ PRINTLN "--- Test 8: Bug Fix - Global Scope Update ---"
 LET count = 0
 PRINTLN "Global count starts at: " + count
 
-DEF increment_count()
+FUNC increment_count()
     # This should update the GLOBAL variable, not create a local one
     count++
-ENDDEF
+ENDFUNC
 
 PRINTLN "Calling function increment_count()..."
 increment_count()
@@ -102,3 +102,78 @@ ENDIF
 PRINTLN ""
 PRINTLN "--- Final Integrity Check ---"
 PRINTLN "Value of 'pi' should still be 3.14159: " + pi
+PRINTLN ""
+PRINTLN "--- Test 9: Nested Function Cannot Shadow FINAL ---"
+
+FINAL protected_name = 123
+
+FUNC outer_final_test()
+    FUNC protected_name()
+        RETURN 456
+    ENDFUNC
+ENDFUNC
+
+TRY
+    outer_final_test()
+    PRINTLN "FAIL: Nested function shadowed FINAL"
+CATCH e
+    PRINTLN "SUCCESS: Nested function cannot shadow FINAL: " + e
+ENDTRY
+
+
+PRINTLN ""
+PRINTLN "--- Test 10: Nested Function Parameter Cannot Shadow FINAL ---"
+
+FINAL parameter_name = 789
+
+FUNC outer_parameter_test()
+    FUNC inner_parameter_test(parameter_name)
+        RETURN parameter_name
+    ENDFUNC
+
+    RETURN inner_parameter_test(123)
+ENDFUNC
+
+TRY
+    outer_parameter_test()
+    PRINTLN "FAIL: Nested function parameter shadowed FINAL"
+CATCH e
+    PRINTLN "SUCCESS: Nested function parameter cannot shadow FINAL: " + e
+ENDTRY
+
+
+PRINTLN ""
+PRINTLN "--- Test 11: Nested Class Cannot Shadow FINAL ---"
+
+FINAL nested_class_name = 111
+
+FUNC outer_class_test()
+    CLASS nested_class_name
+    ENDCLASS
+ENDFUNC
+
+TRY
+    outer_class_test()
+    PRINTLN "FAIL: Nested class shadowed FINAL"
+CATCH e
+    PRINTLN "SUCCESS: Nested class cannot shadow FINAL: " + e
+ENDTRY
+
+
+PRINTLN ""
+PRINTLN "--- Test 12: Nested Enum Cannot Shadow FINAL ---"
+
+FINAL nested_enum_name = 222
+
+FUNC outer_enum_test()
+    ENUM nested_enum_name
+        VALUE
+    ENDENUM
+ENDFUNC
+
+TRY
+    outer_enum_test()
+    PRINTLN "FAIL: Nested enum shadowed FINAL"
+CATCH e
+    PRINTLN "SUCCESS: Nested enum cannot shadow FINAL: " + e
+ENDTRY

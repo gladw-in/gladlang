@@ -74,20 +74,20 @@ PRINTLN "Value after: " + list[0] + " (Expected: 102)"
 PRINTLN "\n[Section 3] Object Properties (The Fix)"
 
 CLASS Counter
-    DEF Counter()
+    FUNC Counter()
         PUBLIC THIS.pub_val = 10
         PRIVATE THIS.priv_val = 10
-    ENDDEF
+    ENDFUNC
 
-    PUBLIC DEF test_public()
+    PUBLIC FUNC test_public()
         PRINTLN "  [Public Test]"
         PRINTLN "  Initial: " + THIS.pub_val
         PRINTLN "  THIS.pub_val++: " + (THIS.pub_val++) + " (Expected: 10)"
         PRINTLN "  After: " + THIS.pub_val + " (Expected: 11)"
         PRINTLN "  ++THIS.pub_val: " + (++THIS.pub_val) + " (Expected: 12)"
-    ENDDEF
+    ENDFUNC
 
-    PUBLIC DEF test_private()
+    PUBLIC FUNC test_private()
         PRINTLN "  [Private Test - REQUIRED FIX]"
         PRINTLN "  Initial: " + THIS.priv_val
         
@@ -101,7 +101,7 @@ CLASS Counter
         
         PRINTLN "  THIS.priv_val--: " + (THIS.priv_val--) + " (Expected: 12)"
         PRINTLN "  --THIS.priv_val: " + (--THIS.priv_val) + " (Expected: 10)"
-    ENDDEF
+    ENDFUNC
 ENDCLASS
 
 LET c = NEW Counter()
@@ -135,14 +135,14 @@ PRINTLN "++a (Pre):  " + (++a) + " -> a is now " + a
 # ---------------------------------------------------------
 PRINTLN "\n[2] Private Member Access"
 CLASS Secret
-    DEF Secret()
+    FUNC Secret()
         PRIVATE THIS.val = 5
-    ENDDEF
+    ENDFUNC
     
-    PUBLIC DEF test()
+    PUBLIC FUNC test()
         PRINTLN "Private val: " + THIS.val
         PRINTLN "++THIS.val:  " + (++THIS.val) + " (Should be 6)"
-    ENDDEF
+    ENDFUNC
 ENDCLASS
 
 LET s = NEW Secret()
