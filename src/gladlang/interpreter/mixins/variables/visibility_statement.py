@@ -60,6 +60,19 @@ class InterpreterVisibilityStatement:
 
                 return result.success(value)
 
+            if (
+                variable_name in context.symbol_table.finals
+                or context.symbol_table.is_final_in_ancestors(variable_name)
+            ):
+                return result.failure(
+                    RuntimeError(
+                        node.position_start,
+                        node.position_end,
+                        f"Cannot shadow constant '{variable_name}'",
+                        context,
+                    )
+                )
+
             context.symbol_table.set(variable_name, value, visibility=target_visibility)
 
             return result.success(value)

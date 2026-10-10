@@ -1,0 +1,49 @@
+--- Enum Operator Tester ---
+--- Member equality ---
+PASS: member == itself
+PASS: member == different member
+PASS: member != different member
+PASS: member != itself
+PASS: member IS itself
+PASS: member IS different member
+PASS: same case name in another enum is different
+PASS: member == its numeric value is false
+PASS: member != its numeric value is true
+PASS: member == NULL is false
+PASS: member == string is false
+--- Member values and text ---
+PASS: explicit value
+PASS: auto value after explicit
+PASS: implicit first value
+PASS: STR of member
+PASS: BOOL of member
+PASS: unknown member attribute -> Illegal operation
+PASS: member name attribute is not exposed -> Illegal operation
+--- Truthiness: members are always true, even with value 0 ---
+PASS: IF on member with value 0
+PASS: member OR 0
+PASS: member AND 0
+PASS: 0 OR member
+PASS: IF treats member as true
+--- Whole-enum comparisons ---
+PASS: enum == itself
+PASS: enum == another enum
+PASS: enum != another enum
+PASS: enum != itself
+PASS: enum IS itself
+PASS: enum IS another enum
+PASS: enum == number -> Illegal operation
+PASS: enum != number -> Illegal operation
+--- Whole-enum logic and text ---
+PASS: enum AND 1
+PASS: enum AND 0
+PASS: enum OR 0
+PASS: 0 OR enum
+PASS: enum AND enum
+PASS: STR of enum
+PASS: BOOL of enum
+PASS: member lookup through the enum
+--- Errors ---
+PASS: missing case -> Enum 'Colors' has no case 'MISSING'
+PASS: reassign a case -> Cannot reassign enum case 'RED'
+PASS: LEN of an enum -> LEN is not supported for type 'Enum'

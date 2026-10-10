@@ -35,8 +35,14 @@ class SymbolTableSetOperators:
             if name in self.symbols:
                 return f"Variable '{name}' is already defined"
 
-            if as_final and self.is_final_in_ancestors(name):
-                return f"Cannot declare constant '{name}' because it is already defined as constant in outer scope"
+            if self.is_final_in_ancestors(name):
+                if as_final:
+                    return (
+                        f"Cannot declare constant '{name}' because it is "
+                        "already defined as constant in outer scope"
+                    )
+
+                return f"Cannot shadow constant '{name}'"
 
             self.symbols[name] = value
             if visibility != "PUBLIC":

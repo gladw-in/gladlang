@@ -1,0 +1,3 @@
+Traceback (most recent call last):
+  File $REPO/tests/regression/18_enum_fractional_autoincrement.glad, line 2, in <regression:18_enum_fractional_autoincrement.glad>
+Runtime Error: Enum values must be integers

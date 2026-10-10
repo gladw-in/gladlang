@@ -1,5 +1,7 @@
 """Visitor for enum definitions."""
 
+import math
+
 from gladlang.core.errors import RuntimeError
 from gladlang.runtime.runtime_result import RuntimeResult
 from gladlang.values.enums.enum import Enum
@@ -11,6 +13,28 @@ class InterpreterEnums:
         result = RuntimeResult()
 
         enum_name = node.enum_name_token.value
+
+        if enum_name in context.symbol_table.finals:
+            return result.failure(
+                RuntimeError(
+                    node.position_start,
+                    node.position_end,
+                    f"Cannot override constant '{enum_name}' "
+                    "with an enum definition",
+                    context,
+                )
+            )
+
+        if context.symbol_table.is_final_in_ancestors(enum_name):
+            return result.failure(
+                RuntimeError(
+                    node.position_start,
+                    node.position_end,
+                    f"Cannot shadow constant '{enum_name}' " "with an enum definition",
+                    context,
+                )
+            )
+
         elements_dictionary = {}
         current_value = 0
 
@@ -32,6 +56,26 @@ class InterpreterEnums:
                     return result
 
                 if isinstance(case_value, Number):
+                    if not math.isfinite(case_value.value):
+                        return result.failure(
+                            RuntimeError(
+                                case_value_node.position_start,
+                                case_value_node.position_end,
+                                "Enum values must be finite integers",
+                                context,
+                            )
+                        )
+
+                    if not float(case_value.value).is_integer():
+                        return result.failure(
+                            RuntimeError(
+                                case_value_node.position_start,
+                                case_value_node.position_end,
+                                "Enum values must be integers",
+                                context,
+                            )
+                        )
+
                     current_value = int(case_value.value)
 
             else:
@@ -39,7 +83,7 @@ class InterpreterEnums:
 
             elements_dictionary[case_name] = case_value
             if isinstance(case_value, Number):
-                current_value += 1
+                current_value = int(case_value.value) + 1
 
         enum_value = Enum(enum_name, elements_dictionary)
         enum_value.set_context(context).set_position(

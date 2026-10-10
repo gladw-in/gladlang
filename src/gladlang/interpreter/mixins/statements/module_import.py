@@ -44,13 +44,26 @@ class InterpreterModuleImport:
                         )
                     )
 
+                if context.symbol_table.is_final_in_ancestors(alias):
+                    return result.failure(
+                        RuntimeError(
+                            node.position_start,
+                            node.position_end,
+                            f"Cannot shadow constant '{alias}' with an import",
+                            context,
+                        )
+                    )
+
                 context.symbol_table.set(alias, bound_value)
             else:
                 error = context.symbol_table.set_if_absent(alias, bound_value)
                 if error:
                     return result.failure(
                         RuntimeError(
-                            node.position_start, node.position_end, error, context
+                            node.position_start,
+                            node.position_end,
+                            error,
+                            context,
                         )
                     )
 

@@ -1,0 +1,100 @@
+PRINTLN "--- Attribute Assignment Rules ---"
+
+FUNC check(label, ok)
+    IF ok THEN
+        PRINTLN "PASS: " + label
+    ELSE
+        PRINTLN "FAIL: " + label
+    ENDIF
+ENDFUNC
+
+FUNC must_raise(label, fn)
+    TRY
+        fn()
+        PRINTLN "FAIL: " + label + " did not raise"
+    CATCH e
+        PRINTLN "PASS: " + label + " -> " + e
+    ENDTRY
+ENDFUNC
+
+CLASS Base
+    STATIC LET count = 0
+    STATIC PRIVATE LET secret = 1
+    STATIC PROTECTED LET shared = 2
+    STATIC FINAL LIMIT = 10
+
+    FUNC Base()
+        PUBLIC THIS.pub = 1
+        PRIVATE THIS.priv = 2
+        PROTECTED THIS.prot = 3
+        FINAL THIS.fixed = 4
+    ENDFUNC
+
+    PUBLIC FUNC bumpPriv()
+        THIS.priv = THIS.priv + 10
+        RETURN THIS.priv
+    ENDFUNC
+
+    PUBLIC FUNC setFixed()
+        THIS.fixed = 99
+    ENDFUNC
+
+    STATIC FUNC makeSecret()
+        Base.secret = 55
+        RETURN Base.secret
+    ENDFUNC
+ENDCLASS
+
+CLASS Kid INHERITS Base
+    FUNC Kid()
+        SUPER()
+    ENDFUNC
+
+    STATIC FUNC touchShared()
+        Kid.shared = 20
+        RETURN Kid.shared
+    ENDFUNC
+
+    STATIC FUNC touchSecret()
+        Kid.secret = 5
+        RETURN 1
+    ENDFUNC
+
+    PUBLIC FUNC touchProtected()
+        THIS.prot = 30
+        RETURN THIS.prot
+    ENDFUNC
+ENDCLASS
+
+LET b = NEW Base()
+LET k = NEW Kid()
+
+PRINTLN "--- Static attributes ---"
+Base.count = 5
+check("public static can be set", Base.count == 5)
+Base.count += 1
+check("public static supports +=", Base.count == 6)
+must_raise("private static from outside", FUNC() Base.secret = 9 ENDFUNC)
+must_raise("protected static from outside", FUNC() Base.shared = 9 ENDFUNC)
+must_raise("static constant reassigned", FUNC() Base.LIMIT = 11 ENDFUNC)
+check("private static set from inside the class", Base.makeSecret() == 55)
+check("protected static set from a subclass", Kid.touchShared() == 20)
+must_raise("parent's private static set from a subclass", FUNC() Kid.touchSecret() ENDFUNC)
+
+PRINTLN "--- Instance attributes ---"
+b.pub = 7
+check("public attribute can be set", b.pub == 7)
+must_raise("protected attribute from outside", FUNC() b.prot = 9 ENDFUNC)
+must_raise("constant attribute from outside", FUNC() b.fixed = 9 ENDFUNC)
+must_raise("constant attribute from inside", FUNC() b.setFixed() ENDFUNC)
+check("protected attribute set from a subclass", k.touchProtected() == 30)
+
+TRY
+    b.priv = 9
+CATCH ignored
+    LET placeholder = 0
+ENDTRY
+check("private value is never overwritten from outside", b.bumpPriv() == 12)
+
+PRINTLN "--- Shadowing ---"
+must_raise("instance attribute may not shadow a static constant", FUNC() b.LIMIT = 1 ENDFUNC)

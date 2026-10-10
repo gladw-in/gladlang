@@ -36,34 +36,39 @@ class InterpreterFunctions:
                     )
                 )
 
+            if context.symbol_table.is_final_in_ancestors(function_name):
+                return result.failure(
+                    RuntimeError(
+                        node.position_start,
+                        node.position_end,
+                        f"Cannot shadow constant '{function_name}' with a function definition",
+                        context,
+                    )
+                )
+
             existing_value = context.symbol_table.get(function_name)
 
             if existing_value is not None:
                 if isinstance(existing_value, FunctionGroup):
-                    argument_count = len(function.argument_names)
-                    if argument_count in existing_value.functions:
-                        existing_value.functions[argument_count] = function
-                    else:
-                        error = existing_value.add_function(function)
-                        if error and isinstance(error, RuntimeResult) and error.error:
-                            return error
+                    error = existing_value.add_function(function)
+                    if error and isinstance(error, RuntimeResult) and error.error:
+                        return error
 
                     function = existing_value
 
                 elif isinstance(existing_value, Function):
-                    existing_argument_count = len(existing_value.argument_names)
-                    new_argument_count = len(function.argument_names)
-                    if existing_argument_count == new_argument_count:
-                        context.symbol_table.set(function_name, function)
-                    else:
-                        function_group = FunctionGroup(function_name)
-                        function_group.add_function(existing_value)
-                        error = function_group.add_function(function)
-                        if error and isinstance(error, RuntimeResult) and error.error:
-                            return error
+                    function_group = FunctionGroup(function_name)
 
-                        context.symbol_table.set(function_name, function_group)
-                        function = function_group
+                    error = function_group.add_function(existing_value)
+                    if error and isinstance(error, RuntimeResult) and error.error:
+                        return error
+
+                    error = function_group.add_function(function)
+                    if error and isinstance(error, RuntimeResult) and error.error:
+                        return error
+
+                    context.symbol_table.set(function_name, function_group)
+                    function = function_group
                 else:
                     context.symbol_table.set(function_name, function)
             else:

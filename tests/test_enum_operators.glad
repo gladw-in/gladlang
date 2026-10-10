@@ -1,0 +1,88 @@
+PRINTLN "--- Enum Operator Tester ---"
+
+ENUM Colors
+    RED
+    GREEN = 5
+    BLUE
+ENDENUM
+
+ENUM Shapes
+    RED
+ENDENUM
+
+FUNC check(label, ok)
+    IF ok THEN
+        PRINTLN "PASS: " + label
+    ELSE
+        PRINTLN "FAIL: " + label
+    ENDIF
+ENDFUNC
+
+FUNC must_raise(label, fn)
+    TRY
+        fn()
+        PRINTLN "FAIL: " + label + " did not raise"
+    CATCH e
+        PRINTLN "PASS: " + label + " -> " + e
+    ENDTRY
+ENDFUNC
+
+LET r = Colors.RED
+
+PRINTLN "--- Member equality ---"
+check("member == itself", STR(r == Colors.RED) == "1")
+check("member == different member", STR(r == Colors.GREEN) == "0")
+check("member != different member", STR(r != Colors.GREEN) == "1")
+check("member != itself", STR(r != Colors.RED) == "0")
+check("member IS itself", STR(r IS Colors.RED) == "1")
+check("member IS different member", STR(r IS Colors.GREEN) == "0")
+check("same case name in another enum is different", STR(Colors.RED == Shapes.RED) == "0")
+check("member == its numeric value is false", STR(r == 0) == "0")
+check("member != its numeric value is true", STR(r != 0) == "1")
+check("member == NULL is false", STR(r == NULL) == "0")
+check("member == string is false", STR(r == "RED") == "0")
+
+PRINTLN "--- Member values and text ---"
+check("explicit value", STR(Colors.GREEN.value) == "5")
+check("auto value after explicit", STR(Colors.BLUE.value) == "6")
+check("implicit first value", STR(r.value) == "0")
+check("STR of member", STR(r) == "Colors.RED")
+check("BOOL of member", STR(BOOL(r)) == "1")
+must_raise("unknown member attribute", FUNC() RETURN r.nothing ENDFUNC)
+must_raise("member name attribute is not exposed", FUNC() RETURN r.name ENDFUNC)
+
+PRINTLN "--- Truthiness: members are always true, even with value 0 ---"
+check("IF on member with value 0", STR(r AND 1) == "1")
+check("member OR 0", STR(r OR 0) == "1")
+check("member AND 0", STR(r AND 0) == "0")
+check("0 OR member", STR(0 OR r) == "1")
+LET picked = "none"
+IF r THEN
+    picked = "truthy"
+ENDIF
+check("IF treats member as true", picked == "truthy")
+
+PRINTLN "--- Whole-enum comparisons ---"
+check("enum == itself", STR(Colors == Colors) == "1")
+check("enum == another enum", STR(Colors == Shapes) == "0")
+check("enum != another enum", STR(Colors != Shapes) == "1")
+check("enum != itself", STR(Colors != Colors) == "0")
+check("enum IS itself", STR(Colors IS Colors) == "1")
+check("enum IS another enum", STR(Colors IS Shapes) == "0")
+must_raise("enum == number", FUNC() RETURN Colors == 1 ENDFUNC)
+must_raise("enum != number", FUNC() RETURN Colors != 1 ENDFUNC)
+
+PRINTLN "--- Whole-enum logic and text ---"
+check("enum AND 1", STR(Colors AND 1) == "1")
+check("enum AND 0", STR(Colors AND 0) == "0")
+check("enum OR 0", STR(Colors OR 0) == "1")
+check("0 OR enum", STR(0 OR Colors) == "1")
+check("enum AND enum", STR(Colors AND Shapes) == "1")
+check("STR of enum", STR(Colors) == "<enum Colors>")
+check("BOOL of enum", STR(BOOL(Colors)) == "1")
+check("member lookup through the enum", STR(Colors.BLUE) == "Colors.BLUE")
+
+PRINTLN "--- Errors ---"
+must_raise("missing case", FUNC() RETURN Colors.MISSING ENDFUNC)
+must_raise("reassign a case", FUNC() Colors.RED = 1 ENDFUNC)
+must_raise("LEN of an enum", FUNC() RETURN LEN(Colors) ENDFUNC)
