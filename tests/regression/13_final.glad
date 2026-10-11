@@ -1,0 +1,7 @@
+FINAL x = 10
+
+FUNC test(x)
+    RETURN x
+ENDFUNC
+
+PRINTLN(test(5))

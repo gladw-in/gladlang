@@ -1,0 +1,12 @@
+--- SUPER Rules Tester ---
+--- Parent without a constructor ---
+PASS: SUPER() with no arguments is accepted
+PASS: SUPER() with arguments has nothing to receive them -> No constructor found in superclasses
+--- SUPER() is only a constructor call ---
+PASS: SUPER() inside an ordinary method -> 'SUPER()' can only be called as a constructor call from within a constructor. To call a parent method use 'SUPER.<method>(...)' instead.
+--- Constructor visibility ---
+PASS: NEW on a private constructor -> Cannot access private method 'Locked' via Class
+PASS: subclass calling a private parent constructor -> Cannot access private constructor of 'Locked' via SUPER
+PASS: NEW on a protected constructor -> Cannot access protected method 'Guarded' via Class
+PASS: subclass may call a protected parent constructor
+PASS: subclass finishes its own construction

@@ -46,7 +46,7 @@ class ClassCore(BaseFunction):
             self.mro[:],
         )
 
-        class_copy._method_cache = self._method_cache
+        class_copy._method_cache = {}
         class_copy.set_context(self.context)
         class_copy.set_position(self.position_start, self.position_end)
 

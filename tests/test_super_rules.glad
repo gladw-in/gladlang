@@ -1,0 +1,80 @@
+PRINTLN "--- SUPER Rules Tester ---"
+
+FUNC check(label, ok)
+    IF ok THEN
+        PRINTLN "PASS: " + label
+    ELSE
+        PRINTLN "FAIL: " + label
+    ENDIF
+ENDFUNC
+
+FUNC must_raise(label, fn)
+    TRY
+        fn()
+        PRINTLN "FAIL: " + label + " did not raise"
+    CATCH e
+        PRINTLN "PASS: " + label + " -> " + e
+    ENDTRY
+ENDFUNC
+
+CLASS Plain
+    PUBLIC FUNC hi()
+        RETURN "hi"
+    ENDFUNC
+ENDCLASS
+
+CLASS Locked
+    PRIVATE FUNC Locked()
+        PUBLIC THIS.v = 1
+    ENDFUNC
+ENDCLASS
+
+CLASS Guarded
+    PROTECTED FUNC Guarded()
+        PUBLIC THIS.v = 2
+    ENDFUNC
+ENDCLASS
+
+CLASS ChildOfPlain INHERITS Plain
+    FUNC ChildOfPlain()
+        SUPER()
+    ENDFUNC
+
+    PUBLIC FUNC viaMethod()
+        SUPER()
+    ENDFUNC
+ENDCLASS
+
+CLASS ChildWithArguments INHERITS Plain
+    FUNC ChildWithArguments()
+        SUPER(1, 2)
+    ENDFUNC
+ENDCLASS
+
+CLASS ChildOfLocked INHERITS Locked
+    FUNC ChildOfLocked()
+        SUPER()
+    ENDFUNC
+ENDCLASS
+
+CLASS ChildOfGuarded INHERITS Guarded
+    FUNC ChildOfGuarded()
+        SUPER()
+        PUBLIC THIS.w = 3
+    ENDFUNC
+ENDCLASS
+
+PRINTLN "--- Parent without a constructor ---"
+check("SUPER() with no arguments is accepted", NEW ChildOfPlain().hi() == "hi")
+must_raise("SUPER() with arguments has nothing to receive them", FUNC() RETURN NEW ChildWithArguments() ENDFUNC)
+
+PRINTLN "--- SUPER() is only a constructor call ---"
+must_raise("SUPER() inside an ordinary method", FUNC() RETURN NEW ChildOfPlain().viaMethod() ENDFUNC)
+
+PRINTLN "--- Constructor visibility ---"
+must_raise("NEW on a private constructor", FUNC() RETURN NEW Locked() ENDFUNC)
+must_raise("subclass calling a private parent constructor", FUNC() RETURN NEW ChildOfLocked() ENDFUNC)
+must_raise("NEW on a protected constructor", FUNC() RETURN NEW Guarded() ENDFUNC)
+LET guarded_child = NEW ChildOfGuarded()
+check("subclass may call a protected parent constructor", STR(guarded_child.v) == "2")
+check("subclass finishes its own construction", STR(guarded_child.w) == "3")

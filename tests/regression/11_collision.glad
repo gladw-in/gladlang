@@ -1,0 +1,7 @@
+CLASS Test
+    STATIC LET value = 10
+
+    FUNC value()
+        RETURN 20
+    ENDFUNC
+ENDCLASS

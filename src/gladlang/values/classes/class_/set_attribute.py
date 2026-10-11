@@ -56,6 +56,36 @@ class ClassSetAttribute:
             )
 
         if defining_class is not None:
+            inherited_visibility = target_class.static_symbol_table.get_visibility(name)
+
+            if inherited_visibility == "PRIVATE":
+                if not context or context.active_class != defining_class:
+                    return None, RuntimeError(
+                        name_token.position_start,
+                        name_token.position_end,
+                        f"Cannot access private static field '{name}'",
+                        context,
+                    )
+
+            elif inherited_visibility == "PROTECTED":
+                allowed = (
+                    context is not None
+                    and context.active_class is not None
+                    and (
+                        defining_class in context.active_class.mro
+                        or context.active_class in defining_class.mro
+                    )
+                )
+
+                if not allowed:
+                    return None, RuntimeError(
+                        name_token.position_start,
+                        name_token.position_end,
+                        f"Cannot access protected static field '{name}'",
+                        context,
+                    )
+
+        if defining_class is not None:
             error = target_class.static_symbol_table.update(name, value)
         else:
             error = target_class.static_symbol_table.set(

@@ -1,0 +1,9 @@
+CLASS Test
+    STATIC LET x = 1
+ENDCLASS
+
+PRINTLN(Test.x)
+
+Test.x = 2
+
+PRINTLN(Test.x)

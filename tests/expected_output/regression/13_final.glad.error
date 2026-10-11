@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File $REPO/tests/regression/13_final.glad, line 7, in <regression:13_final.glad>
+  File $REPO/tests/regression/13_final.glad, line 7, in test
+Runtime Error: Cannot shadow constant 'x'

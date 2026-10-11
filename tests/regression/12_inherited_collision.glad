@@ -1,0 +1,9 @@
+CLASS Base
+    FUNC value()
+        RETURN 1
+    ENDFUNC
+ENDCLASS
+
+CLASS Child INHERITS Base
+    STATIC LET value = 10
+ENDCLASS
