@@ -19,6 +19,9 @@ class BoundMethodExecute:
         current_instance = self.instance
         current_arguments = arguments
         base_depth = None
+        logical_parent_context = calling_context
+        call_position_start = self.position_start
+        call_position_end = self.position_end
 
         while True:
             current_function, error_result = self._resolve_overload(
@@ -34,11 +37,18 @@ class BoundMethodExecute:
                 )
 
             new_context, base_depth, error_result = self._setup_call_context(
-                current_function, calling_context, base_depth
+                current_function,
+                calling_context,
+                base_depth,
+                logical_parent_context,
+                call_position_start,
+                call_position_end,
             )
 
             if error_result is not None:
                 return error_result
+
+            logical_parent_context = new_context
 
             result.register(
                 current_function.check_and_populate_arguments(
@@ -67,7 +77,14 @@ class BoundMethodExecute:
             if outcome[0] == "return":
                 return outcome[1]
             else:
-                _, current_function, current_instance, current_arguments = outcome
+                (
+                    _,
+                    current_function,
+                    current_instance,
+                    current_arguments,
+                    call_position_start,
+                    call_position_end,
+                ) = outcome
                 result = RuntimeResult()
                 continue
 

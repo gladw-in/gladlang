@@ -35,6 +35,8 @@ class BoundMethodHandleCallOutcome:
                         target_function.function_to_bind,
                         target_function.instance,
                         return_value.arguments,
+                        target_function.position_start,
+                        target_function.position_end,
                     )
                 else:
                     self._call_count = 0

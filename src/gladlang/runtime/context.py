@@ -12,6 +12,9 @@ class Context:
         "is_static",
         "_tail_call_function",
         "is_repl",
+        "is_function_call_context",
+        "logical_parent",
+        "logical_parent_entry_position",
     )
 
     def __init__(
@@ -25,3 +28,6 @@ class Context:
         self.active_class = parent.active_class if parent else None
         self.is_static = parent.is_static if parent else False
         self.is_repl = is_repl
+        self.is_function_call_context = False
+        self.logical_parent = None
+        self.logical_parent_entry_position = None

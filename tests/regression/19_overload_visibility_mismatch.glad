@@ -1,0 +1,9 @@
+CLASS Test
+    STATIC FUNC f(a)
+        RETURN 1
+    ENDFUNC
+
+    FUNC f(a, b)
+        RETURN 2
+    ENDFUNC
+ENDCLASS

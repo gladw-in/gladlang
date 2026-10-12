@@ -63,6 +63,12 @@ class ClassGetAttributeCache:
         if error:
             return None, error
 
+        if cached_kind == "field":
+            return (
+                cached_defining_class.static_symbol_table.get(method_name),
+                None,
+            )
+
         if isinstance(cached_value, (BaseFunction, BoundMethod)):
             return cached_value.copy(), None
 

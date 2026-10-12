@@ -20,13 +20,7 @@ class FunctionGroupAddFunction:
                 )
             )
 
-        self.functions[argument_count] = new_variant
-
-        if len(self.functions) == 1:
-            self.visibility = getattr(new_variant, "visibility", "PUBLIC")
-            self.is_static = getattr(new_variant, "is_static", False)
-            self.defining_class = getattr(new_variant, "defining_class", None)
-        else:
+        if self.functions:
             if getattr(new_variant, "visibility", "PUBLIC") != self.visibility:
                 return RuntimeResult().failure(
                     RuntimeError(
@@ -36,5 +30,22 @@ class FunctionGroupAddFunction:
                         None,
                     )
                 )
+
+            if getattr(new_variant, "is_static", False) != self.is_static:
+                return RuntimeResult().failure(
+                    RuntimeError(
+                        new_variant.position_start,
+                        new_variant.position_end,
+                        f"All overloads of '{self.name}' must have "
+                        "the same static/instance mode",
+                        None,
+                    )
+                )
+        else:
+            self.visibility = getattr(new_variant, "visibility", "PUBLIC")
+            self.is_static = getattr(new_variant, "is_static", False)
+            self.defining_class = getattr(new_variant, "defining_class", None)
+
+        self.functions[argument_count] = new_variant
 
         return None

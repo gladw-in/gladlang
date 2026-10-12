@@ -1,0 +1,9 @@
+FUNC recurse(n)
+    IF n == 0 THEN
+        RETURN missing_variable
+    ENDIF
+
+    RETURN recurse(n - 1)
+ENDFUNC
+
+recurse(10)

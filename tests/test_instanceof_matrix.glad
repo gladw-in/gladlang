@@ -1,0 +1,102 @@
+PRINTLN "--- INSTANCEOF Matrix Tester ---"
+
+ENUM Colors
+    RED
+    GREEN
+ENDENUM
+
+CLASS A
+    FUNC A()
+        PUBLIC THIS.v = 1
+    ENDFUNC
+
+    PUBLIC FUNC m()
+        RETURN 1
+    ENDFUNC
+ENDCLASS
+
+CLASS B
+    FUNC B()
+        PUBLIC THIS.w = 1
+    ENDFUNC
+ENDCLASS
+
+CLASS Sub INHERITS A
+    FUNC Sub()
+        SUPER()
+    ENDFUNC
+ENDCLASS
+
+FUNC plain()
+    RETURN 1
+ENDFUNC
+
+LET anon = FUNC(x) RETURN x ENDFUNC
+LET a = NEW A()
+
+FUNC check(label, ok)
+    IF ok THEN
+        PRINTLN "PASS: " + label
+    ELSE
+        PRINTLN "FAIL: " + label
+    ENDIF
+ENDFUNC
+
+# One digit per type, in this order:
+# Number String List Dict Enum Function Object
+FUNC signature(v)
+    RETURN STR(v INSTANCEOF Number) + STR(v INSTANCEOF String) + STR(v INSTANCEOF List) + STR(v INSTANCEOF Dict) + STR(v INSTANCEOF Enum) + STR(v INSTANCEOF Function) + STR(v INSTANCEOF Object)
+ENDFUNC
+
+PRINTLN "--- Built-in type signatures ---"
+check("int", signature(5) == "1000001")
+check("float", signature(1.5) == "1000001")
+check("NULL", signature(NULL) == "1000001")
+check("string", signature("s") == "0100001")
+check("list", signature([1]) == "0010001")
+check("dict", signature({"a": 1}) == "0001001")
+check("user function", signature(plain) == "0000011")
+check("anonymous function", signature(anon) == "0000011")
+check("built-in function", signature(LEN) == "0000011")
+check("bound method", signature(a.m) == "0000011")
+check("enum member", signature(Colors.RED) == "0000101")
+check("enum", signature(Colors) == "0000101")
+check("class instance", signature(a) == "0000001")
+
+PRINTLN "--- Values are never instances of an unrelated class ---"
+check("5 INSTANCEOF A is false", STR(5 INSTANCEOF A) == "0")
+check("string INSTANCEOF A is false", STR("s" INSTANCEOF A) == "0")
+check("list INSTANCEOF A is false", STR([1] INSTANCEOF A) == "0")
+check("dict INSTANCEOF A is false", STR({"a": 1} INSTANCEOF A) == "0")
+check("function INSTANCEOF A is false", STR(plain INSTANCEOF A) == "0")
+check("enum member INSTANCEOF A is false", STR(Colors.RED INSTANCEOF A) == "0")
+check("enum INSTANCEOF A is false", STR(Colors INSTANCEOF A) == "0")
+
+PRINTLN "--- Class instances and inheritance ---"
+check("instance of own class", STR(a INSTANCEOF A) == "1")
+check("instance of unrelated class", STR(a INSTANCEOF B) == "0")
+check("subclass instance of parent", STR((NEW Sub()) INSTANCEOF A) == "1")
+check("subclass instance of itself", STR((NEW Sub()) INSTANCEOF Sub) == "1")
+check("parent instance of subclass", STR(a INSTANCEOF Sub) == "0")
+check("class A INSTANCEOF Object", STR(A INSTANCEOF Object) == "1")
+check("class A INSTANCEOF A is false", STR(A INSTANCEOF A) == "0")
+
+PRINTLN "--- Right operand must be a Class or Type ---"
+FUNC must_fail(label, fn)
+    TRY
+        fn()
+        PRINTLN "FAIL: " + label + " did not raise"
+    CATCH e
+        PRINTLN "PASS: " + label + " -> " + e
+    ENDTRY
+ENDFUNC
+
+must_fail("5 INSTANCEOF 3", FUNC() RETURN 5 INSTANCEOF 3 ENDFUNC)
+must_fail("string INSTANCEOF string", FUNC() RETURN "s" INSTANCEOF "s" ENDFUNC)
+must_fail("list INSTANCEOF list", FUNC() RETURN [1] INSTANCEOF [1] ENDFUNC)
+must_fail("dict INSTANCEOF dict", FUNC() RETURN {"a": 1} INSTANCEOF {"a": 1} ENDFUNC)
+must_fail("function INSTANCEOF number", FUNC() RETURN plain INSTANCEOF 3 ENDFUNC)
+must_fail("built-in INSTANCEOF number", FUNC() RETURN LEN INSTANCEOF 3 ENDFUNC)
+must_fail("enum member INSTANCEOF number", FUNC() RETURN Colors.RED INSTANCEOF 3 ENDFUNC)
+must_fail("enum INSTANCEOF number", FUNC() RETURN Colors INSTANCEOF 3 ENDFUNC)
+must_fail("instance INSTANCEOF number", FUNC() RETURN a INSTANCEOF 3 ENDFUNC)

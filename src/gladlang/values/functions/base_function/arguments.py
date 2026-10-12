@@ -23,7 +23,15 @@ class BaseFunctionArguments:
 
     def populate_arguments(self, argument_names, arguments, new_context):
         for index in range(len(arguments)):
-            new_context.symbol_table.set(argument_names[index], arguments[index])
+            error = new_context.symbol_table.set_if_absent(
+                argument_names[index],
+                arguments[index],
+            )
+
+            if error:
+                return error
+
+        return None
 
     def check_and_populate_arguments(self, argument_names, arguments, new_context):
         result = RuntimeResult()
@@ -41,6 +49,16 @@ class BaseFunctionArguments:
                 )
             )
 
-        self.populate_arguments(argument_names, arguments, new_context)
+        error = self.populate_arguments(argument_names, arguments, new_context)
+
+        if error:
+            return result.failure(
+                RuntimeError(
+                    self.position_start,
+                    self.position_end,
+                    error,
+                    new_context,
+                )
+            )
 
         return result.success(None)

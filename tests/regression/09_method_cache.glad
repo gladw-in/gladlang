@@ -1,0 +1,14 @@
+CLASS Test
+    FUNC get()
+        RETURN THIS.x
+    ENDFUNC
+ENDCLASS
+
+LET a = NEW Test()
+LET b = NEW Test()
+
+a.x = 1
+b.x = 2
+
+PRINTLN(a.get())
+PRINTLN(b.get())

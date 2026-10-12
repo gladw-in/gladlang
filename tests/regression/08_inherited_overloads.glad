@@ -1,0 +1,16 @@
+CLASS Base
+    FUNC f(a)
+        RETURN 1
+    ENDFUNC
+ENDCLASS
+
+CLASS Child INHERITS Base
+    FUNC f(a, b)
+        RETURN 2
+    ENDFUNC
+ENDCLASS
+
+LET x = NEW Child()
+
+PRINTLN(x.f(1))
+PRINTLN(x.f(1, 2))

@@ -8,13 +8,19 @@ from gladlang.runtime.runtime_result import RuntimeResult
 class FunctionSetupCallContext:
     __slots__ = ()
 
-    def _setup_call_context(self, current_function, calling_context, base_depth):
+    def _setup_call_context(
+        self, current_function, calling_context, base_depth, logical_parent_context
+    ):
         new_context = current_function.generate_new_context(
             calling_context if base_depth is None else None
         )
 
         new_context.active_class = getattr(current_function, "defining_class", None)
         new_context.is_static = getattr(current_function, "is_static", False)
+
+        new_context.is_function_call_context = True
+        new_context.logical_parent = logical_parent_context
+        new_context.logical_parent_entry_position = current_function.position_start
 
         if hasattr(current_function, "_call_count"):
             current_function._call_count += 1

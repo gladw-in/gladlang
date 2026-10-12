@@ -8,13 +8,25 @@ from gladlang.runtime.runtime_result import RuntimeResult
 class BoundMethodSetupCallContext:
     __slots__ = ()
 
-    def _setup_call_context(self, current_function, calling_context, base_depth):
+    def _setup_call_context(
+        self,
+        current_function,
+        calling_context,
+        base_depth,
+        logical_parent_context,
+        call_position_start,
+        call_position_end,
+    ):
         new_context = current_function.generate_new_context(
             calling_context if base_depth is None else None
         )
 
         new_context.active_class = getattr(current_function, "defining_class", None)
         new_context.is_static = getattr(current_function, "is_static", False)
+
+        new_context.is_function_call_context = True
+        new_context.logical_parent = logical_parent_context
+        new_context.logical_parent_entry_position = call_position_start
 
         self._call_count += 1
 
@@ -25,8 +37,8 @@ class BoundMethodSetupCallContext:
                 base_depth,
                 RuntimeResult().failure(
                     RuntimeError(
-                        current_function.position_start,
-                        current_function.position_end,
+                        call_position_start,
+                        call_position_end,
                         f"Total recursion calls exceeded limit ({Settings.MAX_TOTAL_RECURSION})",
                         new_context,
                     )
@@ -44,8 +56,8 @@ class BoundMethodSetupCallContext:
                 base_depth,
                 RuntimeResult().failure(
                     RuntimeError(
-                        current_function.position_start,
-                        current_function.position_end,
+                        call_position_start,
+                        call_position_end,
                         "Recursion limit exceeded",
                         new_context,
                     )

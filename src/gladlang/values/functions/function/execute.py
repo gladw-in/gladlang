@@ -13,6 +13,7 @@ class FunctionExecute:
         current_arguments = arguments
         base_depth = None
         final_result = None
+        logical_parent_context = calling_context
 
         while True:
             current_function, error_result = self._resolve_overload(
@@ -28,11 +29,13 @@ class FunctionExecute:
                 )
 
             new_context, base_depth, error_result = self._setup_call_context(
-                current_function, calling_context, base_depth
+                current_function, calling_context, base_depth, logical_parent_context
             )
 
             if error_result is not None:
                 return error_result
+
+            logical_parent_context = new_context
 
             result.register(
                 current_function.check_and_populate_arguments(

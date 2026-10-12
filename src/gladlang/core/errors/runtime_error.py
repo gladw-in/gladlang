@@ -53,8 +53,12 @@ class RuntimeError(Error):
                     f"  File {position.filename}, line {position.line + 1}, in {current_context.display_name}\n"
                 )
 
-            position = current_context.parent_entry_position
-            current_context = current_context.parent
+            if current_context.is_function_call_context:
+                position = current_context.logical_parent_entry_position
+                current_context = current_context.logical_parent
+            else:
+                position = current_context.parent_entry_position
+                current_context = current_context.parent
 
         if current_context:
             traceback_frames.append("  ... cyclic context chain detected ...\n")
