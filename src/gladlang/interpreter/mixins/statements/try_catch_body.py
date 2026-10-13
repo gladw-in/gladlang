@@ -1,5 +1,6 @@
 """Helper that runs TRY body and CATCH on error, capturing return/break/continue/value."""
 
+from gladlang.core.errors import RuntimeError
 from gladlang.runtime.context import Context
 from gladlang.runtime.symbol_table import SymbolTable
 from gladlang.values.primitives.string import String
@@ -28,9 +29,24 @@ class InterpreterTryCatchBody:
                     if error_value is None:
                         error_value = String(error_message)
 
-                    catch_context.symbol_table.set(
+                    shadow_error = catch_context.symbol_table.set_if_absent(
                         node.catch_variable_node.value, error_value
                     )
+
+                    if shadow_error:
+                        return (
+                            RuntimeError(
+                                node.catch_variable_node.position_start,
+                                node.catch_variable_node.position_end,
+                                shadow_error,
+                                catch_context,
+                            ),
+                            False,
+                            None,
+                            False,
+                            False,
+                            None,
+                        )
 
                 catch_result = self.visit(node.catch_body_node, catch_context)
                 if catch_result.error:

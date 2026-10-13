@@ -1,6 +1,7 @@
 """Visitor for dict comprehensions."""
 
 from gladlang.core.errors import RuntimeError
+from gladlang.core.util.settings import Settings
 from gladlang.runtime.context import Context
 from gladlang.runtime.runtime_result import RuntimeResult
 from gladlang.runtime.symbol_table import SymbolTable
@@ -32,7 +33,24 @@ class InterpreterDictComprehension:
                     return
 
                 if isinstance(key_value, (Number, String)):
-                    output_dictionary[key_value.value] = value_value
+                    key = key_value.value
+
+                    if (
+                        key not in output_dictionary
+                        and len(output_dictionary) >= Settings.MAX_DICT_SIZE
+                    ):
+                        result.failure(
+                            RuntimeError(
+                                node.position_start,
+                                node.position_end,
+                                f"Dict comprehension exceeds maximum allowed size "
+                                f"({Settings.MAX_DICT_SIZE:,})",
+                                comprehension_context,
+                            )
+                        )
+                        return
+
+                    output_dictionary[key] = value_value
                 else:
                     result.failure(
                         RuntimeError(

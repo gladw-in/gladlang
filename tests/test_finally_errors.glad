@@ -1,0 +1,100 @@
+PRINTLN "--- Errors Raised Inside FINALLY ---"
+
+FUNC check(label, ok)
+    IF ok THEN
+        PRINTLN "PASS: " + label
+    ELSE
+        PRINTLN "FAIL: " + label
+    ENDIF
+ENDFUNC
+
+PRINTLN "--- Test 1: TRY succeeds, FINALLY throws ---"
+LET reached = FALSE
+LET caught1 = ""
+TRY
+    TRY
+        PRINTLN "inner body ok"
+    FINALLY
+        PRINTLN "inner finally running"
+        THROW "from-finally"
+    ENDTRY
+    reached = TRUE
+CATCH e
+    caught1 = e
+ENDTRY
+check("FINALLY error reaches outer CATCH", caught1 == "from-finally")
+check("code after inner ENDTRY is skipped", reached == FALSE)
+
+PRINTLN "--- Test 2: TRY throws, FINALLY throws (FINALLY wins) ---"
+LET caught2 = ""
+TRY
+    TRY
+        THROW "from-try"
+    FINALLY
+        THROW "from-finally"
+    ENDTRY
+CATCH e
+    caught2 = e
+ENDTRY
+check("FINALLY error replaces TRY error", caught2 == "from-finally")
+
+PRINTLN "--- Test 3: CATCH handles, FINALLY then throws ---"
+LET inner_caught = ""
+LET inner_finally_ran = FALSE
+LET caught3 = ""
+TRY
+    TRY
+        THROW "from-try"
+    CATCH e
+        inner_caught = e
+    FINALLY
+        inner_finally_ran = TRUE
+        THROW "from-finally"
+    ENDTRY
+CATCH e2
+    caught3 = e2
+ENDTRY
+check("inner CATCH still handled TRY error", inner_caught == "from-try")
+check("inner FINALLY ran", inner_finally_ran == TRUE)
+check("FINALLY error reaches outer CATCH", caught3 == "from-finally")
+
+PRINTLN "--- Test 4: FINALLY throw overrides RETURN ---"
+FUNC risky()
+    TRY
+        RETURN "returned"
+    FINALLY
+        THROW "finally-beat-return"
+    ENDTRY
+ENDFUNC
+
+LET result4 = "unset"
+TRY
+    result4 = risky()
+CATCH e
+    result4 = "error: " + e
+ENDTRY
+check("FINALLY error beats RETURN", result4 == "error: finally-beat-return")
+
+PRINTLN "--- Test 5: FINALLY system error ---"
+LET caught5 = ""
+TRY
+    TRY
+        PRINTLN "body"
+    FINALLY
+        LET boom = 1 / 0
+    ENDTRY
+CATCH e
+    caught5 = e
+ENDTRY
+check("division by zero in FINALLY is caught", caught5 != "")
+PRINTLN "Caught: " + caught5
+
+PRINTLN "--- Test 6: clean FINALLY does not disturb result ---"
+FUNC clean()
+    TRY
+        RETURN "ok"
+    FINALLY
+        PRINTLN "clean finally ran"
+    ENDTRY
+ENDFUNC
+check("RETURN value preserved by clean FINALLY", clean() == "ok")

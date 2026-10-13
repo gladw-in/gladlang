@@ -1,0 +1,126 @@
+PRINTLN "--- Compound Assignment on Attributes, Elements and Keys ---"
+
+CLASS Counter
+    FUNC Counter()
+        PUBLIC THIS.n = 10
+        PRIVATE THIS.hidden = 5
+    ENDFUNC
+
+    PUBLIC FUNC bump()
+        THIS.hidden += 1
+        RETURN THIS.hidden
+    ENDFUNC
+ENDCLASS
+
+FUNC check(label, ok)
+    IF ok THEN
+        PRINTLN "PASS: " + label
+    ELSE
+        PRINTLN "FAIL: " + label
+    ENDIF
+ENDFUNC
+
+FUNC must_raise(label, fn)
+    TRY
+        fn()
+        PRINTLN "FAIL: " + label + " did not raise"
+    CATCH e
+        PRINTLN "PASS: " + label + " -> " + e
+    ENDTRY
+ENDFUNC
+
+PRINTLN "--- Every operator on an attribute ---"
+LET c = NEW Counter()
+c.n += 5
+check("attribute +=", c.n == 15)
+c.n -= 3
+check("attribute -=", c.n == 12)
+c.n *= 2
+check("attribute *=", c.n == 24)
+c.n /= 4
+check("attribute /=", c.n == 6.0)
+c.n = 17
+c.n %= 5
+check("attribute %=", c.n == 2)
+c.n = 17
+c.n //= 5
+check("attribute //=", c.n == 3)
+c.n **= 3
+check("attribute **=", c.n == 27)
+c.n = 12
+c.n &= 10
+check("attribute &=", c.n == 8)
+c.n |= 3
+check("attribute |=", c.n == 11)
+c.n ^= 5
+check("attribute ^=", c.n == 14)
+c.n <<= 2
+check("attribute <<=", c.n == 56)
+c.n >>= 3
+check("attribute >>=", c.n == 7)
+
+PRINTLN "--- Every operator on a list element ---"
+LET xs = [10, 20, 30]
+xs[0] += 5
+check("element +=", xs[0] == 15)
+xs[0] -= 3
+check("element -=", xs[0] == 12)
+xs[0] *= 2
+check("element *=", xs[0] == 24)
+xs[0] /= 4
+check("element /=", xs[0] == 6.0)
+xs[1] = 17
+xs[1] %= 5
+check("element %=", xs[1] == 2)
+xs[2] = 17
+xs[2] //= 5
+check("element //=", xs[2] == 3)
+xs[2] **= 3
+check("element **=", xs[2] == 27)
+xs[1] = 12
+xs[1] &= 10
+check("element &=", xs[1] == 8)
+xs[1] |= 3
+check("element |=", xs[1] == 11)
+xs[1] ^= 5
+check("element ^=", xs[1] == 14)
+xs[1] <<= 2
+check("element <<=", xs[1] == 56)
+xs[1] >>= 3
+check("element >>=", xs[1] == 7)
+
+PRINTLN "--- Other targets ---"
+LET words = ["a", "b"]
+words[0] += "!"
+check("string element +=", words[0] == "a!")
+LET table = {"hits": 1, "deep": [1, 2]}
+table["hits"] += 4
+check("dict key +=", table["hits"] == 5)
+table["deep"][1] *= 10
+check("nested element *=", table["deep"][1] == 20)
+LET grid = [[1, 2], [3, 4]]
+grid[1][0] += 100
+check("grid cell +=", grid[1][0] == 103)
+xs[-1] += 1
+check("negative index +=", xs[2] == 28)
+
+PRINTLN "--- Compound assignment inside methods ---"
+LET c2 = NEW Counter()
+check("private attribute += through a method", c2.bump() == 6)
+check("and again", c2.bump() == 7)
+
+PRINTLN "--- Errors ---"
+must_raise("index out of range", FUNC() xs[99] += 1 ENDFUNC)
+must_raise("negative index out of range", FUNC() xs[-99] += 1 ENDFUNC)
+must_raise("missing attribute", FUNC() c.nothing += 1 ENDFUNC)
+must_raise("private attribute from outside", FUNC() c.hidden += 1 ENDFUNC)
+must_raise("illegal operand on element", FUNC() xs[0] += [1] ENDFUNC)
+must_raise("illegal operand on attribute", FUNC() c.n += [1] ENDFUNC)
+must_raise("division by zero on element", FUNC() xs[0] /= 0 ENDFUNC)
+must_raise("division by zero on attribute", FUNC() c.n //= 0 ENDFUNC)
+must_raise("modulo by zero on element", FUNC() xs[0] %= 0 ENDFUNC)
+must_raise("NULL index", FUNC() xs[NULL] += 1 ENDFUNC)
+must_raise("string element is immutable", FUNC() words[0][0] += "x" ENDFUNC)
+must_raise("missing dict key", FUNC() table["none"] += 1 ENDFUNC)
+must_raise("compound on a number", FUNC() LET n = 5 n[0] += 1 ENDFUNC)
+must_raise("compound attribute on a number", FUNC() LET n = 5 n.x += 1 ENDFUNC)

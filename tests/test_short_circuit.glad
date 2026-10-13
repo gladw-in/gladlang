@@ -1,0 +1,81 @@
+PRINTLN "--- Short-Circuit Evaluation Tester ---"
+
+# touch() records every evaluation of a right-hand operand.
+LET calls = [0]
+
+FUNC touch(v)
+    calls[0] = calls[0] + 1
+    RETURN v
+ENDFUNC
+
+FUNC check(label, ok)
+    IF ok THEN
+        PRINTLN "PASS: " + label
+    ELSE
+        PRINTLN "FAIL: " + label
+    ENDIF
+ENDFUNC
+
+PRINTLN "--- Right side must be SKIPPED ---"
+LET r1 = FALSE AND touch(TRUE)
+check("FALSE AND x -> falsy", r1 == FALSE)
+check("FALSE AND x -> RHS not evaluated", calls[0] == 0)
+
+LET r2 = TRUE OR touch(FALSE)
+check("TRUE OR x -> truthy", r2 == TRUE)
+check("TRUE OR x -> RHS not evaluated", calls[0] == 0)
+
+PRINTLN "--- Right side must be EVALUATED ---"
+LET r3 = TRUE AND touch(TRUE)
+check("TRUE AND x -> truthy", r3 == TRUE)
+check("TRUE AND x -> RHS evaluated once", calls[0] == 1)
+
+LET r4 = FALSE OR touch(TRUE)
+check("FALSE OR x -> truthy", r4 == TRUE)
+check("FALSE OR x -> RHS evaluated once more", calls[0] == 2)
+
+LET r5 = TRUE AND touch(FALSE)
+check("TRUE AND FALSE -> falsy", r5 == FALSE)
+check("TRUE AND FALSE -> RHS evaluated", calls[0] == 3)
+
+LET r6 = FALSE OR touch(FALSE)
+check("FALSE OR FALSE -> falsy", r6 == FALSE)
+check("FALSE OR FALSE -> RHS evaluated", calls[0] == 4)
+
+PRINTLN "--- Chains ---"
+LET before = calls[0]
+LET r7 = FALSE AND touch(TRUE) AND touch(TRUE)
+check("FALSE AND x AND y -> no RHS evaluated", calls[0] == before)
+
+LET r8 = TRUE OR touch(FALSE) OR touch(FALSE)
+check("TRUE OR x OR y -> no RHS evaluated", calls[0] == before)
+
+PRINTLN "--- Skipped right side may not raise errors ---"
+TRY
+    LET g1 = 0 AND (1 / 0)
+    check("0 AND (1/0) -> falsy", g1 == FALSE)
+CATCH e
+    PRINTLN "FAIL: 0 AND (1/0) evaluated its right side: " + e
+ENDTRY
+
+TRY
+    LET g2 = 1 OR (1 / 0)
+    check("1 OR (1/0) -> truthy", g2 == TRUE)
+CATCH e
+    PRINTLN "FAIL: 1 OR (1/0) evaluated its right side: " + e
+ENDTRY
+
+PRINTLN "--- Evaluated right side must still raise errors ---"
+TRY
+    LET g3 = 1 AND (1 / 0)
+    PRINTLN "FAIL: 1 AND (1/0) did not raise"
+CATCH e
+    PRINTLN "PASS: 1 AND (1/0) raised: " + e
+ENDTRY
+
+TRY
+    LET g4 = 0 OR (1 / 0)
+    PRINTLN "FAIL: 0 OR (1/0) did not raise"
+CATCH e
+    PRINTLN "PASS: 0 OR (1/0) raised: " + e
+ENDTRY

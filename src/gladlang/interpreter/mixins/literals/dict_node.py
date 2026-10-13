@@ -1,6 +1,7 @@
 """Visitor for dict literals."""
 
 from gladlang.core.errors import RuntimeError
+from gladlang.core.util.settings import Settings
 from gladlang.runtime.runtime_result import RuntimeResult
 from gladlang.values.primitives.dict import Dict
 from gladlang.values.primitives.number import Number
@@ -22,7 +23,23 @@ class InterpreterDictNode:
                 return result
 
             if isinstance(key, (Number, String)):
-                elements[key.value] = value
+                normalized_key = key.value
+
+                if (
+                    normalized_key not in elements
+                    and len(elements) >= Settings.MAX_DICT_SIZE
+                ):
+                    return result.failure(
+                        RuntimeError(
+                            node.position_start,
+                            node.position_end,
+                            f"Dict literal exceeds maximum allowed size "
+                            f"({Settings.MAX_DICT_SIZE:,})",
+                            context,
+                        )
+                    )
+
+                elements[normalized_key] = value
             else:
                 return result.failure(
                     RuntimeError(

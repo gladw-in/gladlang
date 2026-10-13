@@ -22,6 +22,11 @@ class InterpreterJumpStatements:
             if result.error:
                 return result
 
+            function = function.set_position(
+                return_node.position_start,
+                return_node.position_end,
+            )
+
             tail_arguments = []
             for argument_node in return_node.argument_nodes:
                 argument_value = result.register(self.visit(argument_node, context))

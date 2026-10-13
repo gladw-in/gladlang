@@ -1,27 +1,14 @@
-"""Visitors for list literals and list comprehensions."""
+"""List comprehension visitor."""
 
+from gladlang.core.errors import RuntimeError
+from gladlang.core.util.settings import Settings
 from gladlang.runtime.context import Context
 from gladlang.runtime.runtime_result import RuntimeResult
 from gladlang.runtime.symbol_table import SymbolTable
 from gladlang.values.primitives.list import List
 
 
-class InterpreterListLiterals:
-    def visit_ListNode(self, node, context):
-        result = RuntimeResult()
-
-        elements = []
-        for element_node in node.element_nodes:
-            elements.append(result.register(self.visit(element_node, context)))
-            if result.error:
-                return result
-
-        return result.success(
-            List(elements)
-            .set_context(context)
-            .set_position(node.position_start, node.position_end)
-        )
-
+class InterpreterListLiteralsListComprehension:
     def visit_ListComprehensionNode(self, node, context):
         result = RuntimeResult()
 
@@ -32,7 +19,20 @@ class InterpreterListLiterals:
                 value = result.register(
                     self.visit(node.output_expression_node, comprehension_context)
                 )
+
                 if not result.error:
+                    if len(output_list) >= Settings.MAX_LIST_SIZE:
+                        result.failure(
+                            RuntimeError(
+                                node.position_start,
+                                node.position_end,
+                                f"List comprehension exceeds maximum allowed size "
+                                f"({Settings.MAX_LIST_SIZE:,})",
+                                comprehension_context,
+                            )
+                        )
+                        return
+
                     output_list.append(value)
 
                 return
