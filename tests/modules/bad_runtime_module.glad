@@ -1,0 +1,3 @@
+EXPORT LET before = 1
+LET boom = 1 / 0
+EXPORT LET after = 2

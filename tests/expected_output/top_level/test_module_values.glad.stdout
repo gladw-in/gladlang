@@ -1,0 +1,19 @@
+--- Namespace Module Value Tester ---
+--- Reading members ---
+PASS: constant member
+PASS: function member
+PASS: text form
+--- Truthiness ---
+PASS: BOOL of a module
+PASS: module OR 0
+--- INSTANCEOF ---
+PASS: module is an Object
+PASS: module is not a Number
+PASS: module is not a String
+PASS: module is not a Function
+PASS: module is not a List
+PASS: module is not a Dict
+PASS: module is not an Enum
+--- Operations that raise ---
+PASS: LEN of a module -> LEN is not supported for type 'Module'
+PASS: increment a module -> Operand must be a number

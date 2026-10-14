@@ -1,0 +1,105 @@
+PRINTLN "--- Module Import Error Tester ---"
+
+FUNC check(label, ok)
+    IF ok THEN
+        PRINTLN "PASS: " + label
+    ELSE
+        PRINTLN "FAIL: " + label
+    ENDIF
+ENDFUNC
+
+PRINTLN "--- Bad import paths ---"
+TRY
+    IMPORT x FROM ""
+    PRINTLN "FAIL: empty path was accepted"
+CATCH e
+    PRINTLN "PASS: empty path -> " + e
+ENDTRY
+
+TRY
+    IMPORT x FROM "./modules/math_module.txt"
+    PRINTLN "FAIL: wrong extension was accepted"
+CATCH e
+    PRINTLN "PASS: wrong extension -> " + e
+ENDTRY
+
+TRY
+    IMPORT x FROM "./modules"
+    PRINTLN "FAIL: a directory was accepted"
+CATCH e
+    PRINTLN "PASS: directory -> " + e
+ENDTRY
+
+TRY
+    IMPORT x FROM "./modules/does_not_exist.glad"
+    PRINTLN "FAIL: a missing file was accepted"
+CATCH e
+    # The full message contains an absolute path, so only the start is checked.
+    check("missing file is reported as not found", e[0:17] == "Module not found:")
+ENDTRY
+
+PRINTLN "--- Names that cannot be imported ---"
+TRY
+    IMPORT nothing FROM "./modules/math_module.glad"
+    PRINTLN "FAIL: an unexported name was accepted"
+CATCH e
+    PRINTLN "PASS: unexported name -> " + e
+ENDTRY
+
+PRINTLN "--- Modules that fail while loading ---"
+TRY
+    IMPORT before FROM "./modules/bad_runtime_module.glad"
+    PRINTLN "FAIL: a failing module was accepted"
+CATCH e
+    PRINTLN "PASS: runtime error inside the module -> " + e
+ENDTRY
+
+TRY
+    IMPORT before FROM "./modules/bad_runtime_module.glad"
+    PRINTLN "FAIL: a failing module was accepted on retry"
+CATCH e
+    PRINTLN "PASS: retrying fails the same way -> " + e
+ENDTRY
+
+TRY
+    PRINTLN before
+    PRINTLN "FAIL: a name from a failed import leaked into scope"
+CATCH e
+    PRINTLN "PASS: nothing from the failed import is defined"
+ENDTRY
+
+TRY
+    IMPORT broken FROM "./modules/bad_syntax_module.glad"
+    PRINTLN "FAIL: a module with a syntax error was accepted"
+CATCH e
+    check("syntax error is reported against the module", e[0:44] == "Error loading module 'modules/bad_syntax_mod")
+ENDTRY
+
+PRINTLN "--- Name clashes ---"
+IMPORT PI FROM "./modules/math_module.glad"
+check("first import works", PI == 3.14159)
+
+TRY
+    IMPORT PI FROM "./modules/math_module.glad"
+    PRINTLN "FAIL: importing the same name twice was accepted"
+CATCH e
+    PRINTLN "PASS: importing twice -> " + e
+ENDTRY
+
+LET taken = 1
+TRY
+    IMPORT E AS taken FROM "./modules/math_module.glad"
+    PRINTLN "FAIL: importing over a variable was accepted"
+CATCH e
+    PRINTLN "PASS: importing over a variable -> " + e
+ENDTRY
+
+FINAL fixed = 5
+TRY
+    IMPORT E AS fixed FROM "./modules/math_module.glad"
+    PRINTLN "FAIL: importing over a constant was accepted"
+CATCH e
+    PRINTLN "PASS: importing over a constant -> " + e
+ENDTRY
+check("the constant is unchanged", fixed == 5)
+check("the variable is unchanged", taken == 1)

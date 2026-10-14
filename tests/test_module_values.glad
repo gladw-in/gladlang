@@ -1,0 +1,42 @@
+PRINTLN "--- Namespace Module Value Tester ---"
+
+IMPORT * AS m FROM "./modules/math_module.glad"
+
+FUNC check(label, ok)
+    IF ok THEN
+        PRINTLN "PASS: " + label
+    ELSE
+        PRINTLN "FAIL: " + label
+    ENDIF
+ENDFUNC
+
+FUNC must_raise(label, fn)
+    TRY
+        fn()
+        PRINTLN "FAIL: " + label + " did not raise"
+    CATCH e
+        PRINTLN "PASS: " + label + " -> " + e
+    ENDTRY
+ENDFUNC
+
+PRINTLN "--- Reading members ---"
+check("constant member", m.PI == 3.14159)
+check("function member", m.add(1, 2) == 3)
+check("text form", STR(m) == "<module modules/math_module.glad>")
+
+PRINTLN "--- Truthiness ---"
+check("BOOL of a module", STR(BOOL(m)) == "1")
+check("module OR 0", STR(m OR 0) == "1")
+
+PRINTLN "--- INSTANCEOF ---"
+check("module is an Object", STR(m INSTANCEOF Object) == "1")
+check("module is not a Number", STR(m INSTANCEOF Number) == "0")
+check("module is not a String", STR(m INSTANCEOF String) == "0")
+check("module is not a Function", STR(m INSTANCEOF Function) == "0")
+check("module is not a List", STR(m INSTANCEOF List) == "0")
+check("module is not a Dict", STR(m INSTANCEOF Dict) == "0")
+check("module is not an Enum", STR(m INSTANCEOF Enum) == "0")
+
+PRINTLN "--- Operations that raise ---"
+must_raise("LEN of a module", FUNC() RETURN LEN(m) ENDFUNC)
+must_raise("increment a module", FUNC() m++ ENDFUNC)

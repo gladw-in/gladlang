@@ -1,0 +1,10 @@
+# Enums exported directly with EXPORT ENUM.
+EXPORT ENUM Light
+    RED
+    GREEN
+ENDENUM
+
+EXPORT ENUM Level
+    LOW = 1
+    HIGH = 5
+ENDENUM AS Priority

@@ -9,7 +9,7 @@ from gladlang.runtime.modules.file_access import read_module_source
 from gladlang.runtime.runtime_result import RuntimeResult
 
 
-class InterpreterModuleExec:
+class InterpreterModuleExecute:
     def _execute_module(self, absolute_path, cache_key, context, position_start):
         result = RuntimeResult()
         source_text = result.register(

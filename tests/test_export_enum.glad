@@ -1,0 +1,26 @@
+PRINTLN "--- EXPORT ENUM Tester ---"
+
+IMPORT Light, Priority FROM "./modules/enum_export_module.glad"
+IMPORT * AS m FROM "./modules/enum_export_module.glad"
+
+FUNC check(label, ok)
+    IF ok THEN
+        PRINTLN "PASS: " + label
+    ELSE
+        PRINTLN "FAIL: " + label
+    ENDIF
+ENDFUNC
+
+PRINTLN "--- Named imports ---"
+check("automatic value of RED", Light.RED.value == 0)
+check("automatic value of GREEN", Light.GREEN.value == 1)
+check("same case is equal", Light.RED == Light.RED)
+check("different cases are not equal", Light.RED != Light.GREEN)
+
+PRINTLN "--- Export alias ---"
+check("explicit value LOW", Priority.LOW.value == 1)
+check("explicit value HIGH", Priority.HIGH.value == 5)
+
+PRINTLN "--- Namespace import ---"
+check("namespace Light", m.Light.GREEN.value == 1)
+check("namespace alias", m.Priority.HIGH.value == 5)

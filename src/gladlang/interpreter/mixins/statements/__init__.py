@@ -8,7 +8,7 @@ from .loop_iterator import InterpreterLoopIterator
 from .loop_unpack import InterpreterLoopUnpack
 from .module_claim import InterpreterModuleClaim
 from .module_body import InterpreterModuleBody
-from .module_exec import InterpreterModuleExec
+from .module_execute import InterpreterModuleExecute
 from .module_export import InterpreterModuleExport
 from .module_export_guard import InterpreterModuleExportGuard
 from .module_import import InterpreterModuleImport
@@ -26,7 +26,7 @@ class InterpreterStatements(
     InterpreterLoopUnpack,
     InterpreterModuleClaim,
     InterpreterModuleBody,
-    InterpreterModuleExec,
+    InterpreterModuleExecute,
     InterpreterModuleExport,
     InterpreterModuleExportGuard,
     InterpreterModuleImport,

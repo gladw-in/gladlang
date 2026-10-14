@@ -1,0 +1,20 @@
+--- Module Import Error Tester ---
+--- Bad import paths ---
+PASS: empty path -> Import path must be a non-empty string
+PASS: wrong extension -> Import path './modules/math_module.txt' must point to a '.glad' file
+PASS: directory -> Import path './modules' must point to a '.glad' file
+PASS: missing file is reported as not found
+--- Names that cannot be imported ---
+PASS: unexported name -> Module 'modules/math_module.glad' has no export 'nothing'
+--- Modules that fail while loading ---
+PASS: runtime error inside the module -> Division by zero
+PASS: retrying fails the same way -> Division by zero
+PASS: nothing from the failed import is defined
+PASS: syntax error is reported against the module
+--- Name clashes ---
+PASS: first import works
+PASS: importing twice -> Variable 'PI' is already defined
+PASS: importing over a variable -> Variable 'taken' is already defined
+PASS: importing over a constant -> Variable 'fixed' is already defined
+PASS: the constant is unchanged
+PASS: the variable is unchanged

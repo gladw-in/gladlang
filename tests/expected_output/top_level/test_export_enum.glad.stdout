@@ -1,0 +1,12 @@
+--- EXPORT ENUM Tester ---
+--- Named imports ---
+PASS: automatic value of RED
+PASS: automatic value of GREEN
+PASS: same case is equal
+PASS: different cases are not equal
+--- Export alias ---
+PASS: explicit value LOW
+PASS: explicit value HIGH
+--- Namespace import ---
+PASS: namespace Light
+PASS: namespace alias

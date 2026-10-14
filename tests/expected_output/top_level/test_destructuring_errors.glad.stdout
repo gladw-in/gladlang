@@ -1,0 +1,21 @@
+--- Destructuring Error Tester ---
+--- The right side must be a list of the right length ---
+PASS: number -> Cannot unpack type 'Number' (expected List)
+PASS: string -> Cannot unpack type 'String' (expected List)
+PASS: dict -> Cannot unpack type 'Dict' (expected List)
+PASS: too few values -> Cannot unpack 1 value(s) into 2 variable(s)
+PASS: too many values -> Cannot unpack 3 value(s) into 2 variable(s)
+PASS: empty list -> Cannot unpack 0 value(s) into 2 variable(s)
+--- Assigning to existing variables ---
+PASS: swap
+PASS: repeated name keeps the last value
+PASS: undefined name -> 'nope' is not defined
+PASS: wrong length on update -> Cannot unpack 3 value(s) into 2 variable(s)
+PASS: failed update left values alone
+PASS: constant -> Cannot reassign constant 'k'
+PASS: constant unchanged
+--- Declaring ---
+PASS: declared values
+PASS: elements keep their type
+PASS: redeclaring in the same scope -> Variable 'x' is already defined
+PASS: shadowing a constant inside a function -> Cannot shadow constant 'k'

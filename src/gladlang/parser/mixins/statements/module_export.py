@@ -1,4 +1,4 @@
-"""Parser mixin for EXPORT LET/DEF/CLASS [AS alias] declaration exports."""
+"""Parser mixin for EXPORT LET/FUNC/CLASS/ENUM [AS alias] declaration exports."""
 
 from gladlang.core.constants import GL_IDENTIFIER, GL_KEYWORD
 from gladlang.core.errors import InvalidSyntaxError
@@ -32,13 +32,13 @@ class StatementsModuleExport:
 
             declaration_kind, name_token = "LET", declaration_node.variable_name_token
 
-        elif self.current_token.matches(GL_KEYWORD, "DEF"):
+        elif self.current_token.matches(GL_KEYWORD, "FUNC"):
             declaration_node = result.register(self.function_definition())
             if result.error:
                 return result
 
             declaration_kind, name_token = (
-                "DEF",
+                "FUNC",
                 declaration_node.variable_name_token,
             )
 
@@ -49,6 +49,13 @@ class StatementsModuleExport:
 
             declaration_kind, name_token = "CLASS", declaration_node.class_name_token
 
+        elif self.current_token.matches(GL_KEYWORD, "ENUM"):
+            declaration_node = result.register(self.enum_definition())
+            if result.error:
+                return result
+
+            declaration_kind, name_token = "ENUM", declaration_node.enum_name_token
+
         else:
             if self.current_token.type == GL_IDENTIFIER:
                 return self._parse_reexport_statement(position_start)
@@ -57,7 +64,7 @@ class StatementsModuleExport:
                 InvalidSyntaxError(
                     self.current_token.position_start,
                     self.current_token.position_end,
-                    "Expected 'LET', 'DEF', 'CLASS', or an identifier after 'EXPORT'",
+                    "Expected 'LET', 'FUNC', 'CLASS', 'ENUM', or an identifier after 'EXPORT'",
                 )
             )
 

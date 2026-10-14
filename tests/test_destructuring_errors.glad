@@ -1,0 +1,56 @@
+PRINTLN "--- Destructuring Error Tester ---"
+
+FUNC check(label, ok)
+    IF ok THEN
+        PRINTLN "PASS: " + label
+    ELSE
+        PRINTLN "FAIL: " + label
+    ENDIF
+ENDFUNC
+
+FUNC must_raise(label, fn)
+    TRY
+        fn()
+        PRINTLN "FAIL: " + label + " did not raise"
+    CATCH e
+        PRINTLN "PASS: " + label + " -> " + e
+    ENDTRY
+ENDFUNC
+
+PRINTLN "--- The right side must be a list of the right length ---"
+must_raise("number", FUNC() LET [a, b] = 5 ENDFUNC)
+must_raise("string", FUNC() LET [a, b] = "ab" ENDFUNC)
+must_raise("dict", FUNC() LET [a, b] = {"x": 1} ENDFUNC)
+must_raise("too few values", FUNC() LET [a, b] = [1] ENDFUNC)
+must_raise("too many values", FUNC() LET [a, b] = [1, 2, 3] ENDFUNC)
+must_raise("empty list", FUNC() LET [a, b] = [] ENDFUNC)
+
+PRINTLN "--- Assigning to existing variables ---"
+LET p = 1
+LET q = 2
+[p, q] = [q, p]
+check("swap", p == 2 AND q == 1)
+
+[p, p] = [8, 9]
+check("repeated name keeps the last value", p == 9)
+
+must_raise("undefined name", FUNC() [nope, q] = [1, 2] ENDFUNC)
+must_raise("wrong length on update", FUNC() [p, q] = [1, 2, 3] ENDFUNC)
+check("failed update left values alone", p == 9 AND q == 1)
+
+FINAL k = 1
+must_raise("constant", FUNC() [k, q] = [3, 4] ENDFUNC)
+check("constant unchanged", k == 1)
+
+PRINTLN "--- Declaring ---"
+LET [x, y] = [10, 20]
+check("declared values", x == 10 AND y == 20)
+LET [first, rest] = [[1, 2], {"a": 1}]
+check("elements keep their type", STR(first) == "[1, 2]" AND STR(rest) == "{\"a\": 1}")
+TRY
+    LET [x, z] = [1, 2]
+    PRINTLN "FAIL: redeclaring x in the same scope did not raise"
+CATCH e
+    PRINTLN "PASS: redeclaring in the same scope -> " + e
+ENDTRY
+must_raise("shadowing a constant inside a function", FUNC() LET [k, z] = [1, 2] ENDFUNC)
