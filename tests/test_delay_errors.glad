@@ -1,0 +1,19 @@
+PRINTLN "--- DELAY Argument Tester ---"
+
+FUNC must_raise(label, fn)
+    TRY
+        fn()
+        PRINTLN "FAIL: " + label + " did not raise"
+    CATCH e
+        PRINTLN "PASS: " + label + " -> " + e
+    ENDTRY
+ENDFUNC
+
+must_raise("no argument", FUNC() DELAY() ENDFUNC)
+must_raise("two arguments", FUNC() DELAY(1, 2) ENDFUNC)
+must_raise("string argument", FUNC() DELAY("a") ENDFUNC)
+must_raise("list argument", FUNC() DELAY([1]) ENDFUNC)
+must_raise("negative delay", FUNC() DELAY(-1) ENDFUNC)
+
+DELAY(0)
+PRINTLN "PASS: a delay of zero returns immediately"
