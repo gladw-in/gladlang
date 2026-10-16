@@ -1,0 +1,84 @@
+PRINTLN "--- Number Error Branch Tester ---"
+
+FUNC check(label, ok)
+    IF ok THEN
+        PRINTLN "PASS: " + label
+    ELSE
+        PRINTLN "FAIL: " + label
+    ENDIF
+ENDFUNC
+
+FUNC must_raise(label, fn)
+    TRY
+        fn()
+        PRINTLN "FAIL: " + label + " did not raise"
+    CATCH e
+        PRINTLN "PASS: " + label + " -> " + e
+    ENDTRY
+ENDFUNC
+
+# v is 2 ** 99999: the largest power of two the integer size limit allows.
+LET v = 1
+LET i = 0
+WHILE i < 9999
+    v = v * 1024
+    i = i + 1
+ENDWHILE
+i = 0
+WHILE i < 9
+    v = v * 2
+    i = i + 1
+ENDWHILE
+LET f = 1e308
+
+PRINTLN "--- Float overflow ---"
+must_raise("float + float", FUNC() RETURN f + f ENDFUNC)
+must_raise("float - float", FUNC() RETURN f - (0 - f) ENDFUNC)
+must_raise("float * int", FUNC() RETURN f * 10 ENDFUNC)
+must_raise("float / tiny", FUNC() RETURN f / 1e-308 ENDFUNC)
+must_raise("float // tiny", FUNC() RETURN f // 1e-308 ENDFUNC)
+check("float % tiny stays finite", f % 1e-308 < 1e-300)
+
+PRINTLN "--- Division and modulo by zero ---"
+must_raise("int % 0", FUNC() RETURN 5 % 0 ENDFUNC)
+must_raise("float % 0", FUNC() RETURN 5.5 % 0 ENDFUNC)
+must_raise("int // 0", FUNC() RETURN 5 // 0 ENDFUNC)
+must_raise("float // 0.0", FUNC() RETURN 5.5 // 0.0 ENDFUNC)
+
+PRINTLN "--- Floor division and modulo signs ---"
+check("-7 // 2", -7 // 2 == -4)
+check("-7 % 2", -7 % 2 == 1)
+check("7.5 // 2", 7.5 // 2 == 3.0)
+check("7.5 % 2", 7.5 % 2 == 1.5)
+check("2 ** -2", 2 ** -2 == 0.25)
+
+PRINTLN "--- Integer size limit (v is 2 ** 99999) ---"
+check("v + 1 is still allowed", LEN(STR(v + 1)) > 0)
+must_raise("v + v", FUNC() RETURN v + v ENDFUNC)
+must_raise("v - (0 - v)", FUNC() RETURN v - (0 - v) ENDFUNC)
+must_raise("v * 2", FUNC() RETURN v * 2 ENDFUNC)
+must_raise("v * v", FUNC() RETURN v * v ENDFUNC)
+check("v / v", v / v == 1.0)
+
+PRINTLN "--- Huge integers mixed with floats ---"
+must_raise("v / 1.5", FUNC() RETURN v / 1.5 ENDFUNC)
+must_raise("v // 1.5", FUNC() RETURN v // 1.5 ENDFUNC)
+must_raise("v % 1.5", FUNC() RETURN v % 1.5 ENDFUNC)
+must_raise("v ** 0.5", FUNC() RETURN v ** 0.5 ENDFUNC)
+
+PRINTLN "--- Mixed operand types ---"
+check("number + string concatenates", 5 + "s" == "5s")
+check("number * string repeats", 3 * "ab" == "ababab")
+check("number * list repeats", STR(2 * [1]) == "[1, 1]")
+must_raise("number - string", FUNC() RETURN 5 - "s" ENDFUNC)
+must_raise("number // string", FUNC() RETURN 5 // "a" ENDFUNC)
+must_raise("number % list", FUNC() RETURN 5 % [1] ENDFUNC)
+must_raise("number / dict", FUNC() RETURN 5 / {"a": 1} ENDFUNC)
+must_raise("number ** string", FUNC() RETURN 2 ** "a" ENDFUNC)
+must_raise("string & number", FUNC() RETURN "a" & 1 ENDFUNC)
+
+PRINTLN "--- Powers and shifts ---"
+must_raise("negative base, fractional exponent", FUNC() RETURN (-8) ** 0.5 ENDFUNC)
+must_raise("negative shift", FUNC() RETURN 1 << -1 ENDFUNC)
+must_raise("float operand to &", FUNC() RETURN 1.5 & 1 ENDFUNC)
+check("shifting by 32 or more clears the value", (1 << 100001) == 0)
