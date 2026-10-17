@@ -1,0 +1,93 @@
+PRINTLN "--- Illegal Operation Battery ---"
+# Applies every operator to values that must reject it (types, enums, enum
+# members, functions, classes, bound methods). A value that wrongly accepts an
+# operator prints FAIL. The two intentional exceptions are asserted as allowed.
+
+ENUM Colors
+    RED
+    GREEN
+ENDENUM
+
+CLASS A
+    FUNC A()
+        PUBLIC THIS.v = 1
+    ENDFUNC
+
+    PUBLIC FUNC m()
+        RETURN 1
+    ENDFUNC
+ENDCLASS
+
+FUNC plain()
+    RETURN 1
+ENDFUNC
+
+LET a = NEW A()
+
+FUNC must_raise(label, fn)
+    TRY
+        fn()
+        PRINTLN "FAIL: " + label + " was allowed"
+    CATCH e
+        PRINTLN "PASS: " + label + " -> " + e
+    ENDTRY
+ENDFUNC
+
+FUNC must_allow(label, fn)
+    TRY
+        fn()
+        PRINTLN "PASS: " + label + " is allowed"
+    CATCH e
+        PRINTLN "FAIL: " + label + " raised " + e
+    ENDTRY
+ENDFUNC
+
+FUNC battery(kind, v)
+    must_raise(kind + ": v + 1", FUNC() RETURN v + 1 ENDFUNC)
+    must_raise(kind + ": v - 1", FUNC() RETURN v - 1 ENDFUNC)
+    must_raise(kind + ": v * 2", FUNC() RETURN v * 2 ENDFUNC)
+    must_raise(kind + ": v / 2", FUNC() RETURN v / 2 ENDFUNC)
+    must_raise(kind + ": v % 2", FUNC() RETURN v % 2 ENDFUNC)
+    must_raise(kind + ": v // 2", FUNC() RETURN v // 2 ENDFUNC)
+    must_raise(kind + ": v ** 2", FUNC() RETURN v ** 2 ENDFUNC)
+    must_raise(kind + ": v < 1", FUNC() RETURN v < 1 ENDFUNC)
+    must_raise(kind + ": v > 1", FUNC() RETURN v > 1 ENDFUNC)
+    must_raise(kind + ": v <= 1", FUNC() RETURN v <= 1 ENDFUNC)
+    must_raise(kind + ": v >= 1", FUNC() RETURN v >= 1 ENDFUNC)
+    must_raise(kind + ": v & 1", FUNC() RETURN v & 1 ENDFUNC)
+    must_raise(kind + ": v | 1", FUNC() RETURN v | 1 ENDFUNC)
+    must_raise(kind + ": v ^ 1", FUNC() RETURN v ^ 1 ENDFUNC)
+    must_raise(kind + ": v << 1", FUNC() RETURN v << 1 ENDFUNC)
+    must_raise(kind + ": v >> 1", FUNC() RETURN v >> 1 ENDFUNC)
+    must_raise(kind + ": NOT v", FUNC() RETURN NOT v ENDFUNC)
+    must_raise(kind + ": ~v", FUNC() RETURN ~v ENDFUNC)
+    must_raise(kind + ": -v", FUNC() RETURN -v ENDFUNC)
+    must_raise(kind + ": v.nothing", FUNC() RETURN v.nothing ENDFUNC)
+    must_raise(kind + ": v[0]", FUNC() RETURN v[0] ENDFUNC)
+    must_raise(kind + ": v[0:1]", FUNC() RETURN v[0:1] ENDFUNC)
+
+    IF kind == "enum member" THEN
+        must_allow(kind + ": v == 1", FUNC() RETURN v == 1 ENDFUNC)
+        must_allow(kind + ": v != 1", FUNC() RETURN v != 1 ENDFUNC)
+    ELSE
+        must_raise(kind + ": v == 1", FUNC() RETURN v == 1 ENDFUNC)
+        must_raise(kind + ": v != 1", FUNC() RETURN v != 1 ENDFUNC)
+    ENDIF
+
+    IF kind == "class A" THEN
+        must_allow(kind + ": v.x = 1", FUNC() v.x = 1 ENDFUNC)
+    ELSE
+        must_raise(kind + ": v.x = 1", FUNC() v.x = 1 ENDFUNC)
+    ENDIF
+
+    must_raise(kind + ": v[0] = 1", FUNC() v[0] = 1 ENDFUNC)
+    must_raise(kind + ": v++", FUNC() v++ ENDFUNC)
+ENDFUNC
+
+battery("type Number", Number)
+battery("enum Colors", Colors)
+battery("enum member", Colors.RED)
+battery("user function", plain)
+battery("built-in LEN", LEN)
+battery("class A", A)
+battery("bound method", a.m)

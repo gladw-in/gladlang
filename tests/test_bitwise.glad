@@ -78,3 +78,46 @@ PRINTLN "16 >>= 1 => " + rshift_val + " (expected: 8)"
 LET neg_rshift = -16
 neg_rshift >>= 2
 PRINTLN "-16 >>= 2 => " + neg_rshift + " (expected: -4)"
+PRINTLN "\n--- Fractional Bitwise Regression Tests ---"
+
+TRY
+    PRINTLN 1.5 & 1
+    PRINTLN "FAIL: fractional AND accepted"
+CATCH error
+    PRINTLN "PASS: fractional AND rejected"
+ENDTRY
+
+TRY
+    PRINTLN 1 | 1.5
+    PRINTLN "FAIL: fractional OR accepted"
+CATCH error
+    PRINTLN "PASS: fractional OR rejected"
+ENDTRY
+
+TRY
+    PRINTLN 1 ^ 1.5
+    PRINTLN "FAIL: fractional XOR accepted"
+CATCH error
+    PRINTLN "PASS: fractional XOR rejected"
+ENDTRY
+
+TRY
+    PRINTLN ~1.5
+    PRINTLN "FAIL: fractional NOT accepted"
+CATCH error
+    PRINTLN "PASS: fractional NOT rejected"
+ENDTRY
+
+TRY
+    PRINTLN 1 << 1.5
+    PRINTLN "FAIL: fractional shift accepted"
+CATCH error
+    PRINTLN "PASS: fractional shift rejected"
+ENDTRY
+
+TRY
+    PRINTLN 1 >> 1.5
+    PRINTLN "FAIL: fractional shift accepted"
+CATCH error
+    PRINTLN "PASS: fractional shift rejected"
+ENDTRY

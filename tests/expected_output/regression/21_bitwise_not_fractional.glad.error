@@ -1,0 +1,3 @@
+Traceback (most recent call last):
+  File $REPO/tests/regression/21_bitwise_not_fractional.glad, line 1, in <regression:21_bitwise_not_fractional.glad>
+Runtime Error: Operand must be an integer
