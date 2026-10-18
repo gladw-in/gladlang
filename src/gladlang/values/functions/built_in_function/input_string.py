@@ -3,6 +3,7 @@
 import sys
 
 from gladlang.core.errors import RuntimeError
+from gladlang.core.util.settings import Settings
 from gladlang.runtime.runtime_result import RuntimeResult
 from gladlang.values.primitives.string import String
 
@@ -30,7 +31,7 @@ class BuiltInFunctionInputString:
             sys.stdout.write(prompt)
             sys.stdout.flush()
 
-        input_text = sys.stdin.readline()
+        input_text = sys.stdin.readline(Settings.MAX_STRING_SIZE + 2)
         if input_text == "":
             return result.failure(
                 RuntimeError(
@@ -41,7 +42,18 @@ class BuiltInFunctionInputString:
                 )
             )
 
-        input_text = input_text.rstrip("\n")
+        input_text = input_text.rstrip("\r\n")
+
+        if len(input_text) > Settings.MAX_STRING_SIZE:
+            return result.failure(
+                RuntimeError(
+                    self.position_start,
+                    self.position_end,
+                    f"INPUT exceeds maximum allowed size "
+                    f"({Settings.MAX_STRING_SIZE:,} chars)",
+                    call_context,
+                )
+            )
 
         return result.success(String(input_text))
 
@@ -57,6 +69,19 @@ class BuiltInFunctionInputString:
         value = arguments[0]
 
         if isinstance(value, String):
-            return result.success(String(value.value))
+            string_value = value.value
+        else:
+            string_value = str(value)
 
-        return result.success(String(str(value)))
+        if len(string_value) > Settings.MAX_STRING_SIZE:
+            return result.failure(
+                RuntimeError(
+                    self.position_start,
+                    self.position_end,
+                    f"STR result exceeds maximum allowed size "
+                    f"({Settings.MAX_STRING_SIZE:,} chars)",
+                    call_context,
+                )
+            )
+
+        return result.success(String(string_value))

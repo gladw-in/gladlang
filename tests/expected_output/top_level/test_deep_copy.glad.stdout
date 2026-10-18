@@ -1,0 +1,36 @@
+--- Deep Copy via Slicing Tester ---
+--- Nested lists and dicts are copied, not shared ---
+PASS: original list element changed
+PASS: copy kept the old list values
+PASS: copied list is a different object
+PASS: copied dict is a different object
+PASS: changing the copy leaves the original alone
+--- Deep nesting ---
+PASS: three levels deep are independent
+PASS: original shows the change
+--- Self-referencing structures ---
+PASS: list cycle is preserved in the copy
+PASS: list cycle copy is not the original
+PASS: dict cycle is preserved in the copy
+PASS: dict cycle copy is not the original
+PASS: list/dict mutual cycle is preserved
+--- Other value kinds survive copying ---
+PASS: enum member keeps its identity by name
+PASS: enum member keeps its value
+PASS: enum survives
+PASS: type survives
+PASS: built-in function still callable
+PASS: float survives
+PASS: NULL survives
+PASS: TRUE survives
+PASS: instance copy keeps its field
+PASS: instance copy is a different object
+PASS: function still callable
+PASS: anonymous function still callable
+PASS: bound method still callable
+PASS: instance copy does not follow the original
+--- Slice edge cases ---
+PASS: empty slice
+PASS: full slice
+PASS: tail slice
+PASS: string slice

@@ -10,9 +10,6 @@ def is_complete(source):
     if has_unterminated_multiline(source):
         return False
 
-    if source.count("`") % 2:
-        return False
-
     stripped_text = strip_comments(strip_double_quoted(source))
 
     if stripped_text.count('"') % 2:

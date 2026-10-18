@@ -1,0 +1,71 @@
+PRINTLN "--- NULL, TRUE and FALSE Ordering and Operators ---"
+
+CLASS Thing
+    FUNC Thing()
+        PUBLIC THIS.v = 1
+    ENDFUNC
+ENDCLASS
+
+FUNC check(label, ok)
+    IF ok THEN
+        PRINTLN "PASS: " + label
+    ELSE
+        PRINTLN "FAIL: " + label
+    ENDIF
+ENDFUNC
+
+FUNC must_raise(label, fn)
+    TRY
+        fn()
+        PRINTLN "FAIL: " + label + " did not raise"
+    CATCH e
+        PRINTLN "PASS: " + label + " -> " + e
+    ENDTRY
+ENDFUNC
+
+LET obj = NEW Thing()
+
+PRINTLN "--- NULL cannot be ordered ---"
+must_raise("NULL < 5", FUNC() RETURN NULL < 5 ENDFUNC)
+must_raise("NULL > 5", FUNC() RETURN NULL > 5 ENDFUNC)
+must_raise("NULL <= 5", FUNC() RETURN NULL <= 5 ENDFUNC)
+must_raise("NULL >= 5", FUNC() RETURN NULL >= 5 ENDFUNC)
+must_raise("5 < NULL", FUNC() RETURN 5 < NULL ENDFUNC)
+must_raise("5 >= NULL", FUNC() RETURN 5 >= NULL ENDFUNC)
+must_raise("NULL < NULL", FUNC() RETURN NULL < NULL ENDFUNC)
+must_raise("TRUE < NULL", FUNC() RETURN TRUE < NULL ENDFUNC)
+must_raise("NULL > FALSE", FUNC() RETURN NULL > FALSE ENDFUNC)
+
+PRINTLN "--- TRUE and FALSE order like 1 and 0 ---"
+check("TRUE < 2", STR(TRUE < 2) == "1")
+check("TRUE > 0", STR(TRUE > 0) == "1")
+check("FALSE <= 0", STR(FALSE <= 0) == "1")
+check("FALSE >= 1 is false", STR(FALSE >= 1) == "0")
+check("FALSE < TRUE", STR(FALSE < TRUE) == "1")
+check("TRUE >= TRUE", STR(TRUE >= TRUE) == "1")
+
+PRINTLN "--- Equality ---"
+check("NULL == NULL", STR(NULL == NULL) == "1")
+check("NULL != NULL", STR(NULL != NULL) == "0")
+check("NULL == FALSE is false", STR(NULL == FALSE) == "0")
+check("NULL == instance is false", STR(NULL == obj) == "0")
+check("NULL != instance", STR(NULL != obj) == "1")
+check("instance == NULL is false", STR(obj == NULL) == "0")
+check("TRUE == instance is false", STR(TRUE == obj) == "0")
+check("NULL == string is false", STR(NULL == "a") == "0")
+check("NULL == empty list is false", STR(NULL == []) == "0")
+check("NULL != 0", STR(NULL != 0) == "1")
+
+PRINTLN "--- Logic ---"
+check("NULL AND TRUE", STR(NULL AND TRUE) == "0")
+check("NULL OR TRUE", STR(NULL OR TRUE) == "1")
+check("NULL OR NULL", STR(NULL OR NULL) == "0")
+check("NOT NULL", STR(NOT NULL) == "1")
+check("NOT TRUE", STR(NOT TRUE) == "0")
+
+PRINTLN "--- NULL is not a container, function or object with members ---"
+must_raise("NULL.x", FUNC() RETURN NULL.x ENDFUNC)
+must_raise("NULL[0]", FUNC() RETURN NULL[0] ENDFUNC)
+must_raise("NULL()", FUNC() RETURN NULL() ENDFUNC)
+check("STR(NULL)", STR(NULL) == "null")
+check("NULL INSTANCEOF Object", STR(NULL INSTANCEOF Object) == "1")

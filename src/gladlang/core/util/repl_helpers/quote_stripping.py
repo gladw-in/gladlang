@@ -1,4 +1,4 @@
-"""Remove double-quoted string contents for safe scanning."""
+"""Remove double-quoted and backtick string contents for safe scanning."""
 
 
 def strip_double_quoted(source):
@@ -7,12 +7,13 @@ def strip_double_quoted(source):
     length = len(source)
 
     while index < length:
-        if source[index] == '"':
+        if source[index] in ('"', "`"):
+            quote = source[index]
             index += 1
             while index < length:
                 if source[index] == "\\":
                     index += 2
-                elif source[index] == '"':
+                elif source[index] == quote:
                     index += 1
                     break
                 else:

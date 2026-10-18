@@ -7,14 +7,16 @@ from gladlang.core.util.runner import run
 
 
 def run_piped_stdin():
-    source = sys.stdin.read()
+    raw_source = sys.stdin.buffer.read(Settings.MAX_SOURCE_BYTES + 1)
 
-    if len(source.encode("utf-8", errors="replace")) > Settings.MAX_SOURCE_BYTES:
+    if len(raw_source) > Settings.MAX_SOURCE_BYTES:
         sys.stderr.write(
-            f"Source too large ({len(source):,} chars). "
-            f"Maximum allowed: {Settings.MAX_SOURCE_BYTES:,} bytes.\n"
+            f"Source too large. Maximum allowed: "
+            f"{Settings.MAX_SOURCE_BYTES:,} bytes.\n"
         )
         sys.exit(1)
+
+    source = raw_source.decode("utf-8", errors="replace")
 
     try:
         result, error = run(

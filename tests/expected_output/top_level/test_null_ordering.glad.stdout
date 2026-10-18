@@ -1,0 +1,41 @@
+--- NULL, TRUE and FALSE Ordering and Operators ---
+--- NULL cannot be ordered ---
+PASS: NULL < 5 -> Illegal operation
+PASS: NULL > 5 -> Illegal operation
+PASS: NULL <= 5 -> Illegal operation
+PASS: NULL >= 5 -> Illegal operation
+PASS: 5 < NULL -> Illegal operation
+PASS: 5 >= NULL -> Illegal operation
+PASS: NULL < NULL -> Illegal operation
+PASS: TRUE < NULL -> Illegal operation
+PASS: NULL > FALSE -> Illegal operation
+--- TRUE and FALSE order like 1 and 0 ---
+PASS: TRUE < 2
+PASS: TRUE > 0
+PASS: FALSE <= 0
+PASS: FALSE >= 1 is false
+PASS: FALSE < TRUE
+PASS: TRUE >= TRUE
+--- Equality ---
+PASS: NULL == NULL
+PASS: NULL != NULL
+PASS: NULL == FALSE is false
+PASS: NULL == instance is false
+PASS: NULL != instance
+PASS: instance == NULL is false
+PASS: TRUE == instance is false
+PASS: NULL == string is false
+PASS: NULL == empty list is false
+PASS: NULL != 0
+--- Logic ---
+PASS: NULL AND TRUE
+PASS: NULL OR TRUE
+PASS: NULL OR NULL
+PASS: NOT NULL
+PASS: NOT TRUE
+--- NULL is not a container, function or object with members ---
+PASS: NULL.x -> Illegal operation
+PASS: NULL[0] -> Illegal operation
+PASS: NULL() -> Illegal operation
+PASS: STR(NULL)
+PASS: NULL INSTANCEOF Object

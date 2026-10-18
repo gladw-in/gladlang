@@ -19,9 +19,24 @@ def is_pure_call_expression(source):
             depth = 1
             index += 1
             while index < length and depth > 0:
-                if source[index] == character:
+                current = source[index]
+
+                if current in '"`':
+                    quote = current
+                    index += 1
+
+                    while index < length and source[index] != quote:
+                        if source[index] == "\\":
+                            index += 1
+
+                        index += 1
+
+                    index += 1
+                    continue
+
+                if current == character:
                     depth += 1
-                elif source[index] == closing:
+                elif current == closing:
                     depth -= 1
 
                 index += 1

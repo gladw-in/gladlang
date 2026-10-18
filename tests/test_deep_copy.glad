@@ -1,0 +1,99 @@
+PRINTLN "--- Deep Copy via Slicing Tester ---"
+
+ENUM Colors
+    RED
+    GREEN
+ENDENUM
+
+CLASS Box
+    FUNC Box(n)
+        PUBLIC THIS.n = n
+    ENDFUNC
+
+    PUBLIC FUNC get()
+        RETURN THIS.n
+    ENDFUNC
+ENDCLASS
+
+FUNC plain()
+    RETURN "plain"
+ENDFUNC
+
+FUNC check(label, ok)
+    IF ok THEN
+        PRINTLN "PASS: " + label
+    ELSE
+        PRINTLN "FAIL: " + label
+    ENDIF
+ENDFUNC
+
+PRINTLN "--- Nested lists and dicts are copied, not shared ---"
+LET inner = [1, 2]
+LET table = {"k": [3, 4]}
+LET outer = [inner, table, "s", 5]
+LET copied = outer[0:4]
+
+inner[0] = 99
+table["k"][0] = 77
+check("original list element changed", STR(outer) == "[[99, 2], {\"k\": [77, 4]}, \"s\", 5]")
+check("copy kept the old list values", STR(copied) == "[[1, 2], {\"k\": [3, 4]}, \"s\", 5]")
+check("copied list is a different object", STR(copied[0] IS outer[0]) == "0")
+check("copied dict is a different object", STR(copied[1] IS outer[1]) == "0")
+
+copied[0][1] = -1
+check("changing the copy leaves the original alone", STR(inner) == "[99, 2]")
+
+PRINTLN "--- Deep nesting ---"
+LET deep = [[1, [2, [3]]]]
+LET deep_copy = deep[0:1]
+deep[0][1][1][0] = 0
+check("three levels deep are independent", STR(deep_copy) == "[[1, [2, [3]]]]")
+check("original shows the change", STR(deep) == "[[1, [2, [0]]]]")
+
+PRINTLN "--- Self-referencing structures ---"
+LET loop_list = [0]
+loop_list[0] = loop_list
+LET loop_copy = loop_list[0:1]
+check("list cycle is preserved in the copy", STR(loop_copy[0][0] IS loop_copy[0]) == "1")
+check("list cycle copy is not the original", STR(loop_copy[0] IS loop_list) == "0")
+
+LET loop_dict = {}
+loop_dict["self"] = loop_dict
+LET holder = [loop_dict]
+LET holder_copy = holder[0:1]
+check("dict cycle is preserved in the copy", STR(holder_copy[0]["self"] IS holder_copy[0]) == "1")
+check("dict cycle copy is not the original", STR(holder_copy[0] IS loop_dict) == "0")
+
+LET mixed = [0]
+LET mixed_dict = {"list": mixed}
+mixed[0] = mixed_dict
+LET mixed_copy = [mixed][0:1]
+check("list/dict mutual cycle is preserved", STR(mixed_copy[0][0]["list"] IS mixed_copy[0]) == "1")
+
+PRINTLN "--- Other value kinds survive copying ---"
+LET box = NEW Box(7)
+LET anon = FUNC(x) RETURN x * 2 ENDFUNC
+LET kinds = [Colors.RED, Colors, Number, LEN, 1.5, NULL, TRUE, box, plain, anon, box.get]
+LET kinds_copy = kinds[0:11]
+check("enum member keeps its identity by name", STR(kinds_copy[0] == Colors.RED) == "1")
+check("enum member keeps its value", STR(kinds_copy[0].value) == "0")
+check("enum survives", STR(kinds_copy[1].GREEN.value) == "1")
+check("type survives", STR(kinds_copy[2]) == "<type Number>")
+check("built-in function still callable", STR(kinds_copy[3]("abcd")) == "4")
+check("float survives", STR(kinds_copy[4]) == "1.5")
+check("NULL survives", STR(kinds_copy[5] == NULL) == "1")
+check("TRUE survives", STR(kinds_copy[6]) == "1")
+check("instance copy keeps its field", STR(kinds_copy[7].n) == "7")
+check("instance copy is a different object", STR(kinds_copy[7] IS box) == "0")
+check("function still callable", kinds_copy[8]() == "plain")
+check("anonymous function still callable", STR(kinds_copy[9](21)) == "42")
+check("bound method still callable", STR(kinds_copy[10]()) == "7")
+
+box.n = 100
+check("instance copy does not follow the original", STR(kinds_copy[7].n) == "7")
+
+PRINTLN "--- Slice edge cases ---"
+check("empty slice", STR([1, 2, 3][0:0]) == "[]")
+check("full slice", STR([1, 2, 3][0:3]) == "[1, 2, 3]")
+check("tail slice", STR([1, 2, 3][1:3]) == "[2, 3]")
+check("string slice", "hello"[1:3] == "el")

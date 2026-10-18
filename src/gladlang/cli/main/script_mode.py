@@ -10,6 +10,10 @@ from .script_source import resolve_script_source
 
 
 def run_script_mode():
+    if len(sys.argv) < 2:
+        sys.stderr.write("Usage: gladlang <script.glad> [arguments...]\n")
+        sys.exit(1)
+
     first_argument = sys.argv[1]
 
     if first_argument == "--help" or first_argument == "-h":
@@ -36,13 +40,17 @@ def run_script_mode():
 
             if error:
                 sys.stderr.write(f"{error.as_string()}\n")
+                sys.exit(1)
 
         finally:
             sys.stdin = original_stdin
 
     except MemoryError:
         sys.stderr.write("System Error: Memory Limit Exceeded\n")
+        sys.exit(1)
     except FileNotFoundError:
         sys.stderr.write(f"File not found: '{source_argument}'\n")
+        sys.exit(1)
     except Exception as exception:
         sys.stderr.write(f"An unexpected error occurred: {exception}\n")
+        sys.exit(1)
