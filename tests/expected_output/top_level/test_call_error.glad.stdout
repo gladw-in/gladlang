@@ -1,0 +1,4 @@
+--- Type Error Tester ---
+Testing what happens when calling a non-function.
+x = 10
+Attempting to call x(5)...

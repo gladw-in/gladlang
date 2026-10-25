@@ -1,0 +1,37 @@
+==============================================
+ CALLING CONTEXT — FULL CALL STACK TEST SUITE
+==============================================
+
+--- A: Method called from nested function ---
+[PASS] A: method error propagates through outer function correctly
+
+--- B: Overloaded function called from nested function ---
+[PASS] B: overloaded function error propagates through outer function correctly
+
+--- C: Wrong arity — cross-scope call (Crash 8 scenario) ---
+[PASS] C: wrong-arity error propagates through outer function correctly
+
+--- D: NEW called from inside another function ---
+[PASS] D: constructor error propagates through outer function correctly
+
+--- E: SUPER() chain — intermediate class now visible ---
+[PASS] E: SUPER() chain error propagates correctly
+
+--- F: Deep SUPER() chain — 3 levels ---
+[PASS] F: 3-level SUPER() chain error propagates correctly
+
+--- G: Method -> Method -> error chain ---
+[PASS] G: method-to-method error propagates correctly
+
+--- H: Overloaded method wrong arity from nested function ---
+[PASS] H: overloaded method wrong-arity error propagates through caller correctly
+
+--- I: Built-in error through 2-level function chain ---
+[PASS] I: built-in error propagates through 2-level function chain correctly
+
+==============================================
+ RESULTS
+==============================================
+PASSED: 9
+FAILED: 0
+ALL TESTS PASSED

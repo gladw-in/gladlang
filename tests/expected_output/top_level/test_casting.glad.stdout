@@ -1,0 +1,11 @@
+--- Type Casting Tester ---
+Enter a number (e.g., 123.5):
+--- Conversions ---
+String as INT: 123
+String as FLOAT: 123.5
+FLOAT as STR: 123.5
+--- Math Test ---
+INT * 2 = 246
+FLOAT * 2 = 247.0
+--- Error Test ---
+Attempting to cast 'hello' to INT...

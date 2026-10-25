@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File $REPO/tests/test_arg_error.glad, line 8, in <test>
+  File $REPO/tests/test_arg_error.glad, line 8, in add
+Runtime Error: Incorrect argument count for 'add'. Expected 2, got 3

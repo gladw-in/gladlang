@@ -1,0 +1,11 @@
+--- Closure Tester ---
+Creating add_five...
+Creating add_ten...
+--- Testing Closures ---
+add_five(3) = 8
+add_ten(3) = 13
+add_five(10) = 15
+--- Deeply Nested Closures (4 levels) ---
+10 + 20 + 30 + 40 = 100 (expected: 100)
+1+5+2+10+3 = 21 (expected: 21)
+All deep closure tests passed.

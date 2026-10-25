@@ -1,0 +1,39 @@
+=== Bitwise Operator Tests ===
+a = 5, b = 3
+a & b (AND): 1
+a | b (OR):  7
+a ^ b (XOR): 6
+~a (NOT):    -6
+1 << 2 (LSHIFT): 4
+8 >> 2 (RSHIFT): 2
+
+=== Compound Assignment Tests ===
+Initial c: 10
+c &= 3: 2
+c |= 5: 7
+c <<= 1: 14
+
+=== Precedence Tests ===
+1 << 2 + 3 (Check + vs <<): 32
+4 ^ 2 & 3  (Check & vs ^):  6
+
+=== Comparison Logic Test ===
+PASS: & binds tighter than == (verified, not coincidental)
+
+=== Error Handling Test ===
+Attempting negative shift...
+Success! Caught expected error: Negative shift count
+
+=== Test: >>= Compound Assignment ===
+Initial: 64
+64 >>= 2 => 16 (expected: 16)
+16 >>= 1 => 8 (expected: 8)
+-16 >>= 2 => -4 (expected: -4)
+
+--- Fractional Bitwise Regression Tests ---
+PASS: fractional AND rejected
+PASS: fractional OR rejected
+PASS: fractional XOR rejected
+PASS: fractional NOT rejected
+PASS: fractional shift rejected
+PASS: fractional shift rejected

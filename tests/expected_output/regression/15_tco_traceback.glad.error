@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File $REPO/tests/regression/15_tco_traceback.glad, line 9, in <regression:15_tco_traceback.glad>
+  File $REPO/tests/regression/15_tco_traceback.glad, line 6, in recurse
+  File $REPO/tests/regression/15_tco_traceback.glad, line 6, in recurse
+  File $REPO/tests/regression/15_tco_traceback.glad, line 6, in recurse
+  File $REPO/tests/regression/15_tco_traceback.glad, line 6, in recurse
+  File $REPO/tests/regression/15_tco_traceback.glad, line 6, in recurse
+  File $REPO/tests/regression/15_tco_traceback.glad, line 6, in recurse
+  File $REPO/tests/regression/15_tco_traceback.glad, line 6, in recurse
+  File $REPO/tests/regression/15_tco_traceback.glad, line 6, in recurse
+  File $REPO/tests/regression/15_tco_traceback.glad, line 6, in recurse
+  File $REPO/tests/regression/15_tco_traceback.glad, line 6, in recurse
+  File $REPO/tests/regression/15_tco_traceback.glad, line 3, in recurse
+Runtime Error: 'missing_variable' is not defined

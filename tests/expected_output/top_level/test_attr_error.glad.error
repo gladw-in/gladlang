@@ -1,0 +1,3 @@
+Traceback (most recent call last):
+  File $REPO/tests/test_attr_error.glad, line 13, in <test>
+Runtime Error: Instance of 'Person' has no attribute 'age'

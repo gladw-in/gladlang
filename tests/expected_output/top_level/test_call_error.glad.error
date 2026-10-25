@@ -1,0 +1,3 @@
+Traceback (most recent call last):
+  File $REPO/tests/test_call_error.glad, line 8, in <test>
+Runtime Error: Illegal operation

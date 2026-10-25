@@ -1,0 +1,41 @@
+===========================================
+ COMPREHENSIVE ACCESS MODIFIERS TEST SUITE 
+===========================================
+
+--- TEST BLOCK A: INTERNAL ACCESS (Should Succeed) ---
+Internal Private String: Top Secret String
+Internal Private Dict: {"key": "secret_value"}
+Internal Private Method: Private Method Executed
+Internal Private Static: I am a Private Static String
+Internal Private Enum: PrivEnum.X
+
+--- TEST BLOCK B: SUBCLASS (PROTECTED) ACCESS (Should Succeed) ---
+Subclass Protected Bool: 1
+Subclass Protected Float: 3.14159
+Subclass Protected Method: Protected Method Executed
+
+Attempting to access parent's private field from subclass...
+SUCCESS: Caught expected error -> Cannot access private member 'priv_str'
+
+--- TEST BLOCK C: EXTERNAL PUBLIC ACCESS (Should Succeed) ---
+Public Number: 42
+Public List: [1, 2, 3]
+Public Null: null
+Public Method: Public Method Executed
+Public Static: I am a Public Static String
+Public Enum: PubEnum.A
+
+--- TEST BLOCK D: EXTERNAL PROTECTED ACCESS (Should Fail) ---
+SUCCESS: Caught protected attribute error -> Cannot access protected member 'prot_bool'
+SUCCESS: Caught protected method error -> Cannot access protected method 'prot_method' via Class
+
+--- TEST BLOCK E: EXTERNAL PRIVATE ACCESS (Should Fail) ---
+SUCCESS: Caught private attribute error -> Cannot access private member 'priv_str'
+SUCCESS: Caught private dictionary error -> Cannot access private member 'priv_dict'
+SUCCESS: Caught private method error -> Cannot access private method 'priv_method' via Class
+SUCCESS: Caught private static attribute error -> Cannot access private static field 'priv_static_val'
+SUCCESS: Caught private enum error -> Cannot access private static field 'PrivEnum'
+
+===========================================
+               TESTS COMPLETE              
+===========================================

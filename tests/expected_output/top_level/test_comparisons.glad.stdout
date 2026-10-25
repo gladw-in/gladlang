@@ -1,0 +1,138 @@
+=== GLADLANG COMPARISON OPERATOR TEST SUITE ===
+
+--- 1. NUMBERS ---
+[PASS] 5 == 5
+[PASS] 5 == 10
+[PASS] 5 != 5
+[PASS] 5 != 10
+[PASS] a IS a
+[PASS] a IS b (different objects with same value)
+[PASS] 5 < 10
+[PASS] 10 < 5
+[PASS] 10 > 5
+[PASS] 5 > 10
+[PASS] 5 <= 5
+[PASS] 5 <= 10
+[PASS] 10 <= 5
+[PASS] 10 >= 5
+[PASS] 5 >= 10
+[PASS] 1 < 2 < 3
+[PASS] 3 < 2 < 1
+[PASS] 5 >= 5 >= 3
+[PASS] 5 > 5 > 3
+[PASS] 1.5 == 1.5
+[PASS] 1.5 == 2.0
+[PASS] 1.5 < 2.0
+[PASS] 5 == NULL
+[PASS] 5 != NULL
+[PASS] 5 < NULL raises error
+[PASS] NULL < 5 raises error
+
+--- 2. STRINGS ---
+[PASS] "hello" == "hello"
+[PASS] "hello" == "world"
+[PASS] "hello" != "hello"
+[PASS] "hello" != "world"
+[PASS] s1 IS s1
+[PASS] s1 IS s2 (different objects)
+[PASS] "hello" < "world"
+[PASS] "world" < "hello"
+[PASS] "hello" <= "hello"
+[PASS] "hello" >= "hello"
+[PASS] "hello" == NULL
+[PASS] "hello" != NULL
+
+--- 3. LISTS ---
+[PASS] [1,2,3] == [1,2,3]
+[PASS] [1,2,3] == [4,5,6]
+[PASS] [1,2,3] != [1,2,3]
+[PASS] [1,2,3] != [4,5,6]
+[PASS] l1 IS l1
+[PASS] l1 IS l2 (different objects)
+[PASS] List < List raises error
+[PASS] [1,2,3] == NULL
+[PASS] [1,2,3] != NULL
+
+--- 4. DICTS ---
+[PASS] {"a":1,"b":2} == {"a":1,"b":2}
+[PASS] {"a":1,"b":2} == {"c":3}
+[PASS] {"a":1,"b":2} != {"a":1,"b":2}
+[PASS] {"a":1,"b":2} != {"c":3}
+[PASS] d1 IS d1
+[PASS] d1 IS d2 (different objects)
+[PASS] Dict < Dict raises error
+[PASS] {"a":1} == NULL
+[PASS] {"a":1} != NULL
+
+--- 5. INSTANCES ---
+[PASS] p1 == p2 (different objects)
+[PASS] p1 == p3 (same object)
+[PASS] p1 != p2 (different objects)
+[PASS] p1 != p3 (same object)
+[PASS] p1 IS p1
+[PASS] p1 IS p2
+[PASS] p1 IS p3
+[PASS] Instance < Instance raises error
+[PASS] instance == NULL
+[PASS] instance != NULL
+
+--- 6. ENUMS ---
+[PASS] Colors.RED == Colors.RED
+[PASS] Colors.RED == Colors.GREEN
+[PASS] Colors.RED != Colors.RED
+[PASS] Colors.RED != Colors.GREEN
+[PASS] Colors.RED IS Colors.RED (same member, different object)
+[PASS] Colors.RED IS Colors.GREEN
+[PASS] Colors.RED == 0
+[PASS] Colors.RED != 0
+[PASS] Colors.RED == NULL
+[PASS] Colors.RED != NULL
+
+--- 7. FUNCTIONS ---
+[PASS] func1 == func2 (different functions)
+[PASS] func1 == func3 (same function)
+[PASS] func1 != func2
+[PASS] func1 != func3
+[PASS] func1 IS func1
+[PASS] func1 IS func2
+[PASS] func1 IS func3
+[PASS] function == NULL
+[PASS] function != NULL
+
+--- 8. BOOLEANS ---
+[PASS] TRUE == 1
+[PASS] TRUE == TRUE
+[PASS] FALSE == 0
+[PASS] FALSE == FALSE
+[PASS] TRUE == FALSE
+[PASS] TRUE != FALSE
+[PASS] TRUE IS TRUE
+[PASS] TRUE IS FALSE
+[PASS] TRUE == NULL
+[PASS] TRUE != NULL
+[PASS] FALSE == NULL
+[PASS] FALSE != NULL
+
+--- 9. NULL COMPARISONS ---
+[PASS] NULL == NULL
+[PASS] NULL != NULL
+[PASS] NULL IS NULL
+[PASS] NULL == 0
+[PASS] NULL != 0
+[PASS] NULL == ""
+[PASS] NULL != ""
+
+--- 10. CHAINED COMPARISONS ---
+[PASS] 1 < 5 < 10
+[PASS] 10 < 5 < 20
+[PASS] 10 > 5 > 1
+[PASS] 1 > 5 > 0
+[PASS] 5 <= 5 <= 6
+[PASS] 5 < 5 < 6
+
+============================================
+ ALL COMPARISON TESTS COMPLETED
+============================================
+PASSED: 110
+FAILED: 0
+ALL COMPARISON OPERATORS WORK CORRECTLY!

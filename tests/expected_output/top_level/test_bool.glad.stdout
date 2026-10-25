@@ -1,0 +1,15 @@
+--- BOOL Casting Tester ---
+NOTE: 1 is TRUE, 0 is FALSE
+BOOL(123) = 1
+BOOL(-1) = 1
+BOOL(0) = 0
+BOOL(0.5) = 1
+BOOL(0.0) = 0
+BOOL("hello") = 1
+BOOL("0") = 1
+BOOL("") = 0
+BOOL(TRUE) = 1
+BOOL(FALSE) = 0
+BOOL(NULL) = 0
+BOOL(INPUT) = 1
+This SHOULD print.

@@ -1,0 +1,8 @@
+--- Advanced OOP & Closure Test ---
+Creating greeter functions...
+--- Creating people ---
+--- Testing method calls ---
+Hello, Alex!
+Hi, Bob!
+--- Re-assigning attribute ---
+Hi, Alex!

@@ -1,0 +1,76 @@
+============================================
+  Testing All Built-in Functions
+============================================
+
+--- 1. PRINT and PRINTLN ---
+Hello, World!
+
+--- 2. Type Conversion (STR, INT, FLOAT, BOOL) ---
+STR(123.456) =  123.456
+INT(3.99) =  3
+INT("42") =  42
+FLOAT(10) =  10.0
+FLOAT("3.14") =  3.14
+BOOL(1) =  1
+BOOL(0) =  0
+Caught expected error:  Cannot convert 'abc' to INT
+
+--- 3. LEN / LENGTH ---
+LEN("GladLang") =  8
+LENGTH("GladLang") =  8
+LEN([10,20,30,40]) =  4
+LEN({'a':1, 'b':2, 'c':3}) =  3
+Caught expected error:  LEN is not defined for Number, use STR(n) first if you want the digit count
+
+--- 4. INPUT (requires user input) ---
+Type something and press Enter: 
+You entered:  Glad
+
+--- 5. PRINTF (format string) ---
+Hello, Glad!
+Answer: 42, Pi: 3.14159, Percent: %
+Caught expected error (missing arg):  Not enough arguments for format specifier '%d'
+Caught expected error (type mismatch):  Expected Number for '%d', got String
+Caught expected error (unsupported specifier):  Unsupported format specifier '%x'
+
+--- 6. TIME functions ---
+TIME:            {{NUMBER}}
+TIME_SECONDS:    {{INTEGER}}
+TIME_MILLIS:     {{INTEGER}}
+TIME_NANOS:      {{INTEGER}}
+TIME increased correctly
+
+--- 7. RANDOM functions ---
+RANDOM:                   {{INTEGER}}
+RANDOM_FLOAT:             {{NUMBER}}
+RANDOM_RANGE(0, 10):      {{INTEGER}}
+RANDOM_FLOAT range OK
+RANDOM_RANGE range OK
+Caught expected error (start >= stop):  start must be less than stop
+
+--- 8. DELAY ---
+Delayed for  {{INTEGER}}  ms (expected ≈ 100 ms)
+DELAY duration seems plausible
+
+--- 9. Edge Cases (Overflow, Infinite, Output Cap) ---
+Caught expected error (delay cap):  DELAY argument (1e+09 seconds) exceeds the maximum allowed delay (60 seconds)
+Caught expected error (range too large):  Arithmetic result too large (exceeds integer size limit)
+Caught expected error (output size cap):  PRINTF output exceeds maximum allowed size (10,000,000 chars)
+
+--- 10. PRINTF Precision (%.Nf) ---
+4 (expect 4): 4
+3.14 (expect 3.14): 3.14
+1.5000000000 (expect 1.5000000000): 1.5000000000
+10 on 9.9 (expect 10): 10
+1.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+precision=100 (at cap) succeeded as expected
+Caught expected error (precision cap):  PRINTF precision exceeds the maximum allowed precision (100)
+Caught expected error (digit run too long):  PRINTF precision exceeds the maximum allowed precision (100)
+Caught expected error (precision on %s):  Precision is not supported for '%s'
+Caught expected error (precision on %d):  Precision is not supported for '%d'
+Caught expected error (dot, no digits):  Expected digits after '.' in format specifier
+Caught expected error (trailing dot):  Expected digits after '.' in format specifier
+plain %f still works: 3.14159
+literal percent still works: 100%
+
+All tests completed successfully.

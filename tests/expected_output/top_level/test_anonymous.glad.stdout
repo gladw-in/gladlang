@@ -1,0 +1,6 @@
+--- Anonymous Function Tester ---
+Calling anonymous 'double' function...
+double(5) = 10
+double(21) = 42
+--- IIFE (Immediately Invoked Function Expression) Test ---
+IIFE (6, 7) Result: 42

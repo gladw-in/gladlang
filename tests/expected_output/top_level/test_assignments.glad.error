@@ -1,0 +1,3 @@
+Traceback (most recent call last):
+  File $REPO/tests/test_assignments.glad, line 176, in <test>
+Runtime Error: Division by zero

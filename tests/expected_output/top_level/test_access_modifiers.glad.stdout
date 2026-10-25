@@ -1,0 +1,21 @@
+--- TEST 1: PUBLIC ACCESS ---
+Public Variable: 10
+Public Method: 10
+
+--- TEST 2: PRIVATE ACCESS (METHODS) ---
+Internal Access: I am secret
+Attempting External Access (Should Fail)...
+CAUGHT ERROR: Cannot access private method 'secret' via Class
+
+--- TEST 3: PRIVATE ACCESS (ATTRIBUTES) ---
+Public Attr: 1
+Internal Attr Access: 999
+Attempting External Attr Access (Should Fail)...
+CAUGHT ERROR: Cannot access private member 'secret_val'
+
+--- TEST 4: PROTECTED ACCESS (INHERITANCE) ---
+Subclass Access: Family Only
+Attempting External Protected Access (Should Fail)...
+CAUGHT ERROR: Cannot access protected method 'family_secret' via Class
+
+--- TEST COMPLETE ---

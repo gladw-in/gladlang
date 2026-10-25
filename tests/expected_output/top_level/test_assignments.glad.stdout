@@ -1,0 +1,55 @@
+--- GLADLANG OPERATOR TEST SUITE ---
+
+[Testing Addition +]
+Manual (10 + 5): 15
+Compound (10 += 5): 15
+SUCCESS: Addition Verified
+
+[Testing Subtraction -]
+Manual (20 - 8): 12
+Compound (20 -= 8): 12
+SUCCESS: Subtraction Verified
+
+[Testing Multiplication *]
+Manual (5 * 4): 20
+Compound (5 *= 4): 20
+SUCCESS: Multiplication Verified
+
+[Testing Division /]
+Manual (100 / 2): 50.0
+Compound (100 /= 2): 50.0
+SUCCESS: Division Verified
+
+[Testing Modulo %]
+Manual (14 % 3): 2
+Compound (14 %= 3): 2
+SUCCESS: Modulo Verified
+
+--- End of Test Suite ---
+--- GLADLANG EDGE CASE TESTS ---
+
+[Testing Negative Logic]
+10 += -5 Result: 5
+PASS
+10 -= -5 Result: 15
+PASS
+10 *= -2 Result: -20
+PASS
+
+[Testing Zero Logic]
+50 *= 0 Result: 0
+PASS
+PASS: Add Zero Identity verified
+
+[Testing Floor-Divide Assignment //=]
+17 //= 3 => 5 (expected: 5)
+-17 //= 3 => -6 (expected: -6)
+10.5 //= 3 => 3.0 (expected: 3.0)
+
+[Testing Power Assignment **=]
+2 **= 10 => 1024 (expected: 1024)
+5 **= 2 => 25 (expected: 25)
+SUCCESS: Caught exponent too large -> Exponent too large (limit: 1000)
+
+[Testing Division by Zero]
+WARNING: This next step may crash the program if not handled.
