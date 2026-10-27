@@ -1,0 +1,45 @@
+============================================
+  Testing Module System
+============================================
+
+--- 1. Named imports ---
+PI = 3.14159
+add(10, 5) = 15
+multiply(3, 4) = 12
+
+--- 2. Exported class ---
+calc.add(2, 3) = 5
+calc.multiply(6, 7) = 42
+
+--- 3. Aliased import ---
+Euler (E) = 2.71828
+
+--- 4. Namespace import ---
+math.PI = 3.14159
+math.add(100, 200) = 300
+
+--- 5. Repeated import is served from cache ---
+PI2 = 3.14159
+
+--- 6. Circular imports ---
+Loading circular_a.glad
+Loading circular_b.glad
+get_a_name() = Module A
+get_b_name() = Module B
+call_b() = Module B
+call_a() = Module A
+
+--- 7. EXPORT ... AS alias ---
+AliasedPI = 3.14159
+aliasedAdd(2, 3) = 5
+calc2.add(4, 5) = 9
+plain = no alias
+
+--- 8. Standalone re-export (EXPORT name [AS alias]) ---
+greeting = hello
+shout("hi") = hi!!!
+already_public = no alias needed
+
+============================================
+ ALL MODULE TESTS COMPLETED SUCCESSFULLY 
+============================================

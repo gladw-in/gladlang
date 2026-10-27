@@ -1,0 +1,21 @@
+--- Errors Raised Inside FINALLY ---
+--- Test 1: TRY succeeds, FINALLY throws ---
+inner body ok
+inner finally running
+PASS: FINALLY error reaches outer CATCH
+PASS: code after inner ENDTRY is skipped
+--- Test 2: TRY throws, FINALLY throws (FINALLY wins) ---
+PASS: FINALLY error replaces TRY error
+--- Test 3: CATCH handles, FINALLY then throws ---
+PASS: inner CATCH still handled TRY error
+PASS: inner FINALLY ran
+PASS: FINALLY error reaches outer CATCH
+--- Test 4: FINALLY throw overrides RETURN ---
+PASS: FINALLY error beats RETURN
+--- Test 5: FINALLY system error ---
+body
+PASS: division by zero in FINALLY is caught
+Caught: Division by zero
+--- Test 6: clean FINALLY does not disturb result ---
+clean finally ran
+PASS: RETURN value preserved by clean FINALLY

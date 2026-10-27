@@ -1,0 +1,24 @@
+--- Short-Circuit Evaluation Tester ---
+--- Right side must be SKIPPED ---
+PASS: FALSE AND x -> falsy
+PASS: FALSE AND x -> RHS not evaluated
+PASS: TRUE OR x -> truthy
+PASS: TRUE OR x -> RHS not evaluated
+--- Right side must be EVALUATED ---
+PASS: TRUE AND x -> truthy
+PASS: TRUE AND x -> RHS evaluated once
+PASS: FALSE OR x -> truthy
+PASS: FALSE OR x -> RHS evaluated once more
+PASS: TRUE AND FALSE -> falsy
+PASS: TRUE AND FALSE -> RHS evaluated
+PASS: FALSE OR FALSE -> falsy
+PASS: FALSE OR FALSE -> RHS evaluated
+--- Chains ---
+PASS: FALSE AND x AND y -> no RHS evaluated
+PASS: TRUE OR x OR y -> no RHS evaluated
+--- Skipped right side may not raise errors ---
+PASS: 0 AND (1/0) -> falsy
+PASS: 1 OR (1/0) -> truthy
+--- Evaluated right side must still raise errors ---
+PASS: 1 AND (1/0) raised: Division by zero
+PASS: 0 OR (1/0) raised: Division by zero

@@ -1,0 +1,29 @@
+--- List Tester ---
+Initial list: [1, "hello", 6, 1]
+--- List Access ---
+Element at index 0: 1
+Element at index 1: hello
+Element at index 2: 6
+--- List Set ---
+Setting my_list[1] = "world"
+New list: [1, "world", 6, 1]
+New element at index 1: world
+--- List Concatenation ---
+Combined list: [1, "world", 6, 1, 0, 100]
+--- Out of Bounds Error Test ---
+Attempting to access my_list[99]...
+List index 99 out of bounds
+--- List Repetition ---
+Zeros: [0, 0, 0, 0, 0]
+
+--- Fractional Index Regression ---
+PASS: Fractional list index rejected
+
+--- Fractional Slice Regression ---
+PASS: Fractional slice start rejected
+PASS: Fractional slice end rejected
+PASS: Fractional slice boundary rejected
+
+--- List Repetition Boundary ---
+Valid repetition: [1, 1, 1, 1, 1]
+PASS: Fractional repetition count rejected

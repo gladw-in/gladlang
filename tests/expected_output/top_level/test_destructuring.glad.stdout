@@ -1,0 +1,20 @@
+--- Destructuring Test ---
+x: 10
+y: 20
+z: 30
+--- Calculating ---
+a: 20
+b: 10.0
+=== Destructuring Loop Test ===
+-- FOR Loop --
+Point: x=1, y=2
+Point: x=10, y=20
+Point: x=100, y=200
+-- Comprehension --
+Sums: [3, 30, 300]
+Y coords where X > 5: [20, 200]
+=== Dictionary Comprehension Test ===
+Name Lengths: {"Alice": 5, "Bob": 3, "Charlie": 7}
+Inverted: {1: "A", 2: "B", 3: "C"}
+Squares > 2: {3: 9, 4: 16, 5: 25}
+Inverted: {10: "A", 20: "B", 30: "C"}

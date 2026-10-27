@@ -1,0 +1,41 @@
+--- INSTANCEOF Matrix Tester ---
+--- Built-in type signatures ---
+PASS: int
+PASS: float
+PASS: NULL
+PASS: string
+PASS: list
+PASS: dict
+PASS: user function
+PASS: anonymous function
+PASS: built-in function
+PASS: bound method
+PASS: enum member
+PASS: enum
+PASS: class instance
+--- Values are never instances of an unrelated class ---
+PASS: 5 INSTANCEOF A is false
+PASS: string INSTANCEOF A is false
+PASS: list INSTANCEOF A is false
+PASS: dict INSTANCEOF A is false
+PASS: function INSTANCEOF A is false
+PASS: enum member INSTANCEOF A is false
+PASS: enum INSTANCEOF A is false
+--- Class instances and inheritance ---
+PASS: instance of own class
+PASS: instance of unrelated class
+PASS: subclass instance of parent
+PASS: subclass instance of itself
+PASS: parent instance of subclass
+PASS: class A INSTANCEOF Object
+PASS: class A INSTANCEOF A is false
+--- Right operand must be a Class or Type ---
+PASS: 5 INSTANCEOF 3 -> Right operand of INSTANCEOF must be a Class or Type
+PASS: string INSTANCEOF string -> Right operand of INSTANCEOF must be a Class or Type
+PASS: list INSTANCEOF list -> Right operand of INSTANCEOF must be a Class or Type
+PASS: dict INSTANCEOF dict -> Right operand of INSTANCEOF must be a Class or Type
+PASS: function INSTANCEOF number -> Right operand of INSTANCEOF must be a Class or Type
+PASS: built-in INSTANCEOF number -> Right operand of INSTANCEOF must be a Class or Type
+PASS: enum member INSTANCEOF number -> Right operand of INSTANCEOF must be a Class or Type
+PASS: enum INSTANCEOF number -> Right operand of INSTANCEOF must be a Class or Type
+PASS: instance INSTANCEOF number -> Right operand of INSTANCEOF must be a Class or Type

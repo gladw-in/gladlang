@@ -1,0 +1,10 @@
+--- OOP & Inheritance Tester ---
+Ref Equality (True): 1
+Ref Equality (False): 0
+--- Creating a Pet ---
+A new pet is born!
+Sammy makes a generic pet sound.
+--- Creating a Dog ---
+A new pet is born!
+Buddy says: Woof!
+Buddy wags its tail.

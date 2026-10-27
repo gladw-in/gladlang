@@ -1,0 +1,3 @@
+Traceback (most recent call last):
+  File $REPO/tests/test_name_error.glad, line 6, in <test>
+Runtime Error: 'b' is not defined

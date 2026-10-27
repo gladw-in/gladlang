@@ -1,0 +1,141 @@
+================================================
+ COMPREHENSIVE VISIBILITY MODIFIERS TEST SUITE 
+================================================
+
+--- SECTION 1: Basic Visibility (Single Class) ---
+External public var access: public
+External public method: private
+External protected var (should fail):
+SUCCESS: Cannot access protected member 'prot_var'
+External protected method (should fail):
+SUCCESS: Cannot access protected method 'get_prot' via Class
+External private var (should fail):
+SUCCESS: Cannot access private member 'priv_var'
+External private method (should fail):
+SUCCESS: Cannot access private method 'get_priv_method' via Class
+Internal access via public method:
+  Internal access to priv_var: private
+  Internal call to priv_method: private method
+  Internal access to prot_var: protected
+  Internal call to prot_method: protected
+
+--- SECTION 2: PROTECTED Members in Subclass ---
+Child accessing parent protected: prot_val=100, prot_meth=parent_protected
+External access to protected (should fail):
+SUCCESS: Cannot access protected member 'prot_val'
+
+--- SECTION 3: PRIVATE Members are NOT Inherited ---
+Child accessing parent private via public getter: parent_secret
+Child direct access to parent private var: ERROR: Cannot access private member 'priv_val'
+Child direct call to parent private method: parent_private_method
+
+--- SECTION 4: Name Mangling (Private Members Don't Collide) ---
+Parent private via get_parent(): Parent
+Child private via get_child(): Child
+
+--- SECTION 5: Private Method Override (Parent calls its own) ---
+Parent.call_secret() on child instance: Parent's private
+Expected: 'Parent's private' (parent calls its own, not child's)
+
+--- SECTION 6: Protected Method Override (Polymorphism) ---
+Polymorphic protected override via parent method: Child
+Expected: 'Child' (child's override is called)
+
+--- SECTION 7: Static Members Visibility ---
+Public static: public static
+Private static via public method: private static
+Direct private static access (should fail):
+SUCCESS: Cannot access private static field 'priv_static'
+Direct protected static access (should fail):
+SUCCESS: Cannot access protected static field 'prot_static'
+
+--- SECTION 8: Static Inheritance (Protected) ---
+Derived accessing parent protected static: base base_method
+External access to parent protected static (should fail):
+SUCCESS: Cannot access protected static field 'base_val'
+
+--- SECTION 9: Enums with Visibility Modifiers ---
+Public enum: PubEnum.A
+Private enum via public method: PrivEnum.X
+Direct private enum access (should fail):
+SUCCESS: Cannot access private static field 'PrivEnum'
+Direct protected enum access (should fail):
+SUCCESS: Cannot access protected static field 'ProtEnum'
+
+--- SECTION 10: LSP Violation (Cannot reduce visibility) ---
+GoodChild (widening) works: now public
+Attempting to narrow PUBLIC to PRIVATE (should fail at definition):
+SUCCESS: Method 'hello' cannot be more restrictive than parent method (LSP Violation)
+Attempting to narrow PROTECTED to PRIVATE (should fail):
+SUCCESS: Method 'hi' cannot be more restrictive than parent method (LSP Violation)
+
+--- SECTION 11: THIS/SUPER inside STATIC (should fail) ---
+THIS inside static:
+SUCCESS: 'THIS' cannot be used inside a static method
+SUPER inside static:
+SUCCESS: 'SUPER' can only be used inside an instance method
+
+--- SECTION 12: Same-class instances can access each other's private members ---
+Peer accessing other's private: 200
+Expected: 200
+
+--- SECTION 13: STATIC FINAL with visibility ---
+Public static final: 99
+Modifying public final (should fail):
+SUCCESS: Cannot reassign static constant 'const_pub'
+Private final via public static method: 88
+Direct protected final access (should fail):
+SUCCESS: Cannot access protected static field 'const_prot'
+
+--- SECTION 14: INSTANCEOF works regardless of visibility ---
+Child INSTANCEOF Base: 1
+Expected: 1
+
+--- SECTION 15: Overload groups must have same visibility ---
+Attempting to define overloaded methods with different visibility (should fail)...
+SUCCESS: Caught expected error -> All overloads of 'work' must have the same visibility
+
+--- SECTION 16: Cache Consistency for Static Members ---
+Subtest A: Private static field
+  Access 1: Internal access first (caches it)
+  Internal access result: 42
+  Direct external access (should fail):
+  Error: Cannot access private static field 'secret'
+
+  Access 2: Direct external access first (cache miss)
+  Direct external access (should fail):
+  Error: Cannot access private static field 'secret'
+  Internal access:
+  Internal access result: 99
+  PASS: error message identical regardless of cache order
+
+Subtest B: Protected static field
+  Access 1: Internal first
+  Internal got: protected
+  Direct external access (should fail):
+  Error: Cannot access protected static field 'data'
+
+  Access 2: Direct first (cache miss)
+  Direct external access (should fail):
+  Error: Cannot access protected static field 'data'
+  Internal access:
+  Internal got: hidden
+  PASS: error message identical regardless of cache order
+
+Subtest C: Private static method
+  Access 1: Internal first
+  Internal result: secret method
+  Direct external call (should fail):
+  Error: Cannot access private method 'helper' via Class
+
+  Access 2: Direct first (cache miss)
+  Direct external call (should fail):
+  Error: Cannot access private method 'helper' via Class
+  Internal call:
+  Internal result: secret method 2
+  PASS: error message identical regardless of cache order
+
+--- Cache consistency subtest completed.
+================================================
+ ALL VISIBILITY TESTS COMPLETED SUCCESSFULLY 
+================================================

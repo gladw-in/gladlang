@@ -1,0 +1,46 @@
+--- Number Error Branch Tester ---
+--- Float overflow ---
+PASS: float + float -> Arithmetic result is infinite (float overflow)
+PASS: float - float -> Arithmetic result is infinite (float overflow)
+PASS: float * int -> Arithmetic result is infinite (float overflow)
+PASS: float / tiny -> Arithmetic result is infinite (float overflow)
+PASS: float // tiny -> Arithmetic result is not finite
+PASS: float % tiny stays finite
+--- Division and modulo by zero ---
+PASS: int % 0 -> Division by zero
+PASS: float % 0 -> Division by zero
+PASS: int // 0 -> Division by zero
+PASS: float // 0.0 -> Division by zero
+--- Floor division and modulo signs ---
+PASS: -7 // 2
+PASS: -7 % 2
+PASS: 7.5 // 2
+PASS: 7.5 % 2
+PASS: 2 ** -2
+--- Integer size limit (v is 2 ** 99999) ---
+PASS: v + 1 is still allowed
+PASS: v + v -> Arithmetic result too large (exceeds integer size limit)
+PASS: v - (0 - v) -> Arithmetic result too large (exceeds integer size limit)
+PASS: v * 2 -> Arithmetic result too large (exceeds integer size limit)
+PASS: v * v -> Arithmetic result too large (exceeds integer size limit)
+PASS: v / v
+--- Huge integers mixed with floats ---
+PASS: v / 1.5 -> Division result exceeds float range; use integer floor division (//) instead
+PASS: v // 1.5 -> Invalid floor division operation
+PASS: v % 1.5 -> Invalid modulo operation
+PASS: v ** 0.5 -> int too large to convert to float
+--- Mixed operand types ---
+PASS: number + string concatenates
+PASS: number * string repeats
+PASS: number * list repeats
+PASS: number - string -> Illegal operation
+PASS: number // string -> Illegal operation
+PASS: number % list -> Illegal operation
+PASS: number / dict -> Illegal operation
+PASS: number ** string -> Illegal operation
+PASS: string & number -> Illegal operation
+--- Powers and shifts ---
+PASS: negative base, fractional exponent -> Math domain error: result is complex
+PASS: negative shift -> Negative shift count
+PASS: float operand to & -> Left operand must be an integer
+PASS: shifting by 32 or more clears the value

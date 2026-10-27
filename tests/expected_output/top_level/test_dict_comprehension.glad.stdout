@@ -1,0 +1,9 @@
+=== DICTIONARY COMPREHENSION TESTS ===
+Squares: {1: 1, 2: 4, 3: 9, 4: 16, 5: 25}
+Even squares: {2: 4, 4: 16}
+Name lengths: {"Alice": 5, "Bob": 3, "Charlie": 7}
+Cartesian product dict: {"Red-S": ["Red", "S"], "Red-M": ["Red", "M"], "Red-L": ["Red", "L"], "Blue-S": ["Blue", "S"], "Blue-M": ["Blue", "M"], "Blue-L": ["Blue", "L"]}
+Filtered product: {"Red-S": ["Red", "S"], "Red-M": ["Red", "M"], "Red-L": ["Red", "L"], "Blue-L": ["Blue", "L"]}
+Inverted dict: {10: 1, 20: 2, 30: 3}
+Empty result: {}
+=== ALL DICT COMP TESTS PASSED ===

@@ -1,0 +1,51 @@
+--- Compound Assignment on Attributes, Elements and Keys ---
+--- Every operator on an attribute ---
+PASS: attribute +=
+PASS: attribute -=
+PASS: attribute *=
+PASS: attribute /=
+PASS: attribute %=
+PASS: attribute //=
+PASS: attribute **=
+PASS: attribute &=
+PASS: attribute |=
+PASS: attribute ^=
+PASS: attribute <<=
+PASS: attribute >>=
+--- Every operator on a list element ---
+PASS: element +=
+PASS: element -=
+PASS: element *=
+PASS: element /=
+PASS: element %=
+PASS: element //=
+PASS: element **=
+PASS: element &=
+PASS: element |=
+PASS: element ^=
+PASS: element <<=
+PASS: element >>=
+--- Other targets ---
+PASS: string element +=
+PASS: dict key +=
+PASS: nested element *=
+PASS: grid cell +=
+PASS: negative index +=
+--- Compound assignment inside methods ---
+PASS: private attribute += through a method
+PASS: and again
+--- Errors ---
+PASS: index out of range -> List index 99 out of bounds
+PASS: negative index out of range -> List index -99 out of bounds
+PASS: missing attribute -> Instance of 'Counter' has no attribute 'nothing'
+PASS: private attribute from outside -> Cannot access private member 'hidden'
+PASS: illegal operand on element -> Illegal operation
+PASS: illegal operand on attribute -> Illegal operation
+PASS: division by zero on element -> Division by zero
+PASS: division by zero on attribute -> Division by zero
+PASS: modulo by zero on element -> Division by zero
+PASS: NULL index -> List index must be a Number
+PASS: string element is immutable -> Illegal operation
+PASS: missing dict key -> Key 'none' not found
+PASS: compound on a number -> Illegal operation
+PASS: compound attribute on a number -> Illegal operation

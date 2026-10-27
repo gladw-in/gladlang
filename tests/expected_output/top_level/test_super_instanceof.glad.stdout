@@ -1,0 +1,38 @@
+=== TESTING SUPER AND INSTANCEOF ===
+
+[1] Testing SUPER in Constructor:
+Animal Constructor
+Dog Constructor
+
+[2] Testing SUPER in Method:
+Woof! ...
+
+[3] TESTING SUPER WITH ARGUMENTS:
+Animal Constructor: Set name to Buddy
+Dog Constructor: Ready
+Buddy says Woof!
+
+[4] Testing INSTANCEOF:
+d is Dog? 1
+d is Animal? 1
+d is String? 0
+c is Animal? 0
+
+[5] TESTING HYBRID PARENT CALLS
+--- Initializing Dog ---
+Animal Constructor
+Human Constructor
+--- Calling SUPER() ---
+Animal Constructor
+
+[Speaking]
+Woof! Generic Sound Hello
+
+=== 6. SUPER + Overloaded Methods ===
+SUPER overload result: 41
+
+=== 7. SUPER + Protected Visibility ===
+SUPER protected result: protected
+
+=== 8. SUPER + Private Visibility ===
+SUPER private result: blocked

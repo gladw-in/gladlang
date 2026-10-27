@@ -1,0 +1,47 @@
+--- 1. Advanced Math ---
+8
+3
+1
+14
+
+--- 2. Comparisons ---
+1
+1
+1
+1
+
+--- 3. Chained Comparisons ---
+Age is between 18 and 30
+1
+0
+
+--- 4. Identity (IS operator) ---
+1
+0
+1
+
+--- 5. Logic (AND, OR) ---
+Uppercase 'AND' works
+Uppercase 'OR' works
+
+--- 6. List Logic & Equality ---
+1
+0
+1
+Lists are Truthy
+Complex List Logic Passed
+
+7. --- Very Large Number Overflow Tests ---
+Testing 2^500 (should succeed)...
+2^500 has 151 digits
+Testing huge * huge (should succeed)...
+2^500 squared (i.e., 2^1000) has 302 digits
+Testing exponent > 200000 (should fail, limit is 1000)...
+SUCCESS: Caught expected error -> Exponent too large (limit: 1000)
+Testing float overflow (exponent > 10000 blocked)...
+SUCCESS: Caught expected error -> Exponent too large (limit: 1000)
+
+
+Testing integer bit-length limit (MAX_INT_BITS = 100000)...
+SUCCESS: Caught expected error -> Arithmetic result too large (exceeds integer size limit)
+--- DONE ---

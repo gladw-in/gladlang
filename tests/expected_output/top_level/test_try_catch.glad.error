@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File $REPO/tests/test_try_catch.glad, line 84, in <test>
+Runtime Error: Unhandled exception
+Thrown value: Unhandled exception

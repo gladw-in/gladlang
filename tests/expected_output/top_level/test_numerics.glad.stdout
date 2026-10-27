@@ -1,0 +1,94 @@
+=============================================
+   NUMERIC EDGE CASE TESTS (NEGATIVE ZERO,   
+   INFINITY, NaN, AND BOUNDARY CONDITIONS)   
+=============================================
+
+--- 1. Negative Zero ---
+Literal -0 => 0
+neg_zero == 0 => 1
+neg_zero < 0  => 0
+neg_zero > 0  => 0
+neg_zero <= 0 => 1
+neg_zero >= 0 => 1
+BOOL(neg_zero) => 0
+0 * -1 => 0
+nz2 == neg_zero => 1
+neg_zero + 5 => 5
+STR(neg_zero) => '0'
+
+--- 2. Modulo with Negative Numbers ---
+ 5 %  3 => 2
+ 5 % -3 => -1
+-5 %  3 => 1
+-5 % -3 => -2
+
+--- 3. Floor Division with Negative Numbers ---
+ 5 //  3 => 1
+ 5 // -3 => -2
+-5 //  3 => -2
+-5 // -3 => 1
+
+--- 4. Division by Zero ---
+Attempting 1 / 0 ...
+SUCCESS: Caught error -> Division by zero
+Attempting -1 / 0 ...
+SUCCESS: Caught error -> Division by zero
+
+--- 5. Float Conversion Edge Cases ---
+FLOAT("0.0") => 0.0
+FLOAT("-0.0") => -0.0
+FLOAT("00.5") => 0.5
+FLOAT("1e100") => 1e+100
+FLOAT("1e1000") raised error: FLOAT: result is not a finite number (got '1e1000')
+FLOAT(" +5.2") => 5.2
+
+--- 6. Integer Conversion Edge Cases ---
+INT("0.0") => 0
+INT("-0.0") => 0
+INT("00042") => 42
+INT("-00042") => -42
+INT("123456789012345678901234567890") => 123456789012345678901234567890
+
+--- 7. Boolean Conversion ---
+BOOL(-0) => 0
+BOOL(0.0) => 0
+BOOL(-0.0) => 0
+BOOL(0.0001) => 1
+
+--- 8. Power Operator Edge Cases ---
+(-2) ** 3 => -8
+(-2) ** 4 => 16
+0 ** 0 => 1
+0 ** 5 => 0
+5 ** 0 => 1
+2 ** -1 => 0.5
+4 ** -2 => 0.0625
+
+--- 9. Shift Operators Edge Cases ---
+1 << 0 => 1
+1 >> 0 => 1
+8 >> 10 => 0
+-8 >> 2 => -2
+
+--- 10. String representation of negative zero ---
+FLOAT("-0.0") as STR: '-0.0'
+
+--- 11. Comparisons with -0.0 and 0.0 ---
+neg_zero_float == pos_zero => 1
+neg_zero_float < pos_zero => 0
+neg_zero_float > pos_zero => 0
+neg_zero_float <= pos_zero => 1
+neg_zero_float >= pos_zero => 1
+neg_zero_float IS pos_zero => 0
+
+=============================================
+        ALL NUMERIC EDGE TESTS COMPLETE      
+=============================================
+
+=== NUMERIC BOUNDARY REGRESSIONS ===
+Zero: 0.0
+Negative zero: -0.0
+Small finite float: 1e-308
+Large finite float: 1e+308
+Valid underscore float: 1000.23
+Valid mantissa-underscore float with exponent: 12300.0

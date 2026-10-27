@@ -1,0 +1,60 @@
+==============================================
+ NULL-GUARD REGRESSION TEST SUITE
+==============================================
+
+--- Section 1: Number arithmetic with NULL (must all be Illegal Operation) ---
+[PASS] 1a: 5 + NULL
+[PASS] 1b: 5 - NULL
+[PASS] 1c: 5 * NULL
+[PASS] 1d: 5 / NULL
+[PASS] 1e: 5 % NULL
+[PASS] 1f: 5 // NULL
+[PASS] 1g: 5 ** NULL
+[PASS] 1h: 5 & NULL
+[PASS] 1i: 5 | NULL
+[PASS] 1j: 5 ^ NULL
+[PASS] 1k: 5 << NULL
+[PASS] 1l: 5 >> NULL
+
+--- Section 2: List/string indexing and slicing with NULL ---
+[PASS] 2a: list[NULL] get
+[PASS] 2b: string[NULL] get
+[PASS] 2c: list[NULL:] slice
+[PASS] 2d: list[:NULL] slice
+[PASS] 2e: list[NULL] = value (set)
+
+--- Section 3: List repetition with NULL ---
+[PASS] 3a: list * NULL
+
+--- Section 4: TRUE/FALSE must still behave exactly as before (not blocked) ---
+[PASS] 4a: 5 + TRUE == 6
+[PASS] 4b: 5 * FALSE == 0
+[PASS] 4c: 5 - TRUE == 4
+[PASS] 4d: 10 / TRUE == 10.0
+[PASS] 4e: 5 & TRUE == 1
+[PASS] 4f: 5 >> TRUE == 2
+[PASS] 4g: list[TRUE] == 2
+[PASS] 4h: string[TRUE] == 'e'
+
+--- Section 5: String concatenation with NULL must still work (intentional coercion) ---
+[PASS] 5a: 'x' + NULL == 'x0'
+[PASS] 5b: 'x' + TRUE == 'x1'
+
+--- Section 6: Casting builtins with NULL must still work (intentional coercion) ---
+[PASS] 6a: INT(NULL) == 0
+[PASS] 6b: FLOAT(NULL) == 0.0
+[PASS] 6c: STR(NULL) == 'null'
+[PASS] 6d: BOOL(NULL) == 0
+
+--- Section 7: Baseline sanity (things unrelated to the fix must still work) ---
+[PASS] 7a: normal addition
+[PASS] 7b: normal list index
+[PASS] 7c: normal string index
+[PASS] 7d: normal slice
+[PASS] 7e: normal list repetition
+
+==============================================
+Passed: 37
+Failed: 0
+==============================================
+RESULT: SUCCESS

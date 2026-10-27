@@ -1,0 +1,71 @@
+==============================================
+ GLADLANG TRACEBACK — FULL TEST SUITE
+==============================================
+
+--- Test 1: THROW position ---
+[PASS] Test 1a: THROW fires with correct message
+[PASS] Test 1b: THROW inside function fires correctly
+
+--- Test 2: TRY position ---
+[PASS] Test 2: error propagates correctly through TRY/CATCH/RETHROW chain
+
+--- Test 3a: BoundMethod call-site position ---
+[PASS] Test 3a: method error fires with correct message
+
+--- Test 3b: BoundMethod recursion limit context ---
+[PASS] Test 3b: method recursion limit fires (Python or GladLang limit)
+
+--- Test 3c: Overloaded method wrong-arity error ---
+[PASS] Test 3c: overloaded method wrong-arity fires with non-empty message
+
+--- Test 4: BuiltInFunction context ---
+[PASS] Test 4a: LEN wrong-arity error has non-empty message
+[PASS] Test 4b: INT conversion error has non-empty message
+[PASS] Test 4c: BuiltIn error inside function has non-empty message
+
+--- Test 5: FunctionGroup call-site position ---
+[PASS] Test 5a: overloaded function body error fires correctly
+[PASS] Test 5b: overloaded function no-variant error has non-empty message
+
+--- Test 6a: NEW constructor call-site position ---
+[PASS] Test 6a: constructor error fires with correct message
+
+--- Test 6b: No-constructor error position and context ---
+[PASS] Test 6b: no-constructor error has non-empty message
+
+--- Test 7: SUPER() call-site position ---
+[PASS] Test 7: SUPER() propagates constructor error correctly
+
+--- Test 8: Wrong-arity error shows intermediate call frames ---
+[PASS] Test 8: wrong-arity error from nested call has non-empty message
+
+--- Test 9: Recursion limit context (function) ---
+[PASS] Test 9: function recursion limit fires with correct message
+
+--- Test 10: No-member error uses calling context ---
+[PASS] Test 10: no-member error has non-empty message
+
+--- Test 11: Class called without NEW uses calling context ---
+[PASS] Test 11: must-use-NEW error has non-empty message
+
+--- Test 12: Instance illegal operation has traceback ---
+[PASS] Test 12a: instance illegal op fires with correct message
+[PASS] Test 12b: instance-from-method illegal op fires with correct message
+
+--- Test 13: Traceback null-pos guard (no Python crash) ---
+[PASS] Test 13a: division by zero traceback did not crash
+[PASS] Test 13b: built-in error traceback did not crash
+[PASS] Test 13c: throw error traceback did not crash
+
+--- Test 14: Collection access errors show access line ---
+[PASS] Test 14a: list out-of-bounds read error fires with message
+[PASS] Test 14b: list out-of-bounds write error fires with message
+[PASS] Test 14c: dict key-not-found error fires with message
+[PASS] Test 14d: string out-of-bounds error fires with message
+
+==============================================
+ RESULTS
+==============================================
+PASSED: 27
+FAILED: 0
+ALL TESTS PASSED

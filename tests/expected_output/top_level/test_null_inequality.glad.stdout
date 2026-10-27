@@ -1,0 +1,13 @@
+=== Testing NULL != FALSE ===
+NULL != FALSE => 1 (expected: 1)
+NULL == FALSE => 0 (expected: 0)
+NULL != NULL => 0 (expected: 0)
+NULL == NULL => 1 (expected: 1)
+TRUE != FALSE => 1 (expected: 1)
+TRUE != 1 => 1 (expected: 1)
+NULL == 0 => 0 (expected: 0)
+NULL != 0 => 1 (expected: 1)
+
+=== IF guard test ===
+PASS: IF NULL != FALSE executed (correct)
+PASS: IF NULL == FALSE skipped (correct)

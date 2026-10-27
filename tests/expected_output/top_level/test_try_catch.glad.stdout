@@ -1,0 +1,33 @@
+--- Test 1: System Error (Division by Zero) ---
+Caught system error: Division by zero
+Finally 1 executed.
+
+--- Test 2: Basic Throw (String) ---
+Throwing a simple string...
+Caught message: Something went wrong!
+Finally 2 executed.
+
+--- Test 3: Advanced Throw (Object/Dictionary) ---
+Throwing a detailed error object...
+Caught complex error object!
+Error Code: 404
+Error Type: NotFound
+Error Msg:  The requested resource was missing
+
+--- Test 4: Scope Isolation Check ---
+Attempting to access catch variable 'e' outside scope...
+SUCCESS! Variable 'e' is not accessible here.
+Error details: 'e' is not defined
+
+--- Test 5: RETURN inside FINALLY ---
+Finally executed
+Returned value: 2 (expected: 2, FINALLY overrides)
+
+--- Test 6: TRY with only FINALLY (error caught by outer CATCH) ---
+Inside inner TRY (no CATCH)
+Inner FINALLY executed
+Outer CATCH caught the error: Division by zero
+Program continues after caught error
+
+--- Test 7: THROW outside TRY (should crash) ---
+About to throw...

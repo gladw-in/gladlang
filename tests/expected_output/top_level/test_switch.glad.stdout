@@ -1,0 +1,26 @@
+--- Testing Switch Case Feature ---
+
+1. Testing Basic Match (Expected: 'Value is 10')
+Value is 10
+
+2. Testing Default Case (Expected: 'Value is unknown')
+Value is unknown
+
+3. Testing Expressions (Expected: 'Matched 5 + 5')
+Matched 5 + 5
+
+4. Testing Nested Switches (Expected: 'Outer A', 'Inner B')
+Outer A
+Inner B
+
+--- Testing Multi-Case Match ---
+x is 1, 2, or 3 (Small Number)
+
+--- Testing Strings ---
+It's a pome fruit
+
+--- Testing Duplicate Case Values (Should error or ignore) ---
+Case 10 first
+Duplicate case values are currently allowed (first match wins, no fallthrough)
+
+--- End of Tests ---

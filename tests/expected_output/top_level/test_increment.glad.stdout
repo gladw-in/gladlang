@@ -1,0 +1,88 @@
+--- Increment/Decrement Tester ---
+Initial i = 5
+--- Post-Increment ---
+LET j = i++
+j = 5 (should be 5)
+i = 6 (should be 6)
+--- Pre-Increment ---
+LET k = ++i
+k = 7 (should be 7)
+i = 7 (should be 7)
+--- Post-Decrement ---
+LET m = i--
+m = 7 (should be 7)
+i = 6 (should be 6)
+--- Pre-Decrement ---
+LET n = --i
+n = 5 (should be 5)
+i = 5 (should be 5)
+--- Test on Lists ---
+my_list[1]++ = 20
+my_list[1] = 21
+++my_list[1] = 22
+my_list[1] = 22
+--- COMPREHENSIVE INCREMENT/DECREMENT TEST ---
+
+[Section 1] Basic Variables
+Initial a: 10
+Post-Increment (a++): 10 (Expected: 10)
+Value after: 11 (Expected: 11)
+Pre-Increment (++a): 12 (Expected: 12)
+Value after: 12 (Expected: 12)
+Post-Decrement (a--): 12 (Expected: 12)
+Value after: 11 (Expected: 11)
+Pre-Decrement (--a): 10 (Expected: 10)
+Value after: 10 (Expected: 10)
+
+[Section 2] List Elements
+Initial list[0]: 100
+Post-Inc list[0]++: 100 (Expected: 100)
+Value after: 101 (Expected: 101)
+Pre-Inc ++list[0]: 102 (Expected: 102)
+Value after: 102 (Expected: 102)
+
+[Section 3] Object Properties (The Fix)
+  [Public Test]
+  Initial: 10
+  THIS.pub_val++: 10 (Expected: 10)
+  After: 11 (Expected: 11)
+  ++THIS.pub_val: 12 (Expected: 12)
+
+  [Private Test - REQUIRED FIX]
+  Initial: 10
+  THIS.priv_val++: 10 (Expected: 10)
+  After: 11 (Expected: 11)
+  ++THIS.priv_val: 12 (Expected: 12)
+  After: 12 (Expected: 12)
+  THIS.priv_val--: 12 (Expected: 12)
+  --THIS.priv_val: 10 (Expected: 10)
+
+--- TEST: CONSTANT PROTECTION ---
+Success: Caught expected error on PI++ -> Cannot reassign constant 'PI'
+--- FINAL INCREMENT/DECREMENT ROBUSTNESS TEST ---
+
+[1] Standard Functionality
+Initial a: 10
+a++ (Post): 10 -> a is now 11
+++a (Pre):  12 -> a is now 12
+
+[2] Private Member Access
+Private val: 5
+++THIS.val:  6 (Should be 6)
+
+[3] Constant Protection Tests
+Constant PI = 3.14
+
+--- Test A: Post-Increment (PI++) ---
+SUCCESS: Caught expected error -> Cannot reassign constant 'PI'
+
+--- Test B: Pre-Increment (++PI) ---
+SUCCESS: Caught expected error -> Cannot reassign constant 'PI'
+
+--- Test C: Post-Decrement (PI--) ---
+SUCCESS: Caught expected error -> Cannot reassign constant 'PI'
+
+--- Test D: Pre-Decrement (--PI) ---
+SUCCESS: Caught expected error -> Cannot reassign constant 'PI'
+
+--- ALL TESTS PASSED ---

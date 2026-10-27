@@ -1,0 +1,3 @@
+--- Runtime Error Tester ---
+This script will test for a division by zero error.
+Attempting to calculate a / b...

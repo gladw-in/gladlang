@@ -1,0 +1,33 @@
+--- FOR Loop Tester ---
+Iterating over list: ["apple", "banana", "STOP", "cherry", "date"]
+--- Test 1: Full Iteration ---
+Item: apple
+Item: banana
+Item: STOP
+Item: cherry
+Item: date
+--- Test 2: FOR loop with BREAK ---
+Looping until we find 'STOP'...
+Item: apple
+Item: banana
+Found STOP, breaking loop.
+--- Test 3: FOR loop with CONTINUE ---
+Looping, but skipping 'STOP'...
+Item: apple
+Item: banana
+(Skipping an item)
+Item: cherry
+Item: date
+--- Test 4: Local C-Style FOR Loop ---
+Local I: 0 | Local I: 1 | Local I: 2 | Local I: 3 | Local I: 4 | 
+
+--- Test 5: Global C-Style FOR Loop ---
+Global X inside loop: 0
+Global X inside loop: 1
+Global X inside loop: 2
+Global X outside loop: 3
+
+--- Testing Old Iterator Loop ---
+Iterator Y: 10
+Iterator Y: 20
+Iterator Y: 30

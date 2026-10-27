@@ -1,0 +1,3 @@
+--- Name Error Tester ---
+a = 10
+Attempting to access 'b'...

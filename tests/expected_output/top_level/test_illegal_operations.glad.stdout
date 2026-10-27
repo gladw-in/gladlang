@@ -1,0 +1,190 @@
+--- Illegal Operation Battery ---
+PASS: type Number: v + 1 -> Illegal operation
+PASS: type Number: v - 1 -> Illegal operation
+PASS: type Number: v * 2 -> Illegal operation
+PASS: type Number: v / 2 -> Illegal operation
+PASS: type Number: v % 2 -> Illegal operation
+PASS: type Number: v // 2 -> Illegal operation
+PASS: type Number: v ** 2 -> Illegal operation
+PASS: type Number: v < 1 -> Illegal operation
+PASS: type Number: v > 1 -> Illegal operation
+PASS: type Number: v <= 1 -> Illegal operation
+PASS: type Number: v >= 1 -> Illegal operation
+PASS: type Number: v & 1 -> Illegal operation
+PASS: type Number: v | 1 -> Illegal operation
+PASS: type Number: v ^ 1 -> Illegal operation
+PASS: type Number: v << 1 -> Illegal operation
+PASS: type Number: v >> 1 -> Illegal operation
+PASS: type Number: NOT v -> Illegal operation
+PASS: type Number: ~v -> Illegal operation
+PASS: type Number: -v -> Unary '-' can only be applied to numbers
+PASS: type Number: v.nothing -> Illegal operation
+PASS: type Number: v[0] -> Illegal operation
+PASS: type Number: v[0:1] -> Type Type is not sliceable
+PASS: type Number: v == 1 -> Illegal operation
+PASS: type Number: v != 1 -> Illegal operation
+PASS: type Number: v.x = 1 -> Illegal operation
+PASS: type Number: v[0] = 1 -> Illegal operation
+PASS: type Number: v++ -> Operand must be a number
+PASS: enum Colors: v + 1 -> Illegal operation
+PASS: enum Colors: v - 1 -> Illegal operation
+PASS: enum Colors: v * 2 -> Illegal operation
+PASS: enum Colors: v / 2 -> Illegal operation
+PASS: enum Colors: v % 2 -> Illegal operation
+PASS: enum Colors: v // 2 -> Illegal operation
+PASS: enum Colors: v ** 2 -> Illegal operation
+PASS: enum Colors: v < 1 -> Illegal operation
+PASS: enum Colors: v > 1 -> Illegal operation
+PASS: enum Colors: v <= 1 -> Illegal operation
+PASS: enum Colors: v >= 1 -> Illegal operation
+PASS: enum Colors: v & 1 -> Illegal operation
+PASS: enum Colors: v | 1 -> Illegal operation
+PASS: enum Colors: v ^ 1 -> Illegal operation
+PASS: enum Colors: v << 1 -> Illegal operation
+PASS: enum Colors: v >> 1 -> Illegal operation
+PASS: enum Colors: NOT v -> Illegal operation
+PASS: enum Colors: ~v -> Illegal operation
+PASS: enum Colors: -v -> Unary '-' can only be applied to numbers
+PASS: enum Colors: v.nothing -> Enum 'Colors' has no case 'nothing'
+PASS: enum Colors: v[0] -> Illegal operation
+PASS: enum Colors: v[0:1] -> Type Enum is not sliceable
+PASS: enum Colors: v == 1 -> Illegal operation
+PASS: enum Colors: v != 1 -> Illegal operation
+PASS: enum Colors: v.x = 1 -> Cannot reassign enum case 'x'
+PASS: enum Colors: v[0] = 1 -> Illegal operation
+PASS: enum Colors: v++ -> Operand must be a number
+PASS: enum member: v + 1 -> Illegal operation
+PASS: enum member: v - 1 -> Illegal operation
+PASS: enum member: v * 2 -> Illegal operation
+PASS: enum member: v / 2 -> Illegal operation
+PASS: enum member: v % 2 -> Illegal operation
+PASS: enum member: v // 2 -> Illegal operation
+PASS: enum member: v ** 2 -> Illegal operation
+PASS: enum member: v < 1 -> Illegal operation
+PASS: enum member: v > 1 -> Illegal operation
+PASS: enum member: v <= 1 -> Illegal operation
+PASS: enum member: v >= 1 -> Illegal operation
+PASS: enum member: v & 1 -> Illegal operation
+PASS: enum member: v | 1 -> Illegal operation
+PASS: enum member: v ^ 1 -> Illegal operation
+PASS: enum member: v << 1 -> Illegal operation
+PASS: enum member: v >> 1 -> Illegal operation
+PASS: enum member: NOT v -> Illegal operation
+PASS: enum member: ~v -> Illegal operation
+PASS: enum member: -v -> Unary '-' can only be applied to numbers
+PASS: enum member: v.nothing -> Illegal operation
+PASS: enum member: v[0] -> Illegal operation
+PASS: enum member: v[0:1] -> Type EnumMember is not sliceable
+PASS: enum member: v == 1 is allowed
+PASS: enum member: v != 1 is allowed
+PASS: enum member: v.x = 1 -> Illegal operation
+PASS: enum member: v[0] = 1 -> Illegal operation
+PASS: enum member: v++ -> Operand must be a number
+PASS: user function: v + 1 -> Illegal operation
+PASS: user function: v - 1 -> Illegal operation
+PASS: user function: v * 2 -> Illegal operation
+PASS: user function: v / 2 -> Illegal operation
+PASS: user function: v % 2 -> Illegal operation
+PASS: user function: v // 2 -> Illegal operation
+PASS: user function: v ** 2 -> Illegal operation
+PASS: user function: v < 1 -> Illegal operation
+PASS: user function: v > 1 -> Illegal operation
+PASS: user function: v <= 1 -> Illegal operation
+PASS: user function: v >= 1 -> Illegal operation
+PASS: user function: v & 1 -> Illegal operation
+PASS: user function: v | 1 -> Illegal operation
+PASS: user function: v ^ 1 -> Illegal operation
+PASS: user function: v << 1 -> Illegal operation
+PASS: user function: v >> 1 -> Illegal operation
+PASS: user function: NOT v -> Illegal operation
+PASS: user function: ~v -> Illegal operation
+PASS: user function: -v -> Unary '-' can only be applied to numbers
+PASS: user function: v.nothing -> Illegal operation
+PASS: user function: v[0] -> Illegal operation
+PASS: user function: v[0:1] -> Type Function is not sliceable
+PASS: user function: v == 1 -> Illegal operation
+PASS: user function: v != 1 -> Illegal operation
+PASS: user function: v.x = 1 -> Illegal operation
+PASS: user function: v[0] = 1 -> Illegal operation
+PASS: user function: v++ -> Operand must be a number
+PASS: built-in LEN: v + 1 -> Illegal operation
+PASS: built-in LEN: v - 1 -> Illegal operation
+PASS: built-in LEN: v * 2 -> Illegal operation
+PASS: built-in LEN: v / 2 -> Illegal operation
+PASS: built-in LEN: v % 2 -> Illegal operation
+PASS: built-in LEN: v // 2 -> Illegal operation
+PASS: built-in LEN: v ** 2 -> Illegal operation
+PASS: built-in LEN: v < 1 -> Illegal operation
+PASS: built-in LEN: v > 1 -> Illegal operation
+PASS: built-in LEN: v <= 1 -> Illegal operation
+PASS: built-in LEN: v >= 1 -> Illegal operation
+PASS: built-in LEN: v & 1 -> Illegal operation
+PASS: built-in LEN: v | 1 -> Illegal operation
+PASS: built-in LEN: v ^ 1 -> Illegal operation
+PASS: built-in LEN: v << 1 -> Illegal operation
+PASS: built-in LEN: v >> 1 -> Illegal operation
+PASS: built-in LEN: NOT v -> Illegal operation
+PASS: built-in LEN: ~v -> Illegal operation
+PASS: built-in LEN: -v -> Unary '-' can only be applied to numbers
+PASS: built-in LEN: v.nothing -> Illegal operation
+PASS: built-in LEN: v[0] -> Illegal operation
+PASS: built-in LEN: v[0:1] -> Type BuiltInFunction is not sliceable
+PASS: built-in LEN: v == 1 -> Illegal operation
+PASS: built-in LEN: v != 1 -> Illegal operation
+PASS: built-in LEN: v.x = 1 -> Illegal operation
+PASS: built-in LEN: v[0] = 1 -> Illegal operation
+PASS: built-in LEN: v++ -> Operand must be a number
+PASS: class A: v + 1 -> Illegal operation
+PASS: class A: v - 1 -> Illegal operation
+PASS: class A: v * 2 -> Illegal operation
+PASS: class A: v / 2 -> Illegal operation
+PASS: class A: v % 2 -> Illegal operation
+PASS: class A: v // 2 -> Illegal operation
+PASS: class A: v ** 2 -> Illegal operation
+PASS: class A: v < 1 -> Illegal operation
+PASS: class A: v > 1 -> Illegal operation
+PASS: class A: v <= 1 -> Illegal operation
+PASS: class A: v >= 1 -> Illegal operation
+PASS: class A: v & 1 -> Illegal operation
+PASS: class A: v | 1 -> Illegal operation
+PASS: class A: v ^ 1 -> Illegal operation
+PASS: class A: v << 1 -> Illegal operation
+PASS: class A: v >> 1 -> Illegal operation
+PASS: class A: NOT v -> Illegal operation
+PASS: class A: ~v -> Illegal operation
+PASS: class A: -v -> Unary '-' can only be applied to numbers
+PASS: class A: v.nothing -> Class 'A' has no member 'nothing'
+PASS: class A: v[0] -> Illegal operation
+PASS: class A: v[0:1] -> Type Class is not sliceable
+PASS: class A: v == 1 -> Illegal operation
+PASS: class A: v != 1 -> Illegal operation
+PASS: class A: v.x = 1 is allowed
+PASS: class A: v[0] = 1 -> Illegal operation
+PASS: class A: v++ -> Operand must be a number
+PASS: bound method: v + 1 -> Illegal operation
+PASS: bound method: v - 1 -> Illegal operation
+PASS: bound method: v * 2 -> Illegal operation
+PASS: bound method: v / 2 -> Illegal operation
+PASS: bound method: v % 2 -> Illegal operation
+PASS: bound method: v // 2 -> Illegal operation
+PASS: bound method: v ** 2 -> Illegal operation
+PASS: bound method: v < 1 -> Illegal operation
+PASS: bound method: v > 1 -> Illegal operation
+PASS: bound method: v <= 1 -> Illegal operation
+PASS: bound method: v >= 1 -> Illegal operation
+PASS: bound method: v & 1 -> Illegal operation
+PASS: bound method: v | 1 -> Illegal operation
+PASS: bound method: v ^ 1 -> Illegal operation
+PASS: bound method: v << 1 -> Illegal operation
+PASS: bound method: v >> 1 -> Illegal operation
+PASS: bound method: NOT v -> Illegal operation
+PASS: bound method: ~v -> Illegal operation
+PASS: bound method: -v -> Unary '-' can only be applied to numbers
+PASS: bound method: v.nothing -> Illegal operation
+PASS: bound method: v[0] -> Illegal operation
+PASS: bound method: v[0:1] -> Type BoundMethod is not sliceable
+PASS: bound method: v == 1 -> Illegal operation
+PASS: bound method: v != 1 -> Illegal operation
+PASS: bound method: v.x = 1 -> Illegal operation
+PASS: bound method: v[0] = 1 -> Illegal operation
+PASS: bound method: v++ -> Operand must be a number

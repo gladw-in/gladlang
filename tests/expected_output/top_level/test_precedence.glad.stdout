@@ -1,0 +1,10 @@
+--- Operator Precedence Tester ---
+1 + 2 * 3 = 7
+(1 + 2) * 3 = 9
+10 - 4 / 2 = 8.0
+--- String Comparison Tester ---
+s1 < s2 (TRUE): 1
+s1 > s2 (FALSE): 0
+s1 == "apple" (TRUE): 1
+s1 >= "apple" (TRUE): 1
+s2 <= "banana" (TRUE): 1

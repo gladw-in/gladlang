@@ -1,0 +1,14 @@
+--- List Slicing ---
+[0, 1, 2]
+[2, 3, 4]
+[3, 4, 5]
+--- String Slicing ---
+Hello
+World
+--- Negative Slice Index (Supported) ---
+Note: GladLang supports negative slice indices.
+Positive slice: nums[1:4] = [20, 30, 40] (expected: [20,30,40])
+Negative slice: nums[-2:] = [40, 50] (expected: [40,50])
+Negative slice: nums[:-1] = [10, 20, 30, 40] (expected: [10,20,30,40])
+Negative slice: nums[-3:-1] = [30, 40] (expected: [30,40])
+All negative slice tests passed.

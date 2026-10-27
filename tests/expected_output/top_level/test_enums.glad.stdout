@@ -1,0 +1,78 @@
+===========================================
+           GLADLANG ENUM TESTS             
+===========================================
+
+--- Test 1: Basic Enums ---
+Colors.RED:  Colors.RED
+Colors.GREEN:  Colors.GREEN
+Colors.BLUE:  Colors.BLUE
+
+  RED value = 0 (correct)
+  GREEN value = 1 (correct)
+  BLUE value = 2 (correct)
+
+--- Test 2: Explicit & Auto-Incrementing Values ---
+HTTPStatus.OK:  HTTPStatus.OK
+HTTPStatus.NOT_FOUND:  HTTPStatus.NOT_FOUND
+HTTPStatus.SERVER_ERROR:  HTTPStatus.SERVER_ERROR
+HTTPStatus.CUSTOM_ERROR:  HTTPStatus.CUSTOM_ERROR
+  OK.value = 200 (correct)
+  CUSTOM_ERROR.value = 501 (correct, auto-increment works)
+
+--- Test 3: Comma-Separated Enums ---
+Days.MON:  Days.MON
+Days.WED:  Days.WED
+Days.FRI:  Days.FRI
+  MON.value = 0 (correct)
+  WED.value = 2 (correct)
+  FRI.value = 4 (correct)
+
+--- Test 4: Enum Object Immutability ---
+Attempting to reassign the entire 'Colors' Enum...
+SUCCESS: Caught expected error ->  Cannot reassign constant 'Colors'
+
+--- Test 5: Enum Case Immutability ---
+Attempting to reassign 'Colors.RED' to 10...
+SUCCESS: Caught expected error ->  Cannot reassign enum case 'RED'
+
+--- Test 6: Invalid Case Access ---
+Attempting to access non-existent 'Colors.YELLOW'...
+SUCCESS: Caught expected error ->  Enum 'Colors' has no case 'YELLOW'
+
+--- Testing Encapsulated Enums ---
+Server initialized with Status:  Status.OFFLINE
+
+Accessing Public Enum 'Role.ADMIN'...
+Result:  Role.ADMIN
+
+Attempting to access Private Enum 'Status.OFFLINE' from outside...
+SUCCESS: Caught expected error ->  Cannot access private static field 'Status'
+
+--- Test 8: Duplicate Enum Case Names ---
+Attempting to create enum with duplicate case (should fail)...
+SUCCESS: Caught expected error -> Duplicate enum case 'FIRST'
+
+--- Test 9: Enum Member Comparisons ---
+r1 == r2:  1
+r1 == g:   0
+r1 != g:   1
+r1 IS r2:  1
+r1 IS g:   0
+  PASS: Same enum member compares equal
+  PASS: Different enum members compare not equal
+
+--- Test 10: Accessing .value Attribute ---
+Colors.RED.value =  0
+Colors.GREEN.value =  1
+Colors.BLUE.value =  2
+HTTPStatus.OK.value =  200
+HTTPStatus.CUSTOM_ERROR.value =  501
+  PASS: RED.value = 0
+
+--- Test 11: Enum in IF Conditions ---
+  PASS: Enum member is truthy
+  PASS: RED.value = 0
+
+===========================================
+           ALL TESTS COMPLETED             
+===========================================

@@ -1,0 +1,31 @@
+--- Recursion Depth & Stack Overflow ---
+Testing recursion up to 2000 (should succeed)...
+Result: 0
+Testing deep recursion with 9999 (should succeed, staying within total call limit of 10000)...
+Result: 0
+Deep recursion test passed (within limit).
+=== Recursion Limit Tests ===
+
+--- Tail recursion (deep_recurse) ---
+Testing 5000 calls (should succeed)...
+Result: 0 (expected 0)
+Testing 11000 calls (should exceed total call limit 10000)...
+SUCCESS: Caught error -> Total recursion calls exceeded limit (10000)
+
+--- Non-tail recursion (non_tail_deep) ---
+Testing 1999 calls (should succeed)...
+Result: 1999 (expected 1999)
+Testing 11000 calls (should exceed total call limit 10000)...
+SUCCESS: Caught error -> Recursion limit exceeded
+
+--- Mutual recursion (even/odd) ---
+Testing 5000 calls (should succeed)...
+is_even(5000) = 1 (expected 1)
+Testing 9999 calls (total calls = 10000, should succeed)...
+is_even(9999) = 0 (expected 0 because 9999 is odd)
+
+--- Normal (non‑recursive) calls unlimited ---
+Calling normal_add 15000 times in a loop...
+Completed 15000 separate calls (no limit hit).
+
+=== All tests completed ===

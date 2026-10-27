@@ -1,0 +1,34 @@
+=== TESTING INHERITANCE FEATURES ===
+
+[1] Single Inheritance Check:
+Woof!
+I am an animal
+
+[2] Multilevel Inheritance Check:
+Breathing...
+Is warm blooded? 1
+Hello World
+
+[3] Hierarchical Inheritance Check:
+Generic Shape
+Drawing Circle
+Generic Shape
+Drawing Square
+
+[4] Multiple Inheritance Check:
+Quack!
+I can fly
+I can swim
+
+[5] Hybrid Inheritance (Diamond Problem) Check:
+Structure: A -> B, A -> C, D -> B, C
+D(B, C) calls:
+Method from Class B
+D(C, B) calls:
+Method from Class C
+
+[6] MRO & Member Access Check:
+Accessing inherited field via THIS: 100
+
+[7] MRO Cycle Detection
+SUCCESS: Self-inheritance error caught -> Class 'SelfInherit' cannot inherit from itself

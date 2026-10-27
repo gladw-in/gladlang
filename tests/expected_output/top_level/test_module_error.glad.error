@@ -1,0 +1,3 @@
+Traceback (most recent call last):
+  File $REPO/tests/test_module_error.glad, line 4, in <test>
+Runtime Error: Module 'modules/math_module.glad' has no export 'internal_helper'

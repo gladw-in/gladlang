@@ -1,0 +1,19 @@
+--- Attribute Assignment Rules ---
+--- Static attributes ---
+PASS: public static can be set
+PASS: public static supports +=
+PASS: private static from outside -> Cannot access private static field 'secret'
+PASS: protected static from outside -> Cannot access protected static field 'shared'
+PASS: static constant reassigned -> Cannot reassign static constant 'LIMIT'
+PASS: private static set from inside the class
+PASS: protected static set from a subclass
+PASS: parent's private static set from a subclass -> Cannot access private static field 'secret'
+--- Instance attributes ---
+PASS: public attribute can be set
+PASS: protected attribute from outside -> Cannot access protected member 'prot'
+PASS: constant attribute from outside -> Cannot reassign constant 'fixed'
+PASS: constant attribute from inside -> Cannot reassign constant 'fixed'
+PASS: protected attribute set from a subclass
+PASS: private value is never overwritten from outside
+--- Shadowing ---
+PASS: instance attribute may not shadow a static constant -> Cannot shadow static constant 'LIMIT' with an instance variable

@@ -1,0 +1,26 @@
+--- Loop Tester ---
+Test 1: Simple countdown
+i = 5
+i = 4
+i = 3
+i = 2
+i = 1
+Loop 1 finished.
+--- Test 2: CONTINUE (print even numbers) ---
+Even number: 8
+Even number: 6
+Even number: 4
+Even number: 2
+Even number: 0
+Loop 2 finished.
+--- Test 3: BREAK (find first multiple of 7) ---
+Loop 3 finished.
+Found first multiple of 7 (under 100): 98
+--- Zero-Iteration WHILE Tests ---
+Test 1: WHILE FALSE
+Counter after FALSE loop: 0 (expected: 0)
+Test 2: WHILE 0
+Counter after 0 loop: 0 (expected: 0)
+Test 3: WHILE condition initially false (a = 10, b = 5)
+Loop skipped, a remains: 10 (expected: 10)
+All zero-iteration tests passed.

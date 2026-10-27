@@ -1,0 +1,7 @@
+--- DELAY Argument Tester ---
+PASS: no argument -> DELAY expects one argument (seconds)
+PASS: two arguments -> DELAY expects one argument (seconds)
+PASS: string argument -> Argument to DELAY must be a Number
+PASS: list argument -> Argument to DELAY must be a Number
+PASS: negative delay -> DELAY argument must not be negative
+PASS: a delay of zero returns immediately

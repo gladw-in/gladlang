@@ -1,0 +1,37 @@
+--- Escape Character Tester ---
+Hello
+World
+Column 1	Column 2
+She said, "This language is cool!"
+C:\Users\Glad\My Lang
+Line 1
+	Line 2 (indented)
+Line 3
+
+-- String Iteration --
+Char: H
+Char: i
+
+-- String Comprehension --
+Chars: ["a", "b", "c"]
+
+-- String Repetition --
+Repeating '5' ten times: 5555555555
+--- Unicode / Tamil & Kannada Strings ---
+Tamil string: வணக்கம்
+Length: 7
+Kannada string: ನಮಸ್ಕಾರ
+Length: 7
+Mixed: Tamil: வணக்கம், Kannada: ನಮಸ್ಕಾರ
+Length: 32
+Iteration over Tamil string:
+[வ][ண][க][்][க][ம][்]
+Concatenated: வணக்கம் & ನಮಸ್ಕಾರ
+Comprehension chars: ["a", "b", "c", " ", "வ", "ண", "க", "்", "க", "ம", "்"]
+All Unicode (Tamil/Kannada) tests passed.
+
+-- Fractional String Index --
+PASS: Fractional string index rejected
+
+-- Fractional String Repetition --
+PASS: Fractional string repetition rejected

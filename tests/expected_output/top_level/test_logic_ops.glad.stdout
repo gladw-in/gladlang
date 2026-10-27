@@ -1,0 +1,22 @@
+--- Logic & Comparison Operator Tester ---
+--- Comparisons ---
+a != b (TRUE): 1
+a != 10 (FALSE): 0
+a <= 10 (TRUE): 1
+a <= 9 (FALSE): 0
+a >= 10 (TRUE): 1
+a >= 11 (FALSE): 0
+a < b (TRUE): 1
+b > a (TRUE): 1
+--- Logic ---
+t AND t (TRUE): 1
+t AND f (FALSE): 0
+f AND f (FALSE): 0
+t OR t (TRUE): 1
+t OR f (TRUE): 1
+f OR f (FALSE): 0
+NOT t (FALSE): 0
+NOT f (TRUE): 1
+--- Complex Logic ---
+f OR t AND t (TRUE): 1
+(a < b) AND (b > 15) (TRUE): 1

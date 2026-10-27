@@ -1,0 +1,32 @@
+=== 1. Testing Global Function Overloading ===
+add(10, 20) = 30
+add(10, 20, 30) = 60
+
+=== 2. Testing Class Method Overloading ===
+c.calc(10) = 20
+c.calc(10, 5) = 50
+c.calc(1, 2, 3) = 6
+
+=== 3. Testing Constructor Overloading ===
+Vector() = [0, 0]
+Vector(5, 10) = [5, 10]
+
+=== 4. Testing Error Handling (No Match) ===
+Caught expected error: No variant of function 'add' found that accepts 1 arguments
+
+=== 5. Testing Copy Constructor ===
+Original p1: (10, 20)
+Copied p2:   (10, 20)
+-- After modifying p2 --
+Original p1: (10, 20)
+Modified p2: (999, 20)
+
+=== 8. Same-Arity Override with Different Visibility ===
+Same-arity override result: 600
+
+=== 9. Inherited Static/Instance Overload Mismatch ===
+PASS: static/instance overload mismatch rejected
+
+=== 10. Valid Inherited Overloads ===
+Inherited overload: 10
+Child overload: 20

@@ -1,0 +1,25 @@
+=== COMPREHENSIVE TERNARY OPERATOR TEST ===
+
+-- 1. Basic Boolean Logic --
+TRUE ? 10 : 20   => 10
+FALSE ? 10 : 20  => 20
+
+-- 2. Comparison Conditions --
+50 < 100 ? 'Less' : 'More' => Less
+50 > 100 ? 'Less' : 'More' => More
+
+-- 3. Arithmetic inside Branches --
+10==10 ? 5+5 : 100*2 => 10
+
+-- 4. Nested Ternaries --
+Score 85 Grade => B
+Score 40 Grade => C
+
+-- 5. Return Type Flexibility --
+TRUE ? 'String' : 12345 => String
+
+-- 6. Precedence & Complex Logic --
+(TRUE AND FALSE) ? 'Wrong' : 'Right' => Right
+10 + ((5 > 2) ? 5 : 0) => 15
+
+=== TEST COMPLETE ===

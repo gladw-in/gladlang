@@ -1,0 +1,50 @@
+=== COMPREHENSIVE FINAL & SCOPE TEST ===
+
+--- Test 1: Valid Constant Usage ---
+Constant 'pi' created: 3.14159
+Area calculation result: 78.53975
+
+--- Test 2: Simple Reassignment Check ---
+Attempting: LET pi = 3.0
+SUCCESS: Caught error: Variable 'pi' is already defined
+
+--- Test 3: Loophole - Array Destructuring ---
+Attempting: LET [pi] = [100]
+SUCCESS: Caught error: Variable 'pi' is already defined
+
+--- Test 4: Loophole - For Loop Iterator ---
+Attempting: FOR pi IN [1, 2, 3] ...
+SUCCESS: Caught error: Cannot use constant 'pi' as loop variable
+
+--- Test 5: Loophole - List Comprehension ---
+Attempting: [pi FOR pi IN [1, 2]]
+SUCCESS: Caught error: Cannot use constant 'pi' as loop variable
+
+--- Test 6: Loophole - Re-declaration ---
+Attempting: FINAL pi = 0.0
+SUCCESS: Caught error: Variable 'pi' is already defined
+
+--- Test 7: Loophole - Increment Operator (++) ---
+Attempting: pi++
+SUCCESS: Caught error: Cannot reassign constant 'pi'
+
+--- Test 8: Bug Fix - Global Scope Update ---
+Global count starts at: 0
+Calling function increment_count()...
+Global count is now: 1
+SUCCESS: Global variable updated correctly.
+
+--- Final Integrity Check ---
+Value of 'pi' should still be 3.14159: 3.14159
+
+--- Test 9: Nested Function Cannot Shadow FINAL ---
+SUCCESS: Nested function cannot shadow FINAL: Cannot shadow constant 'protected_name' with a function definition
+
+--- Test 10: Nested Function Parameter Cannot Shadow FINAL ---
+SUCCESS: Nested function parameter cannot shadow FINAL: Cannot shadow constant 'parameter_name'
+
+--- Test 11: Nested Class Cannot Shadow FINAL ---
+SUCCESS: Nested class cannot shadow FINAL: Cannot shadow constant 'nested_class_name' with a class definition
+
+--- Test 12: Nested Enum Cannot Shadow FINAL ---
+SUCCESS: Nested enum cannot shadow FINAL: Cannot shadow constant 'nested_enum_name' with an enum definition

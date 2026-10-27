@@ -1,0 +1,22 @@
+--- DEEP NESTING & LOGIC TEST ---
+Values: x=10, y=20, z=30
+
+[TEST 1] Triple Nesting Check:
+  L1: x is 10 (Correct)
+    L2: y is 20 (Correct)
+      L3: z is 30 (TARGET REACHED!)
+
+[TEST 2] ELSE IF Chains with Nesting:
+  Grade C (Correct)
+    (Close to B, but not quite)
+      (Flag is also TRUE)
+
+[TEST 3] Nesting inside ELSE:
+  a is small (Correct)
+    a is exactly 5 (Correct)
+
+[TEST 4] Boolean Logic + Nesting:
+  Complex condition TRUE (Correct)
+    Flag is True (Correct)
+
+--- END OF TEST ---

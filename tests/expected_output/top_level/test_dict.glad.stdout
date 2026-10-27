@@ -1,0 +1,31 @@
+--- Creating Dictionary ---
+{"name": "GladLang", "version": 1.0, "is_awesome": 1}
+
+--- Accessing Values ---
+Name: GladLang
+Version: 1.0
+
+--- Modifying Values ---
+New Version: 1.1
+
+--- Adding New Keys ---
+{"name": "GladLang", "version": 1.1, "is_awesome": 1, "author": "You"}
+
+--- Nested Dictionary ---
+active
+Merged Config: {"theme": "dark", "vol": 100}
+
+-- Dictionary Iteration --
+Key: name, Value: Glad
+Key: ver, Value: 1
+
+-- Dict -> List --
+Values: ["Glad", 1]
+
+--- Duplicate Key Regression ---
+Duplicate key final value: 2
+
+--- Dictionary Merge Regression ---
+Merged duplicate key: 2
+Merged new key a: 10
+Merged new key b: 20

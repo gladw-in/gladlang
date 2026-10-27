@@ -1,0 +1,49 @@
+=== GLADLANG MASTER OOP TEST SUITE ===
+
+--- TEST 1: Public Method Access ---
+[PASS] Public method works
+
+--- TEST 2: Private Method Access (External) ---
+[PASS] External Private Method Call (Caught: Cannot access private method 'get_diary' via Class)
+
+--- TEST 3: Private Attribute Access (External) ---
+[PASS] External Private Attribute Access (Caught: Cannot access private member 'diary')
+
+--- TEST 4: Protected Method Access (From Subclass) ---
+[PASS] Subclass accessed PROTECTED parent method
+
+--- TEST 5: Protected Method Access (External) ---
+[PASS] External Protected Method Call (Caught: Cannot access protected method 'secret_family_recipe' via Class)
+
+--- TEST 6: Static Security Bypass (Method) ---
+[PASS] Static Class Bypass Attempt (Caught: Cannot access private method 'get_diary' via Class)
+
+--- TEST 7: Peer Access (Same Class) ---
+[PASS] Peer object accessed private member of same class
+
+--- TEST 8: Stranger Danger ---
+[PASS] Stranger Class accessing Private Method (Caught: Cannot access private method 'get_diary' via Class)
+
+--- TEST 9: Visibility Override (Property) ---
+Initial State: Public
+Made Private. Attempting access...
+[PASS] Property Visibility Changed at Runtime (Caught: Cannot access private member 'data')
+
+--- TEST 10: Deep Inheritance ---
+[PASS] Deep inheritance (GrandChild -> Base) works
+
+--- TEST 11: Private Field Shadowing (Name Mangling) ---
+Parent Secret: Parent Secret
+Child Secret:  Child Secret
+[PASS] Name Mangling Successful (Variables did not collide)
+
+--- TEST 12: LSP Violation Check (Strict Visibility) ---
+[PASS] Subclass strictly reducing visibility (Caught: Method 'hello' cannot be more restrictive than parent method (LSP Violation))
+
+--- TEST 13: Singleton Pattern (Factory Method) ---
+[PASS] Singleton instantiated via factory method
+
+--- TEST 14: Final Variable Protection ---
+[PASS] Shadowing a FINAL public variable (Caught: Cannot shadow constant 'MAX_USERS' with a private variable)
+
+=== SUITE COMPLETE ===
