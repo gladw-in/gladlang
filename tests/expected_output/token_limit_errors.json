@@ -1,0 +1,7 @@
+{
+  "ordinary_source_over_limit": "Illegal Character: Source produces too many tokens (exceeds limit of 4)\nFile token_limit::ordinary_source_over_limit, line 1",
+  "template_over_limit": "Illegal Character: Source produces too many tokens (exceeds limit of 2)\nFile token_limit::template_over_limit, line 1",
+  "prefix_template_total_over_limit": "Illegal Character: Source produces too many tokens (exceeds limit of 6)\nFile token_limit::prefix_template_total_over_limit, line 1",
+  "template_interpolation_over_limit": "Illegal Character: Source produces too many tokens (exceeds limit of 9)\nFile token_limit::template_interpolation_over_limit, line 1",
+  "prefix_interpolation_total_over_limit": "Illegal Character: Source produces too many tokens (exceeds limit of 13)\nFile token_limit::prefix_interpolation_total_over_limit, line 1"
+}

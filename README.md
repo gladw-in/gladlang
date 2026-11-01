@@ -111,7 +111,8 @@ GladLang supports a rich, modern feature set:
   * **OOP Safety:** Runtime checks for circular inheritance, LSP violations, strict unbound method type-checking, and secure encapsulation.
   * **Error Management:** Gracefully handle errors with `TRY`, `CATCH`, and `FINALLY`.
   * **Constants:** Declare immutable values using `FINAL`. These use **Atomic Locking** (`set_if_absent`) to prevent race conditions and are fully protected from shadowing or modification.
-  * **Memory Safety:** Built-in protection against Denial-of-Service attacks. List repetition is capped at **1,000,000** elements, and a global **Instruction Budget** prevents infinite loop lockups.
+  * **Memory Safety:** Resource protections include a list-repetition cap of **1,000,000** elements.
+  * **Resource Limits:** Collection sizes, source size, token count, numeric magnitude, strings, and recursion are bounded. `MAX_INSTRUCTIONS` is configured as `sys.maxsize`, effectively unlimited for practical purposes; infinite loops are not automatically terminated.
   * **Logical Accuracy:** Full **Short-Circuit Evaluation** for `AND`/`OR` operators and corrected math logic for compound assignments like `+=`.
   * **Built-ins:** `PRINTLN`, `PRINT`, `INPUT`, `STR`, `INT`, `FLOAT`, `BOOL`, `LEN`, `LENGTH`, `PRINTF`, `TIME`, `RANDOM`, `DELAY`.
   * **Error Handling:** Robust, user-friendly runtime error reporting with full tracebacks.
@@ -290,7 +291,9 @@ LET nums = [0, 1, 2, 3, 4, 5]
 
 # Indexing & Assignment
 PRINTLN nums[1]      # 1
-LET nums[1] = 100
+LET copy = [0, 1, 2]
+LET copy[1] = 100
+PRINTLN copy         # [0, 100, 2]
 
 # Slicing [start:end]
 PRINTLN nums[0:3]    # [0, 1, 2]
@@ -324,7 +327,7 @@ LET person["city"] = "NYC" # Add new key
 # Dictionary Comprehension
 LET keys = ["a", "b", "c"]
 LET d = {k: 0 FOR k IN keys} 
-PRINTLN d # {'a': 0, 'b': 0, 'c': 0}
+PRINTLN d # {"a": 0, "b": 0, "c": 0}
 
 ```
 
@@ -604,12 +607,12 @@ ENDFOR
 
 #### Named Functions
 
-Defined with `DEF...ENDDEF`. Arguments are passed by value. `RETURN` sends a value back.
+Defined with `FUNC...ENDFUNC`. Arguments are passed by value. `RETURN` sends a value back.
 
 ```glad
-DEF add(a, b)
+FUNC add(a, b)
   RETURN a + b
-ENDDEF
+ENDFUNC
 
 LET sum = add(10, 5)
 PRINTLN sum # 15
@@ -621,9 +624,9 @@ PRINTLN sum # 15
 Functions can be defined without a name, perfect for assigning to variables.
 
 ```glad
-LET double = DEF(x)
+LET double = FUNC(x)
   RETURN x * 2
-ENDDEF
+ENDFUNC
 
 PRINTLN double(5) # 10
 
@@ -634,13 +637,13 @@ PRINTLN double(5) # 10
 Functions capture variables from their parent scope.
 
 ```glad
-DEF create_greeter(greeting)
-  DEF greeter_func(name)
+FUNC create_greeter(greeting)
+  FUNC greeter_func(name)
     # 'greeting' is "closed over" from the parent
     RETURN greeting + ", " + name + "!"
-  ENDDEF
+  ENDFUNC
   RETURN greeter_func
-ENDDEF
+ENDFUNC
 
 LET say_hello = create_greeter("Hello")
 PRINTLN say_hello("Alex") # "Hello, Alex!"
@@ -652,12 +655,12 @@ PRINTLN say_hello("Alex") # "Hello, Alex!"
 Functions can call themselves.
 
 ```glad
-DEF fib(n)
+FUNC fib(n)
   IF n <= 1 THEN
     RETURN n
   ENDIF
   RETURN fib(n - 1) + fib(n - 2)
-ENDDEF
+ENDFUNC
 
 PRINTLN fib(7) # 13
 
@@ -668,13 +671,13 @@ PRINTLN fib(7) # 13
 You can define multiple functions with the same name, as long as they accept a different number of arguments (arity).
 
 ```glad
-DEF add(a, b)
+FUNC add(a, b)
   RETURN a + b
-ENDDEF
+ENDFUNC
 
-DEF add(a, b, c)
+FUNC add(a, b, c)
   RETURN a + b + c
-ENDDEF
+ENDFUNC
 
 PRINTLN add(10, 20)     # Calls 2-arg version: 30
 PRINTLN add(10, 20, 30) # Calls 3-arg version: 60
@@ -691,17 +694,17 @@ Use `CLASS...ENDCLASS` to define classes and `NEW` to create instances. The cons
 
 ```glad
 CLASS Counter
-  DEF Counter()
+  FUNC Counter()
     THIS.count = 0 # 'THIS' is the instance
-  ENDDEF
+  ENDFUNC
   
-  DEF increment()
+  FUNC increment()
     THIS.count = THIS.count + 1
-  ENDDEF
+  ENDFUNC
   
-  DEF get_count()
+  FUNC get_count()
     RETURN THIS.count
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
 LET c = NEW Counter()
@@ -720,25 +723,25 @@ Use the `INHERITS` keyword to inherit from parent classes. You can use the `SUPE
 
 ```glad
 CLASS Pet
-  DEF Pet(name)
+  FUNC Pet(name)
     THIS.name = name
-  ENDDEF
+  ENDFUNC
   
-  DEF speak()
+  FUNC speak()
     RETURN "makes a generic pet sound."
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
 CLASS Dog INHERITS Pet
-  DEF Dog(name)
+  FUNC Dog(name)
     # Automatically delegates to the parent constructor
     SUPER(name)
-  ENDDEF
+  ENDFUNC
 
   # Override the 'speak' method and extend parent functionality
-  DEF speak()
+  FUNC speak()
     PRINTLN THIS.name + " says: Woof, and " + SUPER.speak()
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
 LET my_dog = NEW Dog("Buddy")
@@ -754,27 +757,27 @@ If you want to bypass the default `SUPER()` MRO (for example, to initialize mult
 
 ```glad
 CLASS Animal
-    DEF Animal()
+    FUNC Animal()
         PRINTLN("Animal Constructor")
-    ENDDEF
+    ENDFUNC
 
-    DEF speak()
+    FUNC speak()
         RETURN "Generic Sound"
-    ENDDEF
+    ENDFUNC
 ENDCLASS
 
 CLASS Human
-    DEF Human()
+    FUNC Human()
         PRINTLN("Human Constructor")
-    ENDDEF
+    ENDFUNC
 
-    DEF speak()
+    FUNC speak()
         RETURN "Hello"
-    ENDDEF
+    ENDFUNC
 ENDCLASS
 
 CLASS Dog INHERITS Animal, Human
-    DEF Dog()
+    FUNC Dog()
         PRINTLN("--- Initializing Dog ---")
         
         # STYLE 1: Explicit Calls (Great for Multiple Inheritance)
@@ -785,12 +788,12 @@ CLASS Dog INHERITS Animal, Human
         # This will call 'Animal' again because it's first in MRO
         PRINTLN("--- Calling SUPER() ---")
         SUPER() 
-    ENDDEF
+    ENDFUNC
 
-    DEF speak()
+    FUNC speak()
         # Mix both styles in methods too
         RETURN "Woof! " + SUPER.speak() + " " + Human.speak()
-    ENDDEF
+    ENDFUNC
 ENDCLASS
 
 LET d = NEW Dog()
@@ -813,22 +816,22 @@ Classes support overloading for both regular methods and constructors. This allo
 ```glad
 CLASS Vector
   # Default Constructor
-  DEF Vector()
+  FUNC Vector()
     THIS.x = 0
     THIS.y = 0
-  ENDDEF
+  ENDFUNC
 
   # Overloaded Constructor
-  DEF Vector(x, y)
+  FUNC Vector(x, y)
     THIS.x = x
     THIS.y = y
-  ENDDEF
+  ENDFUNC
   
   # Copy Constructor
-  DEF Vector(other)
+  FUNC Vector(other)
     THIS.x = other.x
     THIS.y = other.y
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
 LET v1 = NEW Vector()       # [0, 0]
@@ -843,20 +846,24 @@ When a base class method calls another method on `THIS`, it will correctly use t
 
 ```glad
 CLASS Pet
-  DEF introduce()
+  FUNC Pet(name)
+    THIS.name = name
+  ENDFUNC
+
+  FUNC introduce()
     PRINTLN "I am a pet and I say:"
     THIS.speak() # This will call the child's 'speak'
-  ENDDEF
+  ENDFUNC
   
-  DEF speak()
+  FUNC speak()
     PRINTLN "(Generic pet sound)"
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
 CLASS Cat INHERITS Pet
-  DEF speak()
+  FUNC speak()
     PRINTLN "Meow!"
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
 LET my_cat = NEW Cat("Whiskers")
@@ -876,13 +883,13 @@ You can control the visibility of methods and attributes using `PUBLIC`, `PRIVAT
 
 ```glad
 CLASS SecureData
-  DEF SecureData(data)
+  FUNC SecureData(data)
     PRIVATE THIS.data = data
-  ENDDEF
+  ENDFUNC
 
-  PUBLIC DEF get_data()
+  PUBLIC FUNC get_data()
     RETURN THIS.data
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
 # External access to 'data' will raise a Runtime Error.
@@ -905,10 +912,10 @@ CLASS Config
   # A private static variable
   STATIC PRIVATE LET internal_count = 0
 
-  STATIC PUBLIC DEF increment()
+  STATIC PUBLIC FUNC increment()
     Config.internal_count = Config.internal_count + 1
     RETURN Config.internal_count
-  ENDDEF
+  ENDFUNC
 ENDCLASS
 
 # Access directly via the Class name
@@ -948,7 +955,7 @@ This allows you to organise your code into reusable modules and share functions,
 
 #### Exporting
 
-`EXPORT` marks a top‑level `LET`, `DEF`, or `CLASS` declaration as visible to other files.
+`EXPORT` marks a top‑level `LET`, `FUNC`, `CLASS`, or `ENUM` declaration as visible to other files.
 It's only valid at the top level of a file that is itself loaded via `IMPORT` (i.e. not in
 the entry script, and not inside a function, class, loop, or conditional):
 
@@ -956,27 +963,32 @@ the entry script, and not inside a function, class, loop, or conditional):
 # math_module.glad
 EXPORT LET PI = 3.14159
 
-EXPORT DEF add(a, b)
+EXPORT FUNC add(a, b)
     RETURN a + b
-ENDDEF
+ENDFUNC
 
 EXPORT CLASS Calculator
-    DEF add(a, b)
+    FUNC add(a, b)
         RETURN a + b
-    ENDDEF
+    ENDFUNC
 ENDCLASS
 ```
 
 An export can also be given a different public name than its local one, via a trailing
-`AS alias`. Because the declaration keyword (`DEF`/`CLASS`) owns everything up through its
-own closing `ENDDEF`/`ENDCLASS`, the alias goes *after* that, not inline with the signature:
+`AS alias`. Because the declaration keyword (`FUNC`/`CLASS`/`ENUM`) owns everything up through its
+own closing `ENDFUNC`/`ENDCLASS`/`ENDENUM`, the alias goes *after* that, not inline with the signature:
 
 ```glad
 EXPORT LET internal_pi = 3.14159 AS PI
 
-EXPORT DEF internal_add(a, b)
+EXPORT FUNC internal_add(a, b)
     RETURN a + b
-ENDDEF AS add
+ENDFUNC AS add
+
+EXPORT ENUM InternalLight
+    RED
+    GREEN
+ENDENUM AS Light
 ```
 
 Only the alias is visible to importers — the original local name (`internal_pi`,
@@ -1013,9 +1025,9 @@ carry its own alias or none at all.
 ```glad
 LET internal_greeting = "hello"
 
-DEF internal_shout(text)
+FUNC internal_shout(text)
     RETURN text + "!!!"
-ENDDEF
+ENDFUNC
 
 FINAL internal_max = 100
 
@@ -1061,7 +1073,6 @@ PRINTLN Status.ACTIVE.value # 0
 **Notes:**
 - `EXPORT` is disabled in the interactive REPL's top‑level prompt (it's still usable inside modules imported from the REPL).
 - Files are read with a size limit (1 MB) and must be valid UTF‑8.
-```
 
 -----
 
@@ -1118,8 +1129,8 @@ Runtime Error: Illegal operation
 
 ```
 Traceback (most recent call last):
-  File test_arg_error.glad, line 7, in <program>
-  File test_arg_error.glad, line 4, in add
+  File test_arg_error.glad, line 8, in <program>
+  File test_arg_error.glad, line 8, in add
 Runtime Error: Incorrect argument count for 'add'. Expected 2, got 3
 
 ```

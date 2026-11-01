@@ -1,0 +1,19 @@
+{
+  "escape_high_surrogate": "Invalid Syntax: Invalid \\u escape: surrogate code point \\uD800\nFile <regression:escape_high_surrogate>, line 1",
+  "escape_low_surrogate": "Invalid Syntax: Invalid \\u escape: surrogate code point \\uDFFF\nFile <regression:escape_low_surrogate>, line 1",
+  "number_base_hex_leading_underscore": "Illegal Character: Invalid hex literal: '_' must be between digits\nFile <regression:number_base_hex_leading_underscore>, line 1",
+  "number_base_hex_trailing_underscore": "Illegal Character: Invalid hex literal: '_' must be between digits\nFile <regression:number_base_hex_trailing_underscore>, line 1",
+  "number_base_hex_double_underscore": "Illegal Character: Invalid hex literal: '_' must be between digits\nFile <regression:number_base_hex_double_underscore>, line 1",
+  "number_base_bin_leading_underscore": "Illegal Character: Invalid binary literal: '_' must be between digits\nFile <regression:number_base_bin_leading_underscore>, line 1",
+  "number_base_bin_trailing_underscore": "Illegal Character: Invalid binary literal: '_' must be between digits\nFile <regression:number_base_bin_trailing_underscore>, line 1",
+  "number_base_oct_leading_underscore": "Illegal Character: Invalid octal literal: '_' must be between digits\nFile <regression:number_base_oct_leading_underscore>, line 1",
+  "number_base_oct_trailing_underscore": "Illegal Character: Invalid octal literal: '_' must be between digits\nFile <regression:number_base_oct_trailing_underscore>, line 1",
+  "numeric_positive_infinity": "Invalid Syntax: Floating-point literal is not finite\nFile <regression:numeric_positive_infinity>, line 1",
+  "numeric_negative_infinity": "Invalid Syntax: Floating-point literal is not finite\nFile <regression:numeric_negative_infinity>, line 1",
+  "numeric_decimal_underscore_after_dot": "Invalid Syntax: Invalid numeric literal: '_' must be between digits\nFile <regression:numeric_decimal_underscore_after_dot>, line 1",
+  "numeric_decimal_underscore_before_dot": "Invalid Syntax: Invalid numeric literal: '_' must be between digits\nFile <regression:numeric_decimal_underscore_before_dot>, line 1",
+  "numeric_decimal_trailing_underscore": "Invalid Syntax: Invalid numeric literal: '_' must be between digits\nFile <regression:numeric_decimal_trailing_underscore>, line 1",
+  "template_unterminated": "Invalid Syntax: Unterminated template string\nFile <regression:template_unterminated>, line 1",
+  "overload_inherited_private_visibility": "Traceback (most recent call last):\n  File <regression:overload_inherited_private_visibility>, line 9, in <regression:overload_inherited_private_visibility>\nRuntime Error: All overloads of 'secret' must have the same visibility",
+  "overload_inherited_protected_visibility": "Traceback (most recent call last):\n  File <regression:overload_inherited_protected_visibility>, line 9, in <regression:overload_inherited_protected_visibility>\nRuntime Error: All overloads of 'protected_method' must have the same visibility"
+}

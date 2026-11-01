@@ -1,11 +1,11 @@
-#define MyAppName "GladLang"
-#define MyAppPublisher "Glad432"
-#define MyAppExeName "gladlang.exe"
+#define AppName "GladLang"
+#define AppPublisher "Glad432"
+#define AppExeName "gladlang.exe"
 
-#define MyAppVersion GetEnv("GLADLANG_VERSION")
-#define MyCopyrightYear GetDateTimeString("yyyy", "-", ":")
+#define AppVersion GetEnv("GLADLANG_VERSION")
+#define CopyrightYear GetDateTimeString("yyyy", "-", ":")
 
-#if MyAppVersion == ""
+#if AppVersion == ""
   #error GLADLANG_VERSION environment variable is not set
 #endif
 
@@ -14,9 +14,9 @@
 
 AppId={{7AD3AA6C-5F5B-4B52-9C04-1188CDE1D3A4}}
 
-AppName={#MyAppName}
-AppVersion={#MyAppVersion}
-AppPublisher={#MyAppPublisher}
+AppName={#AppName}
+AppVersion={#AppVersion}
+AppPublisher={#AppPublisher}
 
 DefaultDirName={localappdata}\Programs\GladLang
 DefaultGroupName=GladLang
@@ -27,7 +27,7 @@ ChangesEnvironment=yes
 ChangesAssociations=yes
 
 OutputDir=..\installer-output
-OutputBaseFilename=GladLang-{#MyAppVersion}-Setup
+OutputBaseFilename=GladLang-{#AppVersion}-Setup
 
 SetupIconFile=..\favicon.ico
 
@@ -38,12 +38,12 @@ WizardStyle=modern
 UninstallDisplayName=GladLang
 UninstallDisplayIcon={app}\gladlang.exe
 
-VersionInfoCompany={#MyAppPublisher}
+VersionInfoCompany={#AppPublisher}
 VersionInfoDescription=GladLang Programming Language
 VersionInfoProductName=GladLang
-VersionInfoProductVersion={#MyAppVersion}.0
-VersionInfoTextVersion={#MyAppVersion}
-VersionInfoCopyright=Copyright (C) {#MyCopyrightYear} Glad432
+VersionInfoProductVersion={#AppVersion}.0
+VersionInfoTextVersion={#AppVersion}
+VersionInfoCopyright=Copyright (C) {#CopyrightYear} Glad432
 
 
 [Files]
